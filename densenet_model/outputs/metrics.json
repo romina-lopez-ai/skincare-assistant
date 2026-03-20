@@ -1,0 +1,10 @@
+{
+  "val_accuracy": 65.6934,
+  "val_f1_weighted": 0.624272,
+  "num_val_samples": 137,
+  "classes": [
+    "acne",
+    "eczema",
+    "psoriasis"
+  ]
+}

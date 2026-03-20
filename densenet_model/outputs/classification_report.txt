@@ -1,0 +1,9 @@
+              precision    recall  f1-score   support
+
+        acne     0.7059    0.8000    0.7500        45
+      eczema     0.7222    0.2826    0.4062        46
+   psoriasis     0.6029    0.8913    0.7193        46
+
+    accuracy                         0.6569       137
+   macro avg     0.6770    0.6580    0.6252       137
+weighted avg     0.6768    0.6569    0.6243       137
