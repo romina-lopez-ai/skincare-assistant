@@ -1,7 +1,0 @@
-torch>=2.0
-torchvision
-transformers>=4.36
-peft>=0.7
-accelerate>=0.25
-bitsandbytes>=0.41
-Pillow
