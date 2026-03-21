@@ -136,19 +136,31 @@ def main():
         tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = "right"
 
-    # ---- SLM with 4-bit quantization ----
-    bnb_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype=torch.bfloat16,
-        bnb_4bit_use_double_quant=True,
-    )
-    slm = AutoModelForCausalLM.from_pretrained(
-        config.slm_model_name,
-        quantization_config=bnb_config,
-        device_map="auto",
-        token=config.hf_token or None,
-    )
+    # ---- SLM loading (4-bit on CUDA, full precision fallback on CPU) ----
+    if torch.cuda.is_available():
+        logger.info("CUDA detected; loading SLM with 4-bit bitsandbytes quantization.")
+        bnb_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.bfloat16,
+            bnb_4bit_use_double_quant=True,
+        )
+        slm = AutoModelForCausalLM.from_pretrained(
+            config.slm_model_name,
+            quantization_config=bnb_config,
+            device_map="auto",
+            token=config.hf_token or None,
+        )
+    else:
+        logger.warning(
+            "CUDA is not available; loading SLM without 4-bit quantization on CPU. "
+            "This will use more memory but avoids bitsandbytes CUDA requirements."
+        )
+        slm = AutoModelForCausalLM.from_pretrained(
+            config.slm_model_name,
+            token=config.hf_token or None,
+        )
+        slm.to(device)
 
     # ---- LoRA ----
     lora_config = LoraConfig(
