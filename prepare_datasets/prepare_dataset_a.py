@@ -24,7 +24,7 @@ from dotenv import load_dotenv
 from system_prompt import SYSTEM_UNIFIED
 
 load_dotenv()
-load_dotenv(os.path.join(os.path.dirname(__file__), "medical_notes_generation", ".env"))
+load_dotenv(os.path.join(os.path.dirname(__file__), "..", "medical_notes_generation", ".env"))
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
