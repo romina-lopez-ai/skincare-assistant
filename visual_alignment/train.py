@@ -20,7 +20,6 @@ from transformers import (
     get_cosine_schedule_with_warmup,
 )
 from peft import LoraConfig, get_peft_model
-from torchvision import models
 
 from config import Phase2Config
 from projection import ProjectionMLP
