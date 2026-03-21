@@ -1,0 +1,6218 @@
+{
+  "images/train/acne/acne_00000.jpg": {
+    "primary": "acne",
+    "confidence": 0.5959,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3119,
+    "tertiary": "eczema",
+    "confidence_3": 0.0922
+  },
+  "images/train/acne/acne_00002.jpg": {
+    "primary": "acne",
+    "confidence": 0.7515,
+    "secondary": "eczema",
+    "confidence_2": 0.1532,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0953
+  },
+  "images/train/acne/acne_00003.jpg": {
+    "primary": "acne",
+    "confidence": 0.9139,
+    "secondary": "eczema",
+    "confidence_2": 0.073,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0131
+  },
+  "images/train/acne/acne_00004.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4489,
+    "secondary": "acne",
+    "confidence_2": 0.3745,
+    "tertiary": "eczema",
+    "confidence_3": 0.1766
+  },
+  "images/train/acne/acne_00005.jpg": {
+    "primary": "acne",
+    "confidence": 0.6881,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2619,
+    "tertiary": "eczema",
+    "confidence_3": 0.05
+  },
+  "images/train/acne/acne_00006.jpg": {
+    "primary": "acne",
+    "confidence": 0.7978,
+    "secondary": "eczema",
+    "confidence_2": 0.1427,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0594
+  },
+  "images/train/acne/acne_00007.jpg": {
+    "primary": "acne",
+    "confidence": 0.532,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3944,
+    "tertiary": "eczema",
+    "confidence_3": 0.0735
+  },
+  "images/train/acne/acne_00009.jpg": {
+    "primary": "acne",
+    "confidence": 0.6245,
+    "secondary": "eczema",
+    "confidence_2": 0.3361,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0394
+  },
+  "images/train/acne/acne_00010.jpg": {
+    "primary": "acne",
+    "confidence": 0.696,
+    "secondary": "psoriasis",
+    "confidence_2": 0.179,
+    "tertiary": "eczema",
+    "confidence_3": 0.125
+  },
+  "images/train/acne/acne_00011.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.562,
+    "secondary": "acne",
+    "confidence_2": 0.3579,
+    "tertiary": "eczema",
+    "confidence_3": 0.08
+  },
+  "images/train/acne/acne_00012.jpg": {
+    "primary": "acne",
+    "confidence": 0.9667,
+    "secondary": "eczema",
+    "confidence_2": 0.0328,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0005
+  },
+  "images/train/acne/acne_00015.jpg": {
+    "primary": "acne",
+    "confidence": 0.9634,
+    "secondary": "eczema",
+    "confidence_2": 0.0311,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0054
+  },
+  "images/train/acne/acne_00016.jpg": {
+    "primary": "acne",
+    "confidence": 0.6253,
+    "secondary": "eczema",
+    "confidence_2": 0.2466,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1281
+  },
+  "images/train/acne/acne_00017.jpg": {
+    "primary": "acne",
+    "confidence": 0.3687,
+    "secondary": "eczema",
+    "confidence_2": 0.3306,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.3007
+  },
+  "images/train/acne/acne_00018.jpg": {
+    "primary": "acne",
+    "confidence": 0.7209,
+    "secondary": "eczema",
+    "confidence_2": 0.163,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.116
+  },
+  "images/train/acne/acne_00019.jpg": {
+    "primary": "acne",
+    "confidence": 0.7687,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1378,
+    "tertiary": "eczema",
+    "confidence_3": 0.0935
+  },
+  "images/train/acne/acne_00022.jpg": {
+    "primary": "acne",
+    "confidence": 0.9293,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0396,
+    "tertiary": "eczema",
+    "confidence_3": 0.0311
+  },
+  "images/train/acne/acne_00024.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6623,
+    "secondary": "eczema",
+    "confidence_2": 0.2662,
+    "tertiary": "acne",
+    "confidence_3": 0.0715
+  },
+  "images/train/acne/acne_00025.jpg": {
+    "primary": "acne",
+    "confidence": 0.434,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3667,
+    "tertiary": "eczema",
+    "confidence_3": 0.1993
+  },
+  "images/train/acne/acne_00026.jpg": {
+    "primary": "acne",
+    "confidence": 0.7002,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2435,
+    "tertiary": "eczema",
+    "confidence_3": 0.0563
+  },
+  "images/train/acne/acne_00027.jpg": {
+    "primary": "acne",
+    "confidence": 0.9083,
+    "secondary": "eczema",
+    "confidence_2": 0.0554,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0362
+  },
+  "images/train/acne/acne_00028.jpg": {
+    "primary": "acne",
+    "confidence": 0.695,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2248,
+    "tertiary": "eczema",
+    "confidence_3": 0.0803
+  },
+  "images/train/acne/acne_00029.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.623,
+    "secondary": "acne",
+    "confidence_2": 0.2914,
+    "tertiary": "eczema",
+    "confidence_3": 0.0855
+  },
+  "images/train/acne/acne_00030.jpg": {
+    "primary": "acne",
+    "confidence": 0.8749,
+    "secondary": "eczema",
+    "confidence_2": 0.1031,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.022
+  },
+  "images/train/acne/acne_00031.jpg": {
+    "primary": "acne",
+    "confidence": 0.8935,
+    "secondary": "eczema",
+    "confidence_2": 0.0848,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0216
+  },
+  "images/train/acne/acne_00032.jpg": {
+    "primary": "acne",
+    "confidence": 0.9565,
+    "secondary": "eczema",
+    "confidence_2": 0.0411,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0024
+  },
+  "images/train/acne/acne_00033.jpg": {
+    "primary": "acne",
+    "confidence": 0.8079,
+    "secondary": "eczema",
+    "confidence_2": 0.1495,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0426
+  },
+  "images/train/acne/acne_00035.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5664,
+    "secondary": "acne",
+    "confidence_2": 0.3282,
+    "tertiary": "eczema",
+    "confidence_3": 0.1054
+  },
+  "images/train/acne/acne_00036.jpg": {
+    "primary": "acne",
+    "confidence": 0.9417,
+    "secondary": "eczema",
+    "confidence_2": 0.0545,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0038
+  },
+  "images/train/acne/acne_00037.jpg": {
+    "primary": "acne",
+    "confidence": 0.8935,
+    "secondary": "eczema",
+    "confidence_2": 0.0825,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.024
+  },
+  "images/train/acne/acne_00038.jpg": {
+    "primary": "acne",
+    "confidence": 0.3468,
+    "secondary": "eczema",
+    "confidence_2": 0.3416,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.3116
+  },
+  "images/train/acne/acne_00041.jpg": {
+    "primary": "acne",
+    "confidence": 0.501,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3364,
+    "tertiary": "eczema",
+    "confidence_3": 0.1626
+  },
+  "images/train/acne/acne_00042.jpg": {
+    "primary": "acne",
+    "confidence": 0.8414,
+    "secondary": "eczema",
+    "confidence_2": 0.1001,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0585
+  },
+  "images/train/acne/acne_00045.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7463,
+    "secondary": "acne",
+    "confidence_2": 0.2003,
+    "tertiary": "eczema",
+    "confidence_3": 0.0535
+  },
+  "images/train/acne/acne_00046.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6166,
+    "secondary": "acne",
+    "confidence_2": 0.193,
+    "tertiary": "eczema",
+    "confidence_3": 0.1904
+  },
+  "images/train/acne/acne_00051.jpg": {
+    "primary": "acne",
+    "confidence": 0.8468,
+    "secondary": "eczema",
+    "confidence_2": 0.1376,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0157
+  },
+  "images/train/acne/acne_00055.jpg": {
+    "primary": "acne",
+    "confidence": 0.7498,
+    "secondary": "eczema",
+    "confidence_2": 0.2047,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0455
+  },
+  "images/train/acne/acne_00056.jpg": {
+    "primary": "acne",
+    "confidence": 0.9544,
+    "secondary": "eczema",
+    "confidence_2": 0.0425,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0031
+  },
+  "images/train/acne/acne_00057.jpg": {
+    "primary": "acne",
+    "confidence": 0.8446,
+    "secondary": "eczema",
+    "confidence_2": 0.1477,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0077
+  },
+  "images/train/acne/acne_00059.jpg": {
+    "primary": "acne",
+    "confidence": 0.7504,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1621,
+    "tertiary": "eczema",
+    "confidence_3": 0.0875
+  },
+  "images/train/acne/acne_00060.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5587,
+    "secondary": "acne",
+    "confidence_2": 0.3307,
+    "tertiary": "eczema",
+    "confidence_3": 0.1106
+  },
+  "images/train/acne/acne_00061.jpg": {
+    "primary": "acne",
+    "confidence": 0.5311,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2524,
+    "tertiary": "eczema",
+    "confidence_3": 0.2165
+  },
+  "images/train/acne/acne_00063.jpg": {
+    "primary": "acne",
+    "confidence": 0.7889,
+    "secondary": "eczema",
+    "confidence_2": 0.1103,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1008
+  },
+  "images/train/acne/acne_00065.jpg": {
+    "primary": "acne",
+    "confidence": 0.7316,
+    "secondary": "eczema",
+    "confidence_2": 0.1938,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0746
+  },
+  "images/train/acne/acne_00066.jpg": {
+    "primary": "acne",
+    "confidence": 0.6834,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2142,
+    "tertiary": "eczema",
+    "confidence_3": 0.1025
+  },
+  "images/train/acne/acne_00067.jpg": {
+    "primary": "acne",
+    "confidence": 0.6559,
+    "secondary": "eczema",
+    "confidence_2": 0.2954,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0487
+  },
+  "images/train/acne/acne_00068.jpg": {
+    "primary": "acne",
+    "confidence": 0.5462,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3561,
+    "tertiary": "eczema",
+    "confidence_3": 0.0977
+  },
+  "images/train/acne/acne_00069.jpg": {
+    "primary": "acne",
+    "confidence": 0.8091,
+    "secondary": "eczema",
+    "confidence_2": 0.1442,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0467
+  },
+  "images/train/acne/acne_00072.jpg": {
+    "primary": "acne",
+    "confidence": 0.5975,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3017,
+    "tertiary": "eczema",
+    "confidence_3": 0.1008
+  },
+  "images/train/acne/acne_00073.jpg": {
+    "primary": "acne",
+    "confidence": 0.8345,
+    "secondary": "eczema",
+    "confidence_2": 0.1528,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0126
+  },
+  "images/train/acne/acne_00074.jpg": {
+    "primary": "acne",
+    "confidence": 0.6231,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3437,
+    "tertiary": "eczema",
+    "confidence_3": 0.0332
+  },
+  "images/train/acne/acne_00075.jpg": {
+    "primary": "acne",
+    "confidence": 0.7263,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1802,
+    "tertiary": "eczema",
+    "confidence_3": 0.0935
+  },
+  "images/train/acne/acne_00076.jpg": {
+    "primary": "acne",
+    "confidence": 0.6111,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3664,
+    "tertiary": "eczema",
+    "confidence_3": 0.0225
+  },
+  "images/train/acne/acne_00077.jpg": {
+    "primary": "acne",
+    "confidence": 0.9613,
+    "secondary": "eczema",
+    "confidence_2": 0.0372,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0015
+  },
+  "images/train/acne/acne_00078.jpg": {
+    "primary": "acne",
+    "confidence": 0.7005,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2785,
+    "tertiary": "eczema",
+    "confidence_3": 0.021
+  },
+  "images/train/acne/acne_00079.jpg": {
+    "primary": "acne",
+    "confidence": 0.9437,
+    "secondary": "eczema",
+    "confidence_2": 0.0556,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0008
+  },
+  "images/train/acne/acne_00082.jpg": {
+    "primary": "acne",
+    "confidence": 0.8571,
+    "secondary": "eczema",
+    "confidence_2": 0.0789,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.064
+  },
+  "images/train/acne/acne_00083.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6715,
+    "secondary": "acne",
+    "confidence_2": 0.2736,
+    "tertiary": "eczema",
+    "confidence_3": 0.0549
+  },
+  "images/train/acne/acne_00084.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4821,
+    "secondary": "acne",
+    "confidence_2": 0.4185,
+    "tertiary": "eczema",
+    "confidence_3": 0.0994
+  },
+  "images/train/acne/acne_00085.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4011,
+    "secondary": "eczema",
+    "confidence_2": 0.3314,
+    "tertiary": "acne",
+    "confidence_3": 0.2675
+  },
+  "images/train/acne/acne_00086.jpg": {
+    "primary": "acne",
+    "confidence": 0.8349,
+    "secondary": "eczema",
+    "confidence_2": 0.1418,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0233
+  },
+  "images/train/acne/acne_00089.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5194,
+    "secondary": "acne",
+    "confidence_2": 0.4005,
+    "tertiary": "eczema",
+    "confidence_3": 0.0801
+  },
+  "images/train/acne/acne_00090.jpg": {
+    "primary": "acne",
+    "confidence": 0.7886,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1555,
+    "tertiary": "eczema",
+    "confidence_3": 0.0559
+  },
+  "images/train/acne/acne_00092.jpg": {
+    "primary": "acne",
+    "confidence": 0.975,
+    "secondary": "eczema",
+    "confidence_2": 0.0249,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0001
+  },
+  "images/train/acne/acne_00093.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4016,
+    "secondary": "acne",
+    "confidence_2": 0.3103,
+    "tertiary": "eczema",
+    "confidence_3": 0.2881
+  },
+  "images/train/acne/acne_00095.jpg": {
+    "primary": "acne",
+    "confidence": 0.8247,
+    "secondary": "eczema",
+    "confidence_2": 0.1395,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0358
+  },
+  "images/train/acne/acne_00096.jpg": {
+    "primary": "acne",
+    "confidence": 0.7597,
+    "secondary": "eczema",
+    "confidence_2": 0.1939,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0464
+  },
+  "images/train/acne/acne_00097.jpg": {
+    "primary": "acne",
+    "confidence": 0.6731,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1676,
+    "tertiary": "eczema",
+    "confidence_3": 0.1594
+  },
+  "images/train/acne/acne_00098.jpg": {
+    "primary": "acne",
+    "confidence": 0.9338,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0407,
+    "tertiary": "eczema",
+    "confidence_3": 0.0255
+  },
+  "images/train/acne/acne_00100.jpg": {
+    "primary": "acne",
+    "confidence": 0.4953,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4012,
+    "tertiary": "eczema",
+    "confidence_3": 0.1035
+  },
+  "images/train/acne/acne_00101.jpg": {
+    "primary": "acne",
+    "confidence": 0.9393,
+    "secondary": "eczema",
+    "confidence_2": 0.0337,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.027
+  },
+  "images/train/acne/acne_00103.jpg": {
+    "primary": "acne",
+    "confidence": 0.6386,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3166,
+    "tertiary": "eczema",
+    "confidence_3": 0.0448
+  },
+  "images/train/acne/acne_00104.jpg": {
+    "primary": "acne",
+    "confidence": 0.5076,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3871,
+    "tertiary": "eczema",
+    "confidence_3": 0.1053
+  },
+  "images/train/acne/acne_00107.jpg": {
+    "primary": "acne",
+    "confidence": 0.9235,
+    "secondary": "eczema",
+    "confidence_2": 0.0672,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0094
+  },
+  "images/train/acne/acne_00108.jpg": {
+    "primary": "acne",
+    "confidence": 0.9363,
+    "secondary": "eczema",
+    "confidence_2": 0.0556,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0081
+  },
+  "images/train/acne/acne_00109.jpg": {
+    "primary": "acne",
+    "confidence": 0.9046,
+    "secondary": "eczema",
+    "confidence_2": 0.0867,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0087
+  },
+  "images/train/acne/acne_00111.jpg": {
+    "primary": "acne",
+    "confidence": 0.87,
+    "secondary": "eczema",
+    "confidence_2": 0.1235,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0065
+  },
+  "images/train/acne/acne_00112.jpg": {
+    "primary": "acne",
+    "confidence": 0.4569,
+    "secondary": "eczema",
+    "confidence_2": 0.2898,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.2533
+  },
+  "images/train/acne/acne_00113.jpg": {
+    "primary": "acne",
+    "confidence": 0.9607,
+    "secondary": "eczema",
+    "confidence_2": 0.0374,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0019
+  },
+  "images/train/acne/acne_00114.jpg": {
+    "primary": "acne",
+    "confidence": 0.8766,
+    "secondary": "eczema",
+    "confidence_2": 0.1009,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0225
+  },
+  "images/train/acne/acne_00115.jpg": {
+    "primary": "acne",
+    "confidence": 0.456,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4332,
+    "tertiary": "eczema",
+    "confidence_3": 0.1107
+  },
+  "images/train/acne/acne_00116.jpg": {
+    "primary": "acne",
+    "confidence": 0.7458,
+    "secondary": "eczema",
+    "confidence_2": 0.2188,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0354
+  },
+  "images/train/acne/acne_00117.jpg": {
+    "primary": "acne",
+    "confidence": 0.9224,
+    "secondary": "eczema",
+    "confidence_2": 0.0539,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0237
+  },
+  "images/train/acne/acne_00118.jpg": {
+    "primary": "acne",
+    "confidence": 0.9173,
+    "secondary": "eczema",
+    "confidence_2": 0.0772,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0055
+  },
+  "images/train/acne/acne_00119.jpg": {
+    "primary": "acne",
+    "confidence": 0.9107,
+    "secondary": "eczema",
+    "confidence_2": 0.0845,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0048
+  },
+  "images/train/acne/acne_00120.jpg": {
+    "primary": "acne",
+    "confidence": 0.9051,
+    "secondary": "eczema",
+    "confidence_2": 0.0724,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0225
+  },
+  "images/train/acne/acne_00122.jpg": {
+    "primary": "acne",
+    "confidence": 0.8087,
+    "secondary": "eczema",
+    "confidence_2": 0.1719,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0194
+  },
+  "images/train/acne/acne_00124.jpg": {
+    "primary": "acne",
+    "confidence": 0.7699,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2042,
+    "tertiary": "eczema",
+    "confidence_3": 0.0259
+  },
+  "images/train/acne/acne_00125.jpg": {
+    "primary": "acne",
+    "confidence": 0.8728,
+    "secondary": "eczema",
+    "confidence_2": 0.0768,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0505
+  },
+  "images/train/acne/acne_00126.jpg": {
+    "primary": "acne",
+    "confidence": 0.6545,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3218,
+    "tertiary": "eczema",
+    "confidence_3": 0.0237
+  },
+  "images/train/acne/acne_00127.jpg": {
+    "primary": "acne",
+    "confidence": 0.9379,
+    "secondary": "eczema",
+    "confidence_2": 0.0609,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0012
+  },
+  "images/train/acne/acne_00129.jpg": {
+    "primary": "acne",
+    "confidence": 0.787,
+    "secondary": "eczema",
+    "confidence_2": 0.1336,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0793
+  },
+  "images/train/acne/acne_00131.jpg": {
+    "primary": "acne",
+    "confidence": 0.7821,
+    "secondary": "eczema",
+    "confidence_2": 0.1323,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0856
+  },
+  "images/train/acne/acne_00132.jpg": {
+    "primary": "acne",
+    "confidence": 0.7562,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2047,
+    "tertiary": "eczema",
+    "confidence_3": 0.0391
+  },
+  "images/train/acne/acne_00133.jpg": {
+    "primary": "acne",
+    "confidence": 0.8498,
+    "secondary": "eczema",
+    "confidence_2": 0.106,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0442
+  },
+  "images/train/acne/acne_00136.jpg": {
+    "primary": "acne",
+    "confidence": 0.5761,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2308,
+    "tertiary": "eczema",
+    "confidence_3": 0.1931
+  },
+  "images/train/acne/acne_00137.jpg": {
+    "primary": "acne",
+    "confidence": 0.6705,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2056,
+    "tertiary": "eczema",
+    "confidence_3": 0.1239
+  },
+  "images/train/acne/acne_00139.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6231,
+    "secondary": "acne",
+    "confidence_2": 0.288,
+    "tertiary": "eczema",
+    "confidence_3": 0.0889
+  },
+  "images/train/acne/acne_00140.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4521,
+    "secondary": "acne",
+    "confidence_2": 0.4195,
+    "tertiary": "eczema",
+    "confidence_3": 0.1284
+  },
+  "images/train/acne/acne_00141.jpg": {
+    "primary": "acne",
+    "confidence": 0.803,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1456,
+    "tertiary": "eczema",
+    "confidence_3": 0.0514
+  },
+  "images/train/acne/acne_00142.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5419,
+    "secondary": "acne",
+    "confidence_2": 0.2651,
+    "tertiary": "eczema",
+    "confidence_3": 0.193
+  },
+  "images/train/acne/acne_00143.jpg": {
+    "primary": "acne",
+    "confidence": 0.9035,
+    "secondary": "eczema",
+    "confidence_2": 0.084,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0125
+  },
+  "images/train/acne/acne_00144.jpg": {
+    "primary": "acne",
+    "confidence": 0.9699,
+    "secondary": "eczema",
+    "confidence_2": 0.0294,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0006
+  },
+  "images/train/acne/acne_00146.jpg": {
+    "primary": "acne",
+    "confidence": 0.7881,
+    "secondary": "eczema",
+    "confidence_2": 0.1687,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0432
+  },
+  "images/train/acne/acne_00147.jpg": {
+    "primary": "acne",
+    "confidence": 0.9648,
+    "secondary": "eczema",
+    "confidence_2": 0.0274,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0078
+  },
+  "images/train/acne/acne_00148.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4926,
+    "secondary": "eczema",
+    "confidence_2": 0.4065,
+    "tertiary": "acne",
+    "confidence_3": 0.1009
+  },
+  "images/train/acne/acne_00150.jpg": {
+    "primary": "acne",
+    "confidence": 0.8806,
+    "secondary": "eczema",
+    "confidence_2": 0.1036,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0158
+  },
+  "images/train/acne/acne_00152.jpg": {
+    "primary": "acne",
+    "confidence": 0.6769,
+    "secondary": "psoriasis",
+    "confidence_2": 0.201,
+    "tertiary": "eczema",
+    "confidence_3": 0.1221
+  },
+  "images/train/acne/acne_00154.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4413,
+    "secondary": "acne",
+    "confidence_2": 0.4085,
+    "tertiary": "eczema",
+    "confidence_3": 0.1502
+  },
+  "images/train/acne/acne_00155.jpg": {
+    "primary": "acne",
+    "confidence": 0.8605,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0767,
+    "tertiary": "eczema",
+    "confidence_3": 0.0628
+  },
+  "images/train/acne/acne_00157.jpg": {
+    "primary": "acne",
+    "confidence": 0.8246,
+    "secondary": "eczema",
+    "confidence_2": 0.1491,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0262
+  },
+  "images/train/acne/acne_00158.jpg": {
+    "primary": "acne",
+    "confidence": 0.9654,
+    "secondary": "eczema",
+    "confidence_2": 0.0263,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0083
+  },
+  "images/train/acne/acne_00159.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4692,
+    "secondary": "acne",
+    "confidence_2": 0.4375,
+    "tertiary": "eczema",
+    "confidence_3": 0.0933
+  },
+  "images/train/acne/acne_00162.jpg": {
+    "primary": "acne",
+    "confidence": 0.5919,
+    "secondary": "eczema",
+    "confidence_2": 0.2801,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.128
+  },
+  "images/train/acne/acne_00163.jpg": {
+    "primary": "acne",
+    "confidence": 0.621,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2439,
+    "tertiary": "eczema",
+    "confidence_3": 0.1351
+  },
+  "images/train/acne/acne_00164.jpg": {
+    "primary": "acne",
+    "confidence": 0.5586,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3539,
+    "tertiary": "eczema",
+    "confidence_3": 0.0875
+  },
+  "images/train/acne/acne_00165.jpg": {
+    "primary": "acne",
+    "confidence": 0.6159,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3474,
+    "tertiary": "eczema",
+    "confidence_3": 0.0368
+  },
+  "images/train/acne/acne_00167.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5331,
+    "secondary": "acne",
+    "confidence_2": 0.3841,
+    "tertiary": "eczema",
+    "confidence_3": 0.0828
+  },
+  "images/train/acne/acne_00168.jpg": {
+    "primary": "acne",
+    "confidence": 0.9184,
+    "secondary": "eczema",
+    "confidence_2": 0.0703,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0113
+  },
+  "images/train/acne/acne_00170.jpg": {
+    "primary": "acne",
+    "confidence": 0.6652,
+    "secondary": "eczema",
+    "confidence_2": 0.2753,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0595
+  },
+  "images/train/acne/acne_00171.jpg": {
+    "primary": "acne",
+    "confidence": 0.5486,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3025,
+    "tertiary": "eczema",
+    "confidence_3": 0.1489
+  },
+  "images/train/acne/acne_00172.jpg": {
+    "primary": "acne",
+    "confidence": 0.9409,
+    "secondary": "eczema",
+    "confidence_2": 0.0516,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0076
+  },
+  "images/train/acne/acne_00173.jpg": {
+    "primary": "acne",
+    "confidence": 0.4578,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4096,
+    "tertiary": "eczema",
+    "confidence_3": 0.1326
+  },
+  "images/train/acne/acne_00175.jpg": {
+    "primary": "acne",
+    "confidence": 0.6906,
+    "secondary": "eczema",
+    "confidence_2": 0.1987,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1106
+  },
+  "images/train/acne/acne_00176.jpg": {
+    "primary": "acne",
+    "confidence": 0.7125,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2425,
+    "tertiary": "eczema",
+    "confidence_3": 0.045
+  },
+  "images/train/acne/acne_00177.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8941,
+    "secondary": "eczema",
+    "confidence_2": 0.0655,
+    "tertiary": "acne",
+    "confidence_3": 0.0404
+  },
+  "images/train/acne/acne_00178.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6359,
+    "secondary": "acne",
+    "confidence_2": 0.2796,
+    "tertiary": "eczema",
+    "confidence_3": 0.0846
+  },
+  "images/train/acne/acne_00179.jpg": {
+    "primary": "acne",
+    "confidence": 0.8248,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0897,
+    "tertiary": "eczema",
+    "confidence_3": 0.0855
+  },
+  "images/train/acne/acne_00180.jpg": {
+    "primary": "acne",
+    "confidence": 0.937,
+    "secondary": "eczema",
+    "confidence_2": 0.052,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.011
+  },
+  "images/train/acne/acne_00181.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.671,
+    "secondary": "acne",
+    "confidence_2": 0.2251,
+    "tertiary": "eczema",
+    "confidence_3": 0.1039
+  },
+  "images/train/acne/acne_00182.jpg": {
+    "primary": "acne",
+    "confidence": 0.8441,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0878,
+    "tertiary": "eczema",
+    "confidence_3": 0.0681
+  },
+  "images/train/acne/acne_00183.jpg": {
+    "primary": "acne",
+    "confidence": 0.4666,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4114,
+    "tertiary": "eczema",
+    "confidence_3": 0.122
+  },
+  "images/train/acne/acne_00184.jpg": {
+    "primary": "acne",
+    "confidence": 0.6476,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2917,
+    "tertiary": "eczema",
+    "confidence_3": 0.0608
+  },
+  "images/train/acne/acne_00185.jpg": {
+    "primary": "acne",
+    "confidence": 0.5728,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3633,
+    "tertiary": "eczema",
+    "confidence_3": 0.0639
+  },
+  "images/train/acne/acne_00186.jpg": {
+    "primary": "acne",
+    "confidence": 0.6339,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2297,
+    "tertiary": "eczema",
+    "confidence_3": 0.1364
+  },
+  "images/train/acne/acne_00192.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5973,
+    "secondary": "acne",
+    "confidence_2": 0.3479,
+    "tertiary": "eczema",
+    "confidence_3": 0.0548
+  },
+  "images/train/acne/acne_00193.jpg": {
+    "primary": "acne",
+    "confidence": 0.8934,
+    "secondary": "eczema",
+    "confidence_2": 0.0908,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0158
+  },
+  "images/train/acne/acne_00194.jpg": {
+    "primary": "acne",
+    "confidence": 0.8118,
+    "secondary": "eczema",
+    "confidence_2": 0.1198,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0683
+  },
+  "images/train/acne/acne_00195.jpg": {
+    "primary": "acne",
+    "confidence": 0.7791,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1921,
+    "tertiary": "eczema",
+    "confidence_3": 0.0288
+  },
+  "images/train/acne/acne_00196.jpg": {
+    "primary": "acne",
+    "confidence": 0.6971,
+    "secondary": "eczema",
+    "confidence_2": 0.1536,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1493
+  },
+  "images/train/acne/acne_00197.jpg": {
+    "primary": "acne",
+    "confidence": 0.7411,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1848,
+    "tertiary": "eczema",
+    "confidence_3": 0.0741
+  },
+  "images/train/acne/acne_00198.jpg": {
+    "primary": "acne",
+    "confidence": 0.8055,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1546,
+    "tertiary": "eczema",
+    "confidence_3": 0.0399
+  },
+  "images/train/acne/acne_00200.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6074,
+    "secondary": "acne",
+    "confidence_2": 0.3077,
+    "tertiary": "eczema",
+    "confidence_3": 0.0848
+  },
+  "images/train/acne/acne_00202.jpg": {
+    "primary": "acne",
+    "confidence": 0.7644,
+    "secondary": "eczema",
+    "confidence_2": 0.1687,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.067
+  },
+  "images/train/acne/acne_00203.jpg": {
+    "primary": "acne",
+    "confidence": 0.9393,
+    "secondary": "eczema",
+    "confidence_2": 0.0561,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0046
+  },
+  "images/train/acne/acne_00204.jpg": {
+    "primary": "acne",
+    "confidence": 0.9528,
+    "secondary": "eczema",
+    "confidence_2": 0.0426,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0046
+  },
+  "images/train/acne/acne_00206.jpg": {
+    "primary": "acne",
+    "confidence": 0.7874,
+    "secondary": "eczema",
+    "confidence_2": 0.1422,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0704
+  },
+  "images/train/acne/acne_00208.jpg": {
+    "primary": "acne",
+    "confidence": 0.8105,
+    "secondary": "eczema",
+    "confidence_2": 0.1359,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0537
+  },
+  "images/train/acne/acne_00209.jpg": {
+    "primary": "acne",
+    "confidence": 0.8836,
+    "secondary": "eczema",
+    "confidence_2": 0.0819,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0345
+  },
+  "images/train/acne/acne_00210.jpg": {
+    "primary": "acne",
+    "confidence": 0.8768,
+    "secondary": "eczema",
+    "confidence_2": 0.0764,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0469
+  },
+  "images/train/acne/acne_00211.jpg": {
+    "primary": "acne",
+    "confidence": 0.7258,
+    "secondary": "psoriasis",
+    "confidence_2": 0.14,
+    "tertiary": "eczema",
+    "confidence_3": 0.1342
+  },
+  "images/train/acne/acne_00213.jpg": {
+    "primary": "acne",
+    "confidence": 0.8834,
+    "secondary": "eczema",
+    "confidence_2": 0.086,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0306
+  },
+  "images/train/acne/acne_00218.jpg": {
+    "primary": "acne",
+    "confidence": 0.6803,
+    "secondary": "eczema",
+    "confidence_2": 0.248,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0717
+  },
+  "images/train/acne/acne_00219.jpg": {
+    "primary": "acne",
+    "confidence": 0.8614,
+    "secondary": "eczema",
+    "confidence_2": 0.0732,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0653
+  },
+  "images/train/acne/acne_00220.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5276,
+    "secondary": "acne",
+    "confidence_2": 0.3738,
+    "tertiary": "eczema",
+    "confidence_3": 0.0986
+  },
+  "images/train/acne/acne_00221.jpg": {
+    "primary": "acne",
+    "confidence": 0.877,
+    "secondary": "eczema",
+    "confidence_2": 0.0938,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0292
+  },
+  "images/train/acne/acne_00222.jpg": {
+    "primary": "acne",
+    "confidence": 0.7904,
+    "secondary": "eczema",
+    "confidence_2": 0.1207,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0888
+  },
+  "images/train/acne/acne_00223.jpg": {
+    "primary": "acne",
+    "confidence": 0.7418,
+    "secondary": "eczema",
+    "confidence_2": 0.1482,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.11
+  },
+  "images/train/acne/acne_00224.jpg": {
+    "primary": "acne",
+    "confidence": 0.8874,
+    "secondary": "eczema",
+    "confidence_2": 0.0728,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0398
+  },
+  "images/train/acne/acne_00225.jpg": {
+    "primary": "acne",
+    "confidence": 0.8077,
+    "secondary": "eczema",
+    "confidence_2": 0.143,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0493
+  },
+  "images/train/acne/acne_00226.jpg": {
+    "primary": "acne",
+    "confidence": 0.7173,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2103,
+    "tertiary": "eczema",
+    "confidence_3": 0.0724
+  },
+  "images/train/acne/acne_00228.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.703,
+    "secondary": "acne",
+    "confidence_2": 0.2144,
+    "tertiary": "eczema",
+    "confidence_3": 0.0826
+  },
+  "images/train/acne/acne_00229.jpg": {
+    "primary": "acne",
+    "confidence": 0.5629,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3156,
+    "tertiary": "eczema",
+    "confidence_3": 0.1215
+  },
+  "images/train/acne/acne_00230.jpg": {
+    "primary": "acne",
+    "confidence": 0.5404,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3856,
+    "tertiary": "eczema",
+    "confidence_3": 0.074
+  },
+  "images/train/acne/acne_00231.jpg": {
+    "primary": "acne",
+    "confidence": 0.6245,
+    "secondary": "eczema",
+    "confidence_2": 0.2513,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1242
+  },
+  "images/train/acne/acne_00232.jpg": {
+    "primary": "acne",
+    "confidence": 0.9269,
+    "secondary": "eczema",
+    "confidence_2": 0.0669,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0061
+  },
+  "images/train/acne/acne_00233.jpg": {
+    "primary": "acne",
+    "confidence": 0.9512,
+    "secondary": "eczema",
+    "confidence_2": 0.0467,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0021
+  },
+  "images/train/acne/acne_00234.jpg": {
+    "primary": "acne",
+    "confidence": 0.8983,
+    "secondary": "eczema",
+    "confidence_2": 0.0873,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0144
+  },
+  "images/train/acne/acne_00237.jpg": {
+    "primary": "acne",
+    "confidence": 0.7884,
+    "secondary": "eczema",
+    "confidence_2": 0.1971,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0145
+  },
+  "images/train/acne/acne_00238.jpg": {
+    "primary": "acne",
+    "confidence": 0.9051,
+    "secondary": "eczema",
+    "confidence_2": 0.0834,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0115
+  },
+  "images/train/acne/acne_00239.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4407,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4268,
+    "tertiary": "acne",
+    "confidence_3": 0.1325
+  },
+  "images/train/acne/acne_00240.jpg": {
+    "primary": "acne",
+    "confidence": 0.9389,
+    "secondary": "eczema",
+    "confidence_2": 0.0465,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0146
+  },
+  "images/train/acne/acne_00242.jpg": {
+    "primary": "acne",
+    "confidence": 0.5611,
+    "secondary": "eczema",
+    "confidence_2": 0.2574,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1815
+  },
+  "images/train/acne/acne_00244.jpg": {
+    "primary": "eczema",
+    "confidence": 0.61,
+    "secondary": "acne",
+    "confidence_2": 0.2702,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1197
+  },
+  "images/train/acne/acne_00246.jpg": {
+    "primary": "acne",
+    "confidence": 0.9426,
+    "secondary": "eczema",
+    "confidence_2": 0.0487,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0087
+  },
+  "images/train/acne/acne_00247.jpg": {
+    "primary": "acne",
+    "confidence": 0.6062,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3021,
+    "tertiary": "eczema",
+    "confidence_3": 0.0918
+  },
+  "images/train/acne/acne_00248.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.565,
+    "secondary": "acne",
+    "confidence_2": 0.3485,
+    "tertiary": "eczema",
+    "confidence_3": 0.0865
+  },
+  "images/train/acne/acne_00249.jpg": {
+    "primary": "acne",
+    "confidence": 0.858,
+    "secondary": "eczema",
+    "confidence_2": 0.0972,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0449
+  },
+  "images/train/acne/acne_00251.jpg": {
+    "primary": "acne",
+    "confidence": 0.9434,
+    "secondary": "eczema",
+    "confidence_2": 0.0501,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0065
+  },
+  "images/train/acne/acne_00253.jpg": {
+    "primary": "acne",
+    "confidence": 0.7403,
+    "secondary": "eczema",
+    "confidence_2": 0.2327,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.027
+  },
+  "images/train/acne/acne_00254.jpg": {
+    "primary": "acne",
+    "confidence": 0.7272,
+    "secondary": "eczema",
+    "confidence_2": 0.195,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0778
+  },
+  "images/train/acne/acne_00255.jpg": {
+    "primary": "acne",
+    "confidence": 0.9309,
+    "secondary": "eczema",
+    "confidence_2": 0.0624,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0066
+  },
+  "images/train/acne/acne_00256.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7585,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1681,
+    "tertiary": "acne",
+    "confidence_3": 0.0734
+  },
+  "images/train/acne/acne_00258.jpg": {
+    "primary": "acne",
+    "confidence": 0.8031,
+    "secondary": "eczema",
+    "confidence_2": 0.1809,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0159
+  },
+  "images/train/acne/acne_00259.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8865,
+    "secondary": "acne",
+    "confidence_2": 0.0775,
+    "tertiary": "eczema",
+    "confidence_3": 0.036
+  },
+  "images/train/acne/acne_00260.jpg": {
+    "primary": "acne",
+    "confidence": 0.5977,
+    "secondary": "eczema",
+    "confidence_2": 0.2676,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1347
+  },
+  "images/train/acne/acne_00265.jpg": {
+    "primary": "acne",
+    "confidence": 0.3516,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3393,
+    "tertiary": "eczema",
+    "confidence_3": 0.3091
+  },
+  "images/train/acne/acne_00267.jpg": {
+    "primary": "acne",
+    "confidence": 0.788,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1255,
+    "tertiary": "eczema",
+    "confidence_3": 0.0864
+  },
+  "images/train/acne/acne_00268.jpg": {
+    "primary": "acne",
+    "confidence": 0.8373,
+    "secondary": "eczema",
+    "confidence_2": 0.1269,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0357
+  },
+  "images/train/acne/acne_00271.jpg": {
+    "primary": "acne",
+    "confidence": 0.6166,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2798,
+    "tertiary": "eczema",
+    "confidence_3": 0.1037
+  },
+  "images/train/acne/acne_00272.jpg": {
+    "primary": "acne",
+    "confidence": 0.5811,
+    "secondary": "eczema",
+    "confidence_2": 0.2189,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.2
+  },
+  "images/train/acne/acne_00273.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7457,
+    "secondary": "acne",
+    "confidence_2": 0.1971,
+    "tertiary": "eczema",
+    "confidence_3": 0.0572
+  },
+  "images/train/acne/acne_00274.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8063,
+    "secondary": "acne",
+    "confidence_2": 0.181,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0127
+  },
+  "images/train/acne/acne_00275.jpg": {
+    "primary": "acne",
+    "confidence": 0.6783,
+    "secondary": "eczema",
+    "confidence_2": 0.2338,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.088
+  },
+  "images/train/acne/acne_00277.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7188,
+    "secondary": "acne",
+    "confidence_2": 0.1892,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.092
+  },
+  "images/train/acne/acne_00278.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6378,
+    "secondary": "acne",
+    "confidence_2": 0.3321,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0301
+  },
+  "images/train/acne/acne_00282.jpg": {
+    "primary": "acne",
+    "confidence": 0.5082,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3927,
+    "tertiary": "eczema",
+    "confidence_3": 0.0991
+  },
+  "images/train/acne/acne_00283.jpg": {
+    "primary": "acne",
+    "confidence": 0.6881,
+    "secondary": "eczema",
+    "confidence_2": 0.2406,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0714
+  },
+  "images/train/acne/acne_00284.jpg": {
+    "primary": "acne",
+    "confidence": 0.75,
+    "secondary": "eczema",
+    "confidence_2": 0.1855,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0645
+  },
+  "images/train/acne/acne_00285.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9495,
+    "secondary": "acne",
+    "confidence_2": 0.0376,
+    "tertiary": "eczema",
+    "confidence_3": 0.0128
+  },
+  "images/train/acne/acne_00286.jpg": {
+    "primary": "acne",
+    "confidence": 0.6343,
+    "secondary": "eczema",
+    "confidence_2": 0.2825,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0832
+  },
+  "images/train/acne/acne_00287.jpg": {
+    "primary": "acne",
+    "confidence": 0.6635,
+    "secondary": "eczema",
+    "confidence_2": 0.2171,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1193
+  },
+  "images/train/acne/acne_00288.jpg": {
+    "primary": "acne",
+    "confidence": 0.6844,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1668,
+    "tertiary": "eczema",
+    "confidence_3": 0.1488
+  },
+  "images/train/acne/acne_00289.jpg": {
+    "primary": "acne",
+    "confidence": 0.8029,
+    "secondary": "eczema",
+    "confidence_2": 0.1887,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0084
+  },
+  "images/train/acne/acne_00290.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4881,
+    "secondary": "acne",
+    "confidence_2": 0.4277,
+    "tertiary": "eczema",
+    "confidence_3": 0.0842
+  },
+  "images/train/acne/acne_00291.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5338,
+    "secondary": "acne",
+    "confidence_2": 0.3882,
+    "tertiary": "eczema",
+    "confidence_3": 0.078
+  },
+  "images/train/acne/acne_00292.jpg": {
+    "primary": "acne",
+    "confidence": 0.5765,
+    "secondary": "eczema",
+    "confidence_2": 0.4101,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0134
+  },
+  "images/train/acne/acne_00294.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5048,
+    "secondary": "acne",
+    "confidence_2": 0.3598,
+    "tertiary": "eczema",
+    "confidence_3": 0.1355
+  },
+  "images/train/acne/acne_00295.jpg": {
+    "primary": "acne",
+    "confidence": 0.6868,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2662,
+    "tertiary": "eczema",
+    "confidence_3": 0.047
+  },
+  "images/train/acne/acne_00298.jpg": {
+    "primary": "acne",
+    "confidence": 0.4629,
+    "secondary": "eczema",
+    "confidence_2": 0.3625,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1745
+  },
+  "images/train/acne/acne_00299.jpg": {
+    "primary": "acne",
+    "confidence": 0.6346,
+    "secondary": "eczema",
+    "confidence_2": 0.2022,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1632
+  },
+  "images/train/acne/acne_00301.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.654,
+    "secondary": "acne",
+    "confidence_2": 0.3099,
+    "tertiary": "eczema",
+    "confidence_3": 0.0361
+  },
+  "images/train/acne/acne_00302.jpg": {
+    "primary": "acne",
+    "confidence": 0.8494,
+    "secondary": "eczema",
+    "confidence_2": 0.1317,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0189
+  },
+  "images/train/acne/acne_00303.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4227,
+    "secondary": "acne",
+    "confidence_2": 0.4175,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1598
+  },
+  "images/train/eczema/eczema_00000.jpg": {
+    "primary": "acne",
+    "confidence": 0.7131,
+    "secondary": "eczema",
+    "confidence_2": 0.235,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0519
+  },
+  "images/train/eczema/eczema_00001.jpg": {
+    "primary": "acne",
+    "confidence": 0.5125,
+    "secondary": "eczema",
+    "confidence_2": 0.2883,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1991
+  },
+  "images/train/eczema/eczema_00002.jpg": {
+    "primary": "acne",
+    "confidence": 0.4975,
+    "secondary": "eczema",
+    "confidence_2": 0.3633,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1392
+  },
+  "images/train/eczema/eczema_00004.jpg": {
+    "primary": "acne",
+    "confidence": 0.4606,
+    "secondary": "psoriasis",
+    "confidence_2": 0.395,
+    "tertiary": "eczema",
+    "confidence_3": 0.1444
+  },
+  "images/train/eczema/eczema_00006.jpg": {
+    "primary": "acne",
+    "confidence": 0.6272,
+    "secondary": "eczema",
+    "confidence_2": 0.3623,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0105
+  },
+  "images/train/eczema/eczema_00008.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8199,
+    "secondary": "acne",
+    "confidence_2": 0.1683,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0119
+  },
+  "images/train/eczema/eczema_00009.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4357,
+    "secondary": "acne",
+    "confidence_2": 0.369,
+    "tertiary": "eczema",
+    "confidence_3": 0.1953
+  },
+  "images/train/eczema/eczema_00010.jpg": {
+    "primary": "acne",
+    "confidence": 0.4001,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3573,
+    "tertiary": "eczema",
+    "confidence_3": 0.2426
+  },
+  "images/train/eczema/eczema_00011.jpg": {
+    "primary": "acne",
+    "confidence": 0.5194,
+    "secondary": "eczema",
+    "confidence_2": 0.4492,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0314
+  },
+  "images/train/eczema/eczema_00013.jpg": {
+    "primary": "acne",
+    "confidence": 0.5928,
+    "secondary": "eczema",
+    "confidence_2": 0.2189,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1883
+  },
+  "images/train/eczema/eczema_00015.jpg": {
+    "primary": "acne",
+    "confidence": 0.4994,
+    "secondary": "eczema",
+    "confidence_2": 0.3389,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1617
+  },
+  "images/train/eczema/eczema_00018.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5585,
+    "secondary": "acne",
+    "confidence_2": 0.2571,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1844
+  },
+  "images/train/eczema/eczema_00020.jpg": {
+    "primary": "acne",
+    "confidence": 0.8162,
+    "secondary": "eczema",
+    "confidence_2": 0.1285,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0554
+  },
+  "images/train/eczema/eczema_00021.jpg": {
+    "primary": "acne",
+    "confidence": 0.7032,
+    "secondary": "eczema",
+    "confidence_2": 0.163,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1338
+  },
+  "images/train/eczema/eczema_00022.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6356,
+    "secondary": "acne",
+    "confidence_2": 0.2425,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1218
+  },
+  "images/train/eczema/eczema_00023.jpg": {
+    "primary": "acne",
+    "confidence": 0.9268,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0408,
+    "tertiary": "eczema",
+    "confidence_3": 0.0325
+  },
+  "images/train/eczema/eczema_00024.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5721,
+    "secondary": "acne",
+    "confidence_2": 0.2993,
+    "tertiary": "eczema",
+    "confidence_3": 0.1286
+  },
+  "images/train/eczema/eczema_00027.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6052,
+    "secondary": "eczema",
+    "confidence_2": 0.3605,
+    "tertiary": "acne",
+    "confidence_3": 0.0343
+  },
+  "images/train/eczema/eczema_00028.jpg": {
+    "primary": "acne",
+    "confidence": 0.8751,
+    "secondary": "eczema",
+    "confidence_2": 0.1155,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0093
+  },
+  "images/train/eczema/eczema_00029.jpg": {
+    "primary": "acne",
+    "confidence": 0.7093,
+    "secondary": "eczema",
+    "confidence_2": 0.2172,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0735
+  },
+  "images/train/eczema/eczema_00030.jpg": {
+    "primary": "acne",
+    "confidence": 0.5579,
+    "secondary": "eczema",
+    "confidence_2": 0.3462,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0959
+  },
+  "images/train/eczema/eczema_00032.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6304,
+    "secondary": "acne",
+    "confidence_2": 0.3611,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0085
+  },
+  "images/train/eczema/eczema_00033.jpg": {
+    "primary": "acne",
+    "confidence": 0.7786,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1419,
+    "tertiary": "eczema",
+    "confidence_3": 0.0795
+  },
+  "images/train/eczema/eczema_00037.jpg": {
+    "primary": "acne",
+    "confidence": 0.5313,
+    "secondary": "eczema",
+    "confidence_2": 0.318,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1507
+  },
+  "images/train/eczema/eczema_00039.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5453,
+    "secondary": "acne",
+    "confidence_2": 0.2819,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1728
+  },
+  "images/train/eczema/eczema_00040.jpg": {
+    "primary": "acne",
+    "confidence": 0.6667,
+    "secondary": "eczema",
+    "confidence_2": 0.2985,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0348
+  },
+  "images/train/eczema/eczema_00041.jpg": {
+    "primary": "acne",
+    "confidence": 0.7683,
+    "secondary": "eczema",
+    "confidence_2": 0.193,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0388
+  },
+  "images/train/eczema/eczema_00042.jpg": {
+    "primary": "eczema",
+    "confidence": 0.434,
+    "secondary": "acne",
+    "confidence_2": 0.3395,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.2265
+  },
+  "images/train/eczema/eczema_00043.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6831,
+    "secondary": "acne",
+    "confidence_2": 0.2527,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0642
+  },
+  "images/train/eczema/eczema_00044.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4191,
+    "secondary": "acne",
+    "confidence_2": 0.3381,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.2428
+  },
+  "images/train/eczema/eczema_00046.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4552,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3272,
+    "tertiary": "acne",
+    "confidence_3": 0.2176
+  },
+  "images/train/eczema/eczema_00047.jpg": {
+    "primary": "acne",
+    "confidence": 0.5205,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2782,
+    "tertiary": "eczema",
+    "confidence_3": 0.2013
+  },
+  "images/train/eczema/eczema_00049.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8575,
+    "secondary": "acne",
+    "confidence_2": 0.0813,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0612
+  },
+  "images/train/eczema/eczema_00051.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.521,
+    "secondary": "acne",
+    "confidence_2": 0.2984,
+    "tertiary": "eczema",
+    "confidence_3": 0.1807
+  },
+  "images/train/eczema/eczema_00054.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6002,
+    "secondary": "acne",
+    "confidence_2": 0.276,
+    "tertiary": "eczema",
+    "confidence_3": 0.1238
+  },
+  "images/train/eczema/eczema_00055.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7791,
+    "secondary": "acne",
+    "confidence_2": 0.1279,
+    "tertiary": "eczema",
+    "confidence_3": 0.093
+  },
+  "images/train/eczema/eczema_00058.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8875,
+    "secondary": "acne",
+    "confidence_2": 0.0885,
+    "tertiary": "eczema",
+    "confidence_3": 0.024
+  },
+  "images/train/eczema/eczema_00060.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.554,
+    "secondary": "acne",
+    "confidence_2": 0.3341,
+    "tertiary": "eczema",
+    "confidence_3": 0.1119
+  },
+  "images/train/eczema/eczema_00061.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5029,
+    "secondary": "acne",
+    "confidence_2": 0.4173,
+    "tertiary": "eczema",
+    "confidence_3": 0.0798
+  },
+  "images/train/eczema/eczema_00063.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6725,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1786,
+    "tertiary": "acne",
+    "confidence_3": 0.1489
+  },
+  "images/train/eczema/eczema_00066.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7752,
+    "secondary": "acne",
+    "confidence_2": 0.1981,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0267
+  },
+  "images/train/eczema/eczema_00067.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5861,
+    "secondary": "acne",
+    "confidence_2": 0.3822,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0316
+  },
+  "images/train/eczema/eczema_00068.jpg": {
+    "primary": "acne",
+    "confidence": 0.7041,
+    "secondary": "eczema",
+    "confidence_2": 0.1853,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1106
+  },
+  "images/train/eczema/eczema_00070.jpg": {
+    "primary": "acne",
+    "confidence": 0.9117,
+    "secondary": "eczema",
+    "confidence_2": 0.0748,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0135
+  },
+  "images/train/eczema/eczema_00071.jpg": {
+    "primary": "acne",
+    "confidence": 0.8997,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0517,
+    "tertiary": "eczema",
+    "confidence_3": 0.0486
+  },
+  "images/train/eczema/eczema_00072.jpg": {
+    "primary": "acne",
+    "confidence": 0.6045,
+    "secondary": "eczema",
+    "confidence_2": 0.3954,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0001
+  },
+  "images/train/eczema/eczema_00073.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6866,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1669,
+    "tertiary": "acne",
+    "confidence_3": 0.1465
+  },
+  "images/train/eczema/eczema_00074.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7818,
+    "secondary": "acne",
+    "confidence_2": 0.1636,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0546
+  },
+  "images/train/eczema/eczema_00075.jpg": {
+    "primary": "acne",
+    "confidence": 0.542,
+    "secondary": "eczema",
+    "confidence_2": 0.2342,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.2238
+  },
+  "images/train/eczema/eczema_00076.jpg": {
+    "primary": "acne",
+    "confidence": 0.6529,
+    "secondary": "psoriasis",
+    "confidence_2": 0.302,
+    "tertiary": "eczema",
+    "confidence_3": 0.0452
+  },
+  "images/train/eczema/eczema_00077.jpg": {
+    "primary": "acne",
+    "confidence": 0.7073,
+    "secondary": "eczema",
+    "confidence_2": 0.1776,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1151
+  },
+  "images/train/eczema/eczema_00078.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5694,
+    "secondary": "acne",
+    "confidence_2": 0.3926,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.038
+  },
+  "images/train/eczema/eczema_00079.jpg": {
+    "primary": "acne",
+    "confidence": 0.769,
+    "secondary": "eczema",
+    "confidence_2": 0.1772,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0538
+  },
+  "images/train/eczema/eczema_00080.jpg": {
+    "primary": "acne",
+    "confidence": 0.744,
+    "secondary": "eczema",
+    "confidence_2": 0.1879,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0681
+  },
+  "images/train/eczema/eczema_00081.jpg": {
+    "primary": "acne",
+    "confidence": 0.5771,
+    "secondary": "eczema",
+    "confidence_2": 0.2727,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1501
+  },
+  "images/train/eczema/eczema_00082.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6955,
+    "secondary": "acne",
+    "confidence_2": 0.2588,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0457
+  },
+  "images/train/eczema/eczema_00083.jpg": {
+    "primary": "acne",
+    "confidence": 0.9306,
+    "secondary": "eczema",
+    "confidence_2": 0.0598,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0096
+  },
+  "images/train/eczema/eczema_00084.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6572,
+    "secondary": "eczema",
+    "confidence_2": 0.2703,
+    "tertiary": "acne",
+    "confidence_3": 0.0725
+  },
+  "images/train/eczema/eczema_00086.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7507,
+    "secondary": "eczema",
+    "confidence_2": 0.1375,
+    "tertiary": "acne",
+    "confidence_3": 0.1118
+  },
+  "images/train/eczema/eczema_00087.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6155,
+    "secondary": "acne",
+    "confidence_2": 0.2903,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0943
+  },
+  "images/train/eczema/eczema_00088.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6589,
+    "secondary": "acne",
+    "confidence_2": 0.1943,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1468
+  },
+  "images/train/eczema/eczema_00089.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7222,
+    "secondary": "acne",
+    "confidence_2": 0.1654,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1124
+  },
+  "images/train/eczema/eczema_00090.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7569,
+    "secondary": "acne",
+    "confidence_2": 0.1472,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0959
+  },
+  "images/train/eczema/eczema_00092.jpg": {
+    "primary": "acne",
+    "confidence": 0.868,
+    "secondary": "eczema",
+    "confidence_2": 0.127,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.005
+  },
+  "images/train/eczema/eczema_00093.jpg": {
+    "primary": "acne",
+    "confidence": 0.9307,
+    "secondary": "eczema",
+    "confidence_2": 0.0657,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0036
+  },
+  "images/train/eczema/eczema_00095.jpg": {
+    "primary": "acne",
+    "confidence": 0.5195,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3996,
+    "tertiary": "eczema",
+    "confidence_3": 0.081
+  },
+  "images/train/eczema/eczema_00099.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4631,
+    "secondary": "acne",
+    "confidence_2": 0.3837,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1532
+  },
+  "images/train/eczema/eczema_00101.jpg": {
+    "primary": "eczema",
+    "confidence": 0.3813,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3719,
+    "tertiary": "acne",
+    "confidence_3": 0.2468
+  },
+  "images/train/eczema/eczema_00102.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8171,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1095,
+    "tertiary": "acne",
+    "confidence_3": 0.0733
+  },
+  "images/train/eczema/eczema_00104.jpg": {
+    "primary": "acne",
+    "confidence": 0.4862,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4533,
+    "tertiary": "eczema",
+    "confidence_3": 0.0605
+  },
+  "images/train/eczema/eczema_00105.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.508,
+    "secondary": "acne",
+    "confidence_2": 0.3994,
+    "tertiary": "eczema",
+    "confidence_3": 0.0927
+  },
+  "images/train/eczema/eczema_00106.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4765,
+    "secondary": "acne",
+    "confidence_2": 0.3769,
+    "tertiary": "eczema",
+    "confidence_3": 0.1466
+  },
+  "images/train/eczema/eczema_00107.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9553,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0246,
+    "tertiary": "acne",
+    "confidence_3": 0.02
+  },
+  "images/train/eczema/eczema_00108.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9713,
+    "secondary": "acne",
+    "confidence_2": 0.0232,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0055
+  },
+  "images/train/eczema/eczema_00109.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5037,
+    "secondary": "acne",
+    "confidence_2": 0.3614,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1349
+  },
+  "images/train/eczema/eczema_00110.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4661,
+    "secondary": "acne",
+    "confidence_2": 0.3712,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1627
+  },
+  "images/train/eczema/eczema_00111.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6608,
+    "secondary": "acne",
+    "confidence_2": 0.1729,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1663
+  },
+  "images/train/eczema/eczema_00112.jpg": {
+    "primary": "eczema",
+    "confidence": 0.3696,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3525,
+    "tertiary": "acne",
+    "confidence_3": 0.2779
+  },
+  "images/train/eczema/eczema_00116.jpg": {
+    "primary": "acne",
+    "confidence": 0.7138,
+    "secondary": "eczema",
+    "confidence_2": 0.2367,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0495
+  },
+  "images/train/eczema/eczema_00117.jpg": {
+    "primary": "acne",
+    "confidence": 0.804,
+    "secondary": "eczema",
+    "confidence_2": 0.1543,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0417
+  },
+  "images/train/eczema/eczema_00118.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4349,
+    "secondary": "acne",
+    "confidence_2": 0.3095,
+    "tertiary": "eczema",
+    "confidence_3": 0.2555
+  },
+  "images/train/eczema/eczema_00119.jpg": {
+    "primary": "acne",
+    "confidence": 0.845,
+    "secondary": "eczema",
+    "confidence_2": 0.1472,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0078
+  },
+  "images/train/eczema/eczema_00120.jpg": {
+    "primary": "eczema",
+    "confidence": 0.91,
+    "secondary": "acne",
+    "confidence_2": 0.0598,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0301
+  },
+  "images/train/eczema/eczema_00121.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5131,
+    "secondary": "eczema",
+    "confidence_2": 0.3295,
+    "tertiary": "acne",
+    "confidence_3": 0.1574
+  },
+  "images/train/eczema/eczema_00122.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5803,
+    "secondary": "acne",
+    "confidence_2": 0.2733,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1464
+  },
+  "images/train/eczema/eczema_00123.jpg": {
+    "primary": "acne",
+    "confidence": 0.4414,
+    "secondary": "eczema",
+    "confidence_2": 0.4297,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1289
+  },
+  "images/train/eczema/eczema_00125.jpg": {
+    "primary": "acne",
+    "confidence": 0.6632,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2241,
+    "tertiary": "eczema",
+    "confidence_3": 0.1126
+  },
+  "images/train/eczema/eczema_00128.jpg": {
+    "primary": "acne",
+    "confidence": 0.5622,
+    "secondary": "eczema",
+    "confidence_2": 0.2314,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.2064
+  },
+  "images/train/eczema/eczema_00129.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6771,
+    "secondary": "acne",
+    "confidence_2": 0.2517,
+    "tertiary": "eczema",
+    "confidence_3": 0.0712
+  },
+  "images/train/eczema/eczema_00130.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7941,
+    "secondary": "acne",
+    "confidence_2": 0.1971,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0088
+  },
+  "images/train/eczema/eczema_00131.jpg": {
+    "primary": "acne",
+    "confidence": 0.78,
+    "secondary": "eczema",
+    "confidence_2": 0.1999,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0201
+  },
+  "images/train/eczema/eczema_00132.jpg": {
+    "primary": "acne",
+    "confidence": 0.6959,
+    "secondary": "eczema",
+    "confidence_2": 0.2097,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0945
+  },
+  "images/train/eczema/eczema_00133.jpg": {
+    "primary": "acne",
+    "confidence": 0.6217,
+    "secondary": "eczema",
+    "confidence_2": 0.2481,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1301
+  },
+  "images/train/eczema/eczema_00135.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8806,
+    "secondary": "eczema",
+    "confidence_2": 0.1086,
+    "tertiary": "acne",
+    "confidence_3": 0.0108
+  },
+  "images/train/eczema/eczema_00136.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5479,
+    "secondary": "eczema",
+    "confidence_2": 0.4387,
+    "tertiary": "acne",
+    "confidence_3": 0.0134
+  },
+  "images/train/eczema/eczema_00137.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5808,
+    "secondary": "eczema",
+    "confidence_2": 0.3167,
+    "tertiary": "acne",
+    "confidence_3": 0.1025
+  },
+  "images/train/eczema/eczema_00138.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9521,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0361,
+    "tertiary": "acne",
+    "confidence_3": 0.0117
+  },
+  "images/train/eczema/eczema_00139.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9855,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0101,
+    "tertiary": "acne",
+    "confidence_3": 0.0044
+  },
+  "images/train/eczema/eczema_00140.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8332,
+    "secondary": "eczema",
+    "confidence_2": 0.1517,
+    "tertiary": "acne",
+    "confidence_3": 0.0151
+  },
+  "images/train/eczema/eczema_00144.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7859,
+    "secondary": "eczema",
+    "confidence_2": 0.1738,
+    "tertiary": "acne",
+    "confidence_3": 0.0403
+  },
+  "images/train/eczema/eczema_00145.jpg": {
+    "primary": "eczema",
+    "confidence": 0.594,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3473,
+    "tertiary": "acne",
+    "confidence_3": 0.0587
+  },
+  "images/train/eczema/eczema_00147.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8437,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1437,
+    "tertiary": "acne",
+    "confidence_3": 0.0126
+  },
+  "images/train/eczema/eczema_00148.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4792,
+    "secondary": "eczema",
+    "confidence_2": 0.359,
+    "tertiary": "acne",
+    "confidence_3": 0.1618
+  },
+  "images/train/eczema/eczema_00151.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6198,
+    "secondary": "eczema",
+    "confidence_2": 0.244,
+    "tertiary": "acne",
+    "confidence_3": 0.1363
+  },
+  "images/train/eczema/eczema_00153.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7749,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1258,
+    "tertiary": "acne",
+    "confidence_3": 0.0993
+  },
+  "images/train/eczema/eczema_00155.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7262,
+    "secondary": "psoriasis",
+    "confidence_2": 0.265,
+    "tertiary": "acne",
+    "confidence_3": 0.0088
+  },
+  "images/train/eczema/eczema_00156.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7939,
+    "secondary": "eczema",
+    "confidence_2": 0.1228,
+    "tertiary": "acne",
+    "confidence_3": 0.0832
+  },
+  "images/train/eczema/eczema_00158.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8965,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0939,
+    "tertiary": "acne",
+    "confidence_3": 0.0095
+  },
+  "images/train/eczema/eczema_00159.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9406,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0576,
+    "tertiary": "acne",
+    "confidence_3": 0.0019
+  },
+  "images/train/eczema/eczema_00161.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5512,
+    "secondary": "eczema",
+    "confidence_2": 0.4255,
+    "tertiary": "acne",
+    "confidence_3": 0.0233
+  },
+  "images/train/eczema/eczema_00162.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7165,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2568,
+    "tertiary": "acne",
+    "confidence_3": 0.0267
+  },
+  "images/train/eczema/eczema_00163.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7344,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2262,
+    "tertiary": "acne",
+    "confidence_3": 0.0393
+  },
+  "images/train/eczema/eczema_00164.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8921,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0976,
+    "tertiary": "acne",
+    "confidence_3": 0.0104
+  },
+  "images/train/eczema/eczema_00165.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9688,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0275,
+    "tertiary": "acne",
+    "confidence_3": 0.0037
+  },
+  "images/train/eczema/eczema_00166.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.549,
+    "secondary": "eczema",
+    "confidence_2": 0.407,
+    "tertiary": "acne",
+    "confidence_3": 0.044
+  },
+  "images/train/eczema/eczema_00167.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9577,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0373,
+    "tertiary": "acne",
+    "confidence_3": 0.005
+  },
+  "images/train/eczema/eczema_00168.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6248,
+    "secondary": "psoriasis",
+    "confidence_2": 0.362,
+    "tertiary": "acne",
+    "confidence_3": 0.0133
+  },
+  "images/train/eczema/eczema_00170.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8399,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1561,
+    "tertiary": "acne",
+    "confidence_3": 0.0039
+  },
+  "images/train/eczema/eczema_00174.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8581,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1151,
+    "tertiary": "acne",
+    "confidence_3": 0.0268
+  },
+  "images/train/eczema/eczema_00176.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5168,
+    "secondary": "eczema",
+    "confidence_2": 0.3706,
+    "tertiary": "acne",
+    "confidence_3": 0.1125
+  },
+  "images/train/eczema/eczema_00177.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5513,
+    "secondary": "acne",
+    "confidence_2": 0.3168,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1319
+  },
+  "images/train/eczema/eczema_00178.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7245,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2545,
+    "tertiary": "acne",
+    "confidence_3": 0.0211
+  },
+  "images/train/eczema/eczema_00181.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5661,
+    "secondary": "eczema",
+    "confidence_2": 0.3879,
+    "tertiary": "acne",
+    "confidence_3": 0.046
+  },
+  "images/train/eczema/eczema_00182.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5065,
+    "secondary": "acne",
+    "confidence_2": 0.3283,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1652
+  },
+  "images/train/eczema/eczema_00183.jpg": {
+    "primary": "eczema",
+    "confidence": 0.86,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0948,
+    "tertiary": "acne",
+    "confidence_3": 0.0451
+  },
+  "images/train/eczema/eczema_00184.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8884,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1007,
+    "tertiary": "acne",
+    "confidence_3": 0.0109
+  },
+  "images/train/eczema/eczema_00186.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8856,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1,
+    "tertiary": "acne",
+    "confidence_3": 0.0144
+  },
+  "images/train/eczema/eczema_00188.jpg": {
+    "primary": "eczema",
+    "confidence": 0.984,
+    "secondary": "psoriasis",
+    "confidence_2": 0.01,
+    "tertiary": "acne",
+    "confidence_3": 0.006
+  },
+  "images/train/eczema/eczema_00192.jpg": {
+    "primary": "eczema",
+    "confidence": 0.45,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2819,
+    "tertiary": "acne",
+    "confidence_3": 0.2681
+  },
+  "images/train/eczema/eczema_00193.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6443,
+    "secondary": "eczema",
+    "confidence_2": 0.2827,
+    "tertiary": "acne",
+    "confidence_3": 0.073
+  },
+  "images/train/eczema/eczema_00194.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7218,
+    "secondary": "acne",
+    "confidence_2": 0.1693,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1089
+  },
+  "images/train/eczema/eczema_00195.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7481,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2011,
+    "tertiary": "acne",
+    "confidence_3": 0.0508
+  },
+  "images/train/eczema/eczema_00196.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8225,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1714,
+    "tertiary": "acne",
+    "confidence_3": 0.0061
+  },
+  "images/train/eczema/eczema_00197.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7798,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1411,
+    "tertiary": "acne",
+    "confidence_3": 0.0791
+  },
+  "images/train/eczema/eczema_00198.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9422,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0425,
+    "tertiary": "acne",
+    "confidence_3": 0.0153
+  },
+  "images/train/eczema/eczema_00199.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7983,
+    "secondary": "eczema",
+    "confidence_2": 0.1385,
+    "tertiary": "acne",
+    "confidence_3": 0.0631
+  },
+  "images/train/eczema/eczema_00200.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6796,
+    "secondary": "acne",
+    "confidence_2": 0.1959,
+    "tertiary": "eczema",
+    "confidence_3": 0.1245
+  },
+  "images/train/eczema/eczema_00201.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.567,
+    "secondary": "eczema",
+    "confidence_2": 0.3894,
+    "tertiary": "acne",
+    "confidence_3": 0.0436
+  },
+  "images/train/eczema/eczema_00202.jpg": {
+    "primary": "acne",
+    "confidence": 0.4421,
+    "secondary": "eczema",
+    "confidence_2": 0.4329,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1249
+  },
+  "images/train/eczema/eczema_00204.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5321,
+    "secondary": "eczema",
+    "confidence_2": 0.4241,
+    "tertiary": "acne",
+    "confidence_3": 0.0438
+  },
+  "images/train/eczema/eczema_00205.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6639,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2915,
+    "tertiary": "acne",
+    "confidence_3": 0.0446
+  },
+  "images/train/eczema/eczema_00206.jpg": {
+    "primary": "eczema",
+    "confidence": 0.3985,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3896,
+    "tertiary": "acne",
+    "confidence_3": 0.212
+  },
+  "images/train/eczema/eczema_00207.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8381,
+    "secondary": "acne",
+    "confidence_2": 0.0974,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0645
+  },
+  "images/train/eczema/eczema_00208.jpg": {
+    "primary": "acne",
+    "confidence": 0.4773,
+    "secondary": "eczema",
+    "confidence_2": 0.4012,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1216
+  },
+  "images/train/eczema/eczema_00209.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4989,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4733,
+    "tertiary": "acne",
+    "confidence_3": 0.0279
+  },
+  "images/train/eczema/eczema_00210.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8311,
+    "secondary": "acne",
+    "confidence_2": 0.1337,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0352
+  },
+  "images/train/eczema/eczema_00211.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7856,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1181,
+    "tertiary": "acne",
+    "confidence_3": 0.0963
+  },
+  "images/train/eczema/eczema_00212.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5889,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3879,
+    "tertiary": "acne",
+    "confidence_3": 0.0232
+  },
+  "images/train/eczema/eczema_00213.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9832,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0128,
+    "tertiary": "acne",
+    "confidence_3": 0.004
+  },
+  "images/train/eczema/eczema_00215.jpg": {
+    "primary": "eczema",
+    "confidence": 0.984,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0137,
+    "tertiary": "acne",
+    "confidence_3": 0.0024
+  },
+  "images/train/eczema/eczema_00216.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8557,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1143,
+    "tertiary": "acne",
+    "confidence_3": 0.0299
+  },
+  "images/train/eczema/eczema_00217.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9926,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0068,
+    "tertiary": "acne",
+    "confidence_3": 0.0006
+  },
+  "images/train/eczema/eczema_00218.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7591,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1886,
+    "tertiary": "acne",
+    "confidence_3": 0.0523
+  },
+  "images/train/eczema/eczema_00220.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4825,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3108,
+    "tertiary": "acne",
+    "confidence_3": 0.2067
+  },
+  "images/train/eczema/eczema_00221.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8439,
+    "secondary": "psoriasis",
+    "confidence_2": 0.149,
+    "tertiary": "acne",
+    "confidence_3": 0.0071
+  },
+  "images/train/eczema/eczema_00223.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8423,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1062,
+    "tertiary": "acne",
+    "confidence_3": 0.0515
+  },
+  "images/train/eczema/eczema_00224.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9711,
+    "secondary": "psoriasis",
+    "confidence_2": 0.026,
+    "tertiary": "acne",
+    "confidence_3": 0.0029
+  },
+  "images/train/eczema/eczema_00226.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4932,
+    "secondary": "acne",
+    "confidence_2": 0.4353,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0715
+  },
+  "images/train/eczema/eczema_00227.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8779,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1091,
+    "tertiary": "acne",
+    "confidence_3": 0.013
+  },
+  "images/train/eczema/eczema_00228.jpg": {
+    "primary": "acne",
+    "confidence": 0.7827,
+    "secondary": "eczema",
+    "confidence_2": 0.1832,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.034
+  },
+  "images/train/eczema/eczema_00229.jpg": {
+    "primary": "acne",
+    "confidence": 0.6271,
+    "secondary": "eczema",
+    "confidence_2": 0.2969,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.076
+  },
+  "images/train/eczema/eczema_00230.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5218,
+    "secondary": "psoriasis",
+    "confidence_2": 0.442,
+    "tertiary": "acne",
+    "confidence_3": 0.0363
+  },
+  "images/train/eczema/eczema_00231.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9409,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0311,
+    "tertiary": "acne",
+    "confidence_3": 0.028
+  },
+  "images/train/eczema/eczema_00234.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7531,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1242,
+    "tertiary": "acne",
+    "confidence_3": 0.1227
+  },
+  "images/train/eczema/eczema_00235.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5308,
+    "secondary": "acne",
+    "confidence_2": 0.4164,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0528
+  },
+  "images/train/eczema/eczema_00236.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4568,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4253,
+    "tertiary": "acne",
+    "confidence_3": 0.1179
+  },
+  "images/train/eczema/eczema_00238.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7748,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2007,
+    "tertiary": "acne",
+    "confidence_3": 0.0245
+  },
+  "images/train/eczema/eczema_00239.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5847,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3324,
+    "tertiary": "acne",
+    "confidence_3": 0.0829
+  },
+  "images/train/eczema/eczema_00240.jpg": {
+    "primary": "eczema",
+    "confidence": 0.576,
+    "secondary": "acne",
+    "confidence_2": 0.316,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.108
+  },
+  "images/train/eczema/eczema_00242.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4729,
+    "secondary": "acne",
+    "confidence_2": 0.4576,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0695
+  },
+  "images/train/eczema/eczema_00243.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5109,
+    "secondary": "psoriasis",
+    "confidence_2": 0.447,
+    "tertiary": "acne",
+    "confidence_3": 0.0421
+  },
+  "images/train/eczema/eczema_00244.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6952,
+    "secondary": "psoriasis",
+    "confidence_2": 0.154,
+    "tertiary": "acne",
+    "confidence_3": 0.1508
+  },
+  "images/train/eczema/eczema_00248.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5819,
+    "secondary": "eczema",
+    "confidence_2": 0.4059,
+    "tertiary": "acne",
+    "confidence_3": 0.0122
+  },
+  "images/train/eczema/eczema_00250.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6866,
+    "secondary": "psoriasis",
+    "confidence_2": 0.288,
+    "tertiary": "acne",
+    "confidence_3": 0.0254
+  },
+  "images/train/eczema/eczema_00251.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5598,
+    "secondary": "eczema",
+    "confidence_2": 0.4049,
+    "tertiary": "acne",
+    "confidence_3": 0.0354
+  },
+  "images/train/eczema/eczema_00253.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8755,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1013,
+    "tertiary": "acne",
+    "confidence_3": 0.0231
+  },
+  "images/train/eczema/eczema_00254.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5465,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4061,
+    "tertiary": "acne",
+    "confidence_3": 0.0474
+  },
+  "images/train/eczema/eczema_00256.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6697,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2637,
+    "tertiary": "acne",
+    "confidence_3": 0.0667
+  },
+  "images/train/eczema/eczema_00257.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.629,
+    "secondary": "eczema",
+    "confidence_2": 0.3286,
+    "tertiary": "acne",
+    "confidence_3": 0.0424
+  },
+  "images/train/eczema/eczema_00258.jpg": {
+    "primary": "acne",
+    "confidence": 0.849,
+    "secondary": "eczema",
+    "confidence_2": 0.1446,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0064
+  },
+  "images/train/eczema/eczema_00260.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5914,
+    "secondary": "acne",
+    "confidence_2": 0.2141,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1945
+  },
+  "images/train/eczema/eczema_00261.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8739,
+    "secondary": "acne",
+    "confidence_2": 0.0969,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0292
+  },
+  "images/train/eczema/eczema_00262.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7556,
+    "secondary": "eczema",
+    "confidence_2": 0.1719,
+    "tertiary": "acne",
+    "confidence_3": 0.0725
+  },
+  "images/train/eczema/eczema_00263.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6589,
+    "secondary": "eczema",
+    "confidence_2": 0.2883,
+    "tertiary": "acne",
+    "confidence_3": 0.0527
+  },
+  "images/train/eczema/eczema_00264.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6731,
+    "secondary": "eczema",
+    "confidence_2": 0.2518,
+    "tertiary": "acne",
+    "confidence_3": 0.0751
+  },
+  "images/train/eczema/eczema_00265.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9954,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0042,
+    "tertiary": "acne",
+    "confidence_3": 0.0004
+  },
+  "images/train/eczema/eczema_00266.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4368,
+    "secondary": "eczema",
+    "confidence_2": 0.4237,
+    "tertiary": "acne",
+    "confidence_3": 0.1395
+  },
+  "images/train/eczema/eczema_00267.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4009,
+    "secondary": "acne",
+    "confidence_2": 0.3008,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.2982
+  },
+  "images/train/eczema/eczema_00268.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8182,
+    "secondary": "eczema",
+    "confidence_2": 0.1727,
+    "tertiary": "acne",
+    "confidence_3": 0.0091
+  },
+  "images/train/eczema/eczema_00271.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4537,
+    "secondary": "eczema",
+    "confidence_2": 0.2936,
+    "tertiary": "acne",
+    "confidence_3": 0.2526
+  },
+  "images/train/eczema/eczema_00272.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.569,
+    "secondary": "eczema",
+    "confidence_2": 0.4066,
+    "tertiary": "acne",
+    "confidence_3": 0.0245
+  },
+  "images/train/eczema/eczema_00273.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8377,
+    "secondary": "eczema",
+    "confidence_2": 0.1002,
+    "tertiary": "acne",
+    "confidence_3": 0.0621
+  },
+  "images/train/eczema/eczema_00274.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5806,
+    "secondary": "acne",
+    "confidence_2": 0.3079,
+    "tertiary": "eczema",
+    "confidence_3": 0.1115
+  },
+  "images/train/eczema/eczema_00275.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4816,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4406,
+    "tertiary": "acne",
+    "confidence_3": 0.0778
+  },
+  "images/train/eczema/eczema_00278.jpg": {
+    "primary": "eczema",
+    "confidence": 0.3995,
+    "secondary": "acne",
+    "confidence_2": 0.3984,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.202
+  },
+  "images/train/eczema/eczema_00280.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6946,
+    "secondary": "eczema",
+    "confidence_2": 0.1531,
+    "tertiary": "acne",
+    "confidence_3": 0.1523
+  },
+  "images/train/eczema/eczema_00281.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5568,
+    "secondary": "acne",
+    "confidence_2": 0.3727,
+    "tertiary": "eczema",
+    "confidence_3": 0.0705
+  },
+  "images/train/eczema/eczema_00284.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8822,
+    "secondary": "acne",
+    "confidence_2": 0.0868,
+    "tertiary": "eczema",
+    "confidence_3": 0.031
+  },
+  "images/train/eczema/eczema_00287.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9017,
+    "secondary": "eczema",
+    "confidence_2": 0.0552,
+    "tertiary": "acne",
+    "confidence_3": 0.0431
+  },
+  "images/train/eczema/eczema_00288.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8249,
+    "secondary": "acne",
+    "confidence_2": 0.1133,
+    "tertiary": "eczema",
+    "confidence_3": 0.0618
+  },
+  "images/train/eczema/eczema_00289.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8699,
+    "secondary": "acne",
+    "confidence_2": 0.0759,
+    "tertiary": "eczema",
+    "confidence_3": 0.0542
+  },
+  "images/train/eczema/eczema_00290.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7049,
+    "secondary": "acne",
+    "confidence_2": 0.2411,
+    "tertiary": "eczema",
+    "confidence_3": 0.054
+  },
+  "images/train/eczema/eczema_00291.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4955,
+    "secondary": "acne",
+    "confidence_2": 0.4248,
+    "tertiary": "eczema",
+    "confidence_3": 0.0797
+  },
+  "images/train/eczema/eczema_00292.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8776,
+    "secondary": "eczema",
+    "confidence_2": 0.0669,
+    "tertiary": "acne",
+    "confidence_3": 0.0554
+  },
+  "images/train/eczema/eczema_00294.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9768,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0208,
+    "tertiary": "acne",
+    "confidence_3": 0.0024
+  },
+  "images/train/eczema/eczema_00295.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8143,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1764,
+    "tertiary": "acne",
+    "confidence_3": 0.0092
+  },
+  "images/train/eczema/eczema_00296.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4059,
+    "secondary": "acne",
+    "confidence_2": 0.306,
+    "tertiary": "eczema",
+    "confidence_3": 0.2882
+  },
+  "images/train/eczema/eczema_00297.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7916,
+    "secondary": "eczema",
+    "confidence_2": 0.1388,
+    "tertiary": "acne",
+    "confidence_3": 0.0697
+  },
+  "images/train/eczema/eczema_00299.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9128,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0635,
+    "tertiary": "acne",
+    "confidence_3": 0.0237
+  },
+  "images/train/eczema/eczema_00300.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4929,
+    "secondary": "eczema",
+    "confidence_2": 0.3407,
+    "tertiary": "acne",
+    "confidence_3": 0.1665
+  },
+  "images/train/eczema/eczema_00301.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8275,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1532,
+    "tertiary": "acne",
+    "confidence_3": 0.0194
+  },
+  "images/train/eczema/eczema_00303.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5973,
+    "secondary": "eczema",
+    "confidence_2": 0.354,
+    "tertiary": "acne",
+    "confidence_3": 0.0487
+  },
+  "images/train/eczema/eczema_00304.jpg": {
+    "primary": "eczema",
+    "confidence": 0.6403,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2291,
+    "tertiary": "acne",
+    "confidence_3": 0.1306
+  },
+  "images/train/psoriasis/psoriasis_00001.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4475,
+    "secondary": "acne",
+    "confidence_2": 0.4023,
+    "tertiary": "eczema",
+    "confidence_3": 0.1503
+  },
+  "images/train/psoriasis/psoriasis_00002.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8036,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1384,
+    "tertiary": "acne",
+    "confidence_3": 0.0581
+  },
+  "images/train/psoriasis/psoriasis_00003.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9967,
+    "secondary": "acne",
+    "confidence_2": 0.0029,
+    "tertiary": "eczema",
+    "confidence_3": 0.0004
+  },
+  "images/train/psoriasis/psoriasis_00005.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9784,
+    "secondary": "eczema",
+    "confidence_2": 0.0146,
+    "tertiary": "acne",
+    "confidence_3": 0.007
+  },
+  "images/train/psoriasis/psoriasis_00006.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4953,
+    "secondary": "eczema",
+    "confidence_2": 0.4694,
+    "tertiary": "acne",
+    "confidence_3": 0.0353
+  },
+  "images/train/psoriasis/psoriasis_00008.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9644,
+    "secondary": "eczema",
+    "confidence_2": 0.0294,
+    "tertiary": "acne",
+    "confidence_3": 0.0063
+  },
+  "images/train/psoriasis/psoriasis_00012.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9303,
+    "secondary": "eczema",
+    "confidence_2": 0.0602,
+    "tertiary": "acne",
+    "confidence_3": 0.0095
+  },
+  "images/train/psoriasis/psoriasis_00014.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9254,
+    "secondary": "eczema",
+    "confidence_2": 0.065,
+    "tertiary": "acne",
+    "confidence_3": 0.0096
+  },
+  "images/train/psoriasis/psoriasis_00015.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8326,
+    "secondary": "eczema",
+    "confidence_2": 0.153,
+    "tertiary": "acne",
+    "confidence_3": 0.0144
+  },
+  "images/train/psoriasis/psoriasis_00016.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6634,
+    "secondary": "eczema",
+    "confidence_2": 0.2016,
+    "tertiary": "acne",
+    "confidence_3": 0.135
+  },
+  "images/train/psoriasis/psoriasis_00017.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8486,
+    "secondary": "eczema",
+    "confidence_2": 0.1251,
+    "tertiary": "acne",
+    "confidence_3": 0.0263
+  },
+  "images/train/psoriasis/psoriasis_00018.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7289,
+    "secondary": "eczema",
+    "confidence_2": 0.2266,
+    "tertiary": "acne",
+    "confidence_3": 0.0445
+  },
+  "images/train/psoriasis/psoriasis_00020.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8673,
+    "secondary": "eczema",
+    "confidence_2": 0.0715,
+    "tertiary": "acne",
+    "confidence_3": 0.0613
+  },
+  "images/train/psoriasis/psoriasis_00021.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8131,
+    "secondary": "eczema",
+    "confidence_2": 0.1684,
+    "tertiary": "acne",
+    "confidence_3": 0.0185
+  },
+  "images/train/psoriasis/psoriasis_00022.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8363,
+    "secondary": "eczema",
+    "confidence_2": 0.1215,
+    "tertiary": "acne",
+    "confidence_3": 0.0422
+  },
+  "images/train/psoriasis/psoriasis_00023.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7791,
+    "secondary": "eczema",
+    "confidence_2": 0.2067,
+    "tertiary": "acne",
+    "confidence_3": 0.0142
+  },
+  "images/train/psoriasis/psoriasis_00024.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7079,
+    "secondary": "eczema",
+    "confidence_2": 0.1569,
+    "tertiary": "acne",
+    "confidence_3": 0.1352
+  },
+  "images/train/psoriasis/psoriasis_00028.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8466,
+    "secondary": "eczema",
+    "confidence_2": 0.1249,
+    "tertiary": "acne",
+    "confidence_3": 0.0285
+  },
+  "images/train/psoriasis/psoriasis_00030.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8933,
+    "secondary": "acne",
+    "confidence_2": 0.0945,
+    "tertiary": "eczema",
+    "confidence_3": 0.0122
+  },
+  "images/train/psoriasis/psoriasis_00031.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.882,
+    "secondary": "eczema",
+    "confidence_2": 0.0602,
+    "tertiary": "acne",
+    "confidence_3": 0.0577
+  },
+  "images/train/psoriasis/psoriasis_00033.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6334,
+    "secondary": "eczema",
+    "confidence_2": 0.2777,
+    "tertiary": "acne",
+    "confidence_3": 0.0889
+  },
+  "images/train/psoriasis/psoriasis_00035.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9549,
+    "secondary": "eczema",
+    "confidence_2": 0.0263,
+    "tertiary": "acne",
+    "confidence_3": 0.0187
+  },
+  "images/train/psoriasis/psoriasis_00036.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9808,
+    "secondary": "eczema",
+    "confidence_2": 0.0131,
+    "tertiary": "acne",
+    "confidence_3": 0.0061
+  },
+  "images/train/psoriasis/psoriasis_00037.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9357,
+    "secondary": "acne",
+    "confidence_2": 0.0495,
+    "tertiary": "eczema",
+    "confidence_3": 0.0148
+  },
+  "images/train/psoriasis/psoriasis_00038.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.682,
+    "secondary": "eczema",
+    "confidence_2": 0.2146,
+    "tertiary": "acne",
+    "confidence_3": 0.1034
+  },
+  "images/train/psoriasis/psoriasis_00039.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7779,
+    "secondary": "acne",
+    "confidence_2": 0.115,
+    "tertiary": "eczema",
+    "confidence_3": 0.1071
+  },
+  "images/train/psoriasis/psoriasis_00041.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7502,
+    "secondary": "eczema",
+    "confidence_2": 0.1419,
+    "tertiary": "acne",
+    "confidence_3": 0.1079
+  },
+  "images/train/psoriasis/psoriasis_00042.jpg": {
+    "primary": "acne",
+    "confidence": 0.4459,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2992,
+    "tertiary": "eczema",
+    "confidence_3": 0.2549
+  },
+  "images/train/psoriasis/psoriasis_00044.jpg": {
+    "primary": "acne",
+    "confidence": 0.434,
+    "secondary": "eczema",
+    "confidence_2": 0.3712,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1948
+  },
+  "images/train/psoriasis/psoriasis_00047.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6524,
+    "secondary": "eczema",
+    "confidence_2": 0.2709,
+    "tertiary": "acne",
+    "confidence_3": 0.0767
+  },
+  "images/train/psoriasis/psoriasis_00048.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9613,
+    "secondary": "acne",
+    "confidence_2": 0.0298,
+    "tertiary": "eczema",
+    "confidence_3": 0.0089
+  },
+  "images/train/psoriasis/psoriasis_00049.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8177,
+    "secondary": "eczema",
+    "confidence_2": 0.153,
+    "tertiary": "acne",
+    "confidence_3": 0.0293
+  },
+  "images/train/psoriasis/psoriasis_00050.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7583,
+    "secondary": "eczema",
+    "confidence_2": 0.1931,
+    "tertiary": "acne",
+    "confidence_3": 0.0486
+  },
+  "images/train/psoriasis/psoriasis_00051.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8275,
+    "secondary": "eczema",
+    "confidence_2": 0.1246,
+    "tertiary": "acne",
+    "confidence_3": 0.0479
+  },
+  "images/train/psoriasis/psoriasis_00052.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.882,
+    "secondary": "eczema",
+    "confidence_2": 0.0779,
+    "tertiary": "acne",
+    "confidence_3": 0.0401
+  },
+  "images/train/psoriasis/psoriasis_00054.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8743,
+    "secondary": "eczema",
+    "confidence_2": 0.0642,
+    "tertiary": "acne",
+    "confidence_3": 0.0614
+  },
+  "images/train/psoriasis/psoriasis_00056.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9298,
+    "secondary": "eczema",
+    "confidence_2": 0.0606,
+    "tertiary": "acne",
+    "confidence_3": 0.0096
+  },
+  "images/train/psoriasis/psoriasis_00059.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9246,
+    "secondary": "eczema",
+    "confidence_2": 0.0716,
+    "tertiary": "acne",
+    "confidence_3": 0.0038
+  },
+  "images/train/psoriasis/psoriasis_00060.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9822,
+    "secondary": "acne",
+    "confidence_2": 0.0136,
+    "tertiary": "eczema",
+    "confidence_3": 0.0042
+  },
+  "images/train/psoriasis/psoriasis_00061.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9841,
+    "secondary": "acne",
+    "confidence_2": 0.0098,
+    "tertiary": "eczema",
+    "confidence_3": 0.0061
+  },
+  "images/train/psoriasis/psoriasis_00063.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8898,
+    "secondary": "eczema",
+    "confidence_2": 0.0735,
+    "tertiary": "acne",
+    "confidence_3": 0.0367
+  },
+  "images/train/psoriasis/psoriasis_00065.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8844,
+    "secondary": "eczema",
+    "confidence_2": 0.0769,
+    "tertiary": "acne",
+    "confidence_3": 0.0387
+  },
+  "images/train/psoriasis/psoriasis_00066.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8224,
+    "secondary": "acne",
+    "confidence_2": 0.1607,
+    "tertiary": "eczema",
+    "confidence_3": 0.0169
+  },
+  "images/train/psoriasis/psoriasis_00067.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9434,
+    "secondary": "eczema",
+    "confidence_2": 0.0357,
+    "tertiary": "acne",
+    "confidence_3": 0.0209
+  },
+  "images/train/psoriasis/psoriasis_00068.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9788,
+    "secondary": "acne",
+    "confidence_2": 0.0169,
+    "tertiary": "eczema",
+    "confidence_3": 0.0043
+  },
+  "images/train/psoriasis/psoriasis_00069.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9493,
+    "secondary": "acne",
+    "confidence_2": 0.0453,
+    "tertiary": "eczema",
+    "confidence_3": 0.0054
+  },
+  "images/train/psoriasis/psoriasis_00070.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9361,
+    "secondary": "eczema",
+    "confidence_2": 0.045,
+    "tertiary": "acne",
+    "confidence_3": 0.0189
+  },
+  "images/train/psoriasis/psoriasis_00071.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9592,
+    "secondary": "eczema",
+    "confidence_2": 0.029,
+    "tertiary": "acne",
+    "confidence_3": 0.0118
+  },
+  "images/train/psoriasis/psoriasis_00072.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9344,
+    "secondary": "eczema",
+    "confidence_2": 0.0438,
+    "tertiary": "acne",
+    "confidence_3": 0.0218
+  },
+  "images/train/psoriasis/psoriasis_00073.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.921,
+    "secondary": "acne",
+    "confidence_2": 0.065,
+    "tertiary": "eczema",
+    "confidence_3": 0.014
+  },
+  "images/train/psoriasis/psoriasis_00074.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8145,
+    "secondary": "acne",
+    "confidence_2": 0.0981,
+    "tertiary": "eczema",
+    "confidence_3": 0.0874
+  },
+  "images/train/psoriasis/psoriasis_00075.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8274,
+    "secondary": "acne",
+    "confidence_2": 0.1181,
+    "tertiary": "eczema",
+    "confidence_3": 0.0545
+  },
+  "images/train/psoriasis/psoriasis_00076.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9213,
+    "secondary": "eczema",
+    "confidence_2": 0.044,
+    "tertiary": "acne",
+    "confidence_3": 0.0347
+  },
+  "images/train/psoriasis/psoriasis_00077.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8429,
+    "secondary": "acne",
+    "confidence_2": 0.0897,
+    "tertiary": "eczema",
+    "confidence_3": 0.0673
+  },
+  "images/train/psoriasis/psoriasis_00078.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8741,
+    "secondary": "acne",
+    "confidence_2": 0.0783,
+    "tertiary": "eczema",
+    "confidence_3": 0.0476
+  },
+  "images/train/psoriasis/psoriasis_00080.jpg": {
+    "primary": "acne",
+    "confidence": 0.5719,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3866,
+    "tertiary": "eczema",
+    "confidence_3": 0.0415
+  },
+  "images/train/psoriasis/psoriasis_00082.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9671,
+    "secondary": "acne",
+    "confidence_2": 0.0258,
+    "tertiary": "eczema",
+    "confidence_3": 0.0071
+  },
+  "images/train/psoriasis/psoriasis_00083.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6123,
+    "secondary": "acne",
+    "confidence_2": 0.3017,
+    "tertiary": "eczema",
+    "confidence_3": 0.086
+  },
+  "images/train/psoriasis/psoriasis_00086.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.757,
+    "secondary": "acne",
+    "confidence_2": 0.1541,
+    "tertiary": "eczema",
+    "confidence_3": 0.0889
+  },
+  "images/train/psoriasis/psoriasis_00087.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9611,
+    "secondary": "acne",
+    "confidence_2": 0.0261,
+    "tertiary": "eczema",
+    "confidence_3": 0.0128
+  },
+  "images/train/psoriasis/psoriasis_00088.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6943,
+    "secondary": "acne",
+    "confidence_2": 0.186,
+    "tertiary": "eczema",
+    "confidence_3": 0.1197
+  },
+  "images/train/psoriasis/psoriasis_00090.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9301,
+    "secondary": "eczema",
+    "confidence_2": 0.038,
+    "tertiary": "acne",
+    "confidence_3": 0.0319
+  },
+  "images/train/psoriasis/psoriasis_00091.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9869,
+    "secondary": "eczema",
+    "confidence_2": 0.0088,
+    "tertiary": "acne",
+    "confidence_3": 0.0043
+  },
+  "images/train/psoriasis/psoriasis_00092.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9814,
+    "secondary": "eczema",
+    "confidence_2": 0.0101,
+    "tertiary": "acne",
+    "confidence_3": 0.0084
+  },
+  "images/train/psoriasis/psoriasis_00093.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9336,
+    "secondary": "eczema",
+    "confidence_2": 0.0382,
+    "tertiary": "acne",
+    "confidence_3": 0.0282
+  },
+  "images/train/psoriasis/psoriasis_00094.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8806,
+    "secondary": "eczema",
+    "confidence_2": 0.1086,
+    "tertiary": "acne",
+    "confidence_3": 0.0108
+  },
+  "images/train/psoriasis/psoriasis_00095.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.915,
+    "secondary": "eczema",
+    "confidence_2": 0.0452,
+    "tertiary": "acne",
+    "confidence_3": 0.0398
+  },
+  "images/train/psoriasis/psoriasis_00096.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8917,
+    "secondary": "eczema",
+    "confidence_2": 0.0789,
+    "tertiary": "acne",
+    "confidence_3": 0.0295
+  },
+  "images/train/psoriasis/psoriasis_00099.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8033,
+    "secondary": "eczema",
+    "confidence_2": 0.1374,
+    "tertiary": "acne",
+    "confidence_3": 0.0594
+  },
+  "images/train/psoriasis/psoriasis_00100.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8275,
+    "secondary": "acne",
+    "confidence_2": 0.1456,
+    "tertiary": "eczema",
+    "confidence_3": 0.0268
+  },
+  "images/train/psoriasis/psoriasis_00101.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5085,
+    "secondary": "acne",
+    "confidence_2": 0.2655,
+    "tertiary": "eczema",
+    "confidence_3": 0.2261
+  },
+  "images/train/psoriasis/psoriasis_00102.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8672,
+    "secondary": "acne",
+    "confidence_2": 0.0855,
+    "tertiary": "eczema",
+    "confidence_3": 0.0473
+  },
+  "images/train/psoriasis/psoriasis_00103.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7134,
+    "secondary": "eczema",
+    "confidence_2": 0.1909,
+    "tertiary": "acne",
+    "confidence_3": 0.0957
+  },
+  "images/train/psoriasis/psoriasis_00105.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9624,
+    "secondary": "acne",
+    "confidence_2": 0.0278,
+    "tertiary": "eczema",
+    "confidence_3": 0.0097
+  },
+  "images/train/psoriasis/psoriasis_00106.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.951,
+    "secondary": "acne",
+    "confidence_2": 0.0328,
+    "tertiary": "eczema",
+    "confidence_3": 0.0162
+  },
+  "images/train/psoriasis/psoriasis_00107.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9276,
+    "secondary": "acne",
+    "confidence_2": 0.0583,
+    "tertiary": "eczema",
+    "confidence_3": 0.0142
+  },
+  "images/train/psoriasis/psoriasis_00109.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9516,
+    "secondary": "acne",
+    "confidence_2": 0.028,
+    "tertiary": "eczema",
+    "confidence_3": 0.0203
+  },
+  "images/train/psoriasis/psoriasis_00110.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9773,
+    "secondary": "acne",
+    "confidence_2": 0.0141,
+    "tertiary": "eczema",
+    "confidence_3": 0.0086
+  },
+  "images/train/psoriasis/psoriasis_00111.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8303,
+    "secondary": "eczema",
+    "confidence_2": 0.1153,
+    "tertiary": "acne",
+    "confidence_3": 0.0544
+  },
+  "images/train/psoriasis/psoriasis_00112.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8557,
+    "secondary": "eczema",
+    "confidence_2": 0.1273,
+    "tertiary": "acne",
+    "confidence_3": 0.017
+  },
+  "images/train/psoriasis/psoriasis_00113.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.849,
+    "secondary": "acne",
+    "confidence_2": 0.1039,
+    "tertiary": "eczema",
+    "confidence_3": 0.047
+  },
+  "images/train/psoriasis/psoriasis_00115.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9442,
+    "secondary": "acne",
+    "confidence_2": 0.0348,
+    "tertiary": "eczema",
+    "confidence_3": 0.0211
+  },
+  "images/train/psoriasis/psoriasis_00119.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9537,
+    "secondary": "eczema",
+    "confidence_2": 0.0282,
+    "tertiary": "acne",
+    "confidence_3": 0.0181
+  },
+  "images/train/psoriasis/psoriasis_00120.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.807,
+    "secondary": "acne",
+    "confidence_2": 0.1365,
+    "tertiary": "eczema",
+    "confidence_3": 0.0565
+  },
+  "images/train/psoriasis/psoriasis_00122.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9823,
+    "secondary": "eczema",
+    "confidence_2": 0.0104,
+    "tertiary": "acne",
+    "confidence_3": 0.0073
+  },
+  "images/train/psoriasis/psoriasis_00123.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9224,
+    "secondary": "acne",
+    "confidence_2": 0.0716,
+    "tertiary": "eczema",
+    "confidence_3": 0.0061
+  },
+  "images/train/psoriasis/psoriasis_00124.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9019,
+    "secondary": "acne",
+    "confidence_2": 0.064,
+    "tertiary": "eczema",
+    "confidence_3": 0.0341
+  },
+  "images/train/psoriasis/psoriasis_00126.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8643,
+    "secondary": "acne",
+    "confidence_2": 0.0999,
+    "tertiary": "eczema",
+    "confidence_3": 0.0358
+  },
+  "images/train/psoriasis/psoriasis_00127.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9793,
+    "secondary": "acne",
+    "confidence_2": 0.0128,
+    "tertiary": "eczema",
+    "confidence_3": 0.0079
+  },
+  "images/train/psoriasis/psoriasis_00128.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9597,
+    "secondary": "acne",
+    "confidence_2": 0.0209,
+    "tertiary": "eczema",
+    "confidence_3": 0.0193
+  },
+  "images/train/psoriasis/psoriasis_00129.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5576,
+    "secondary": "acne",
+    "confidence_2": 0.4055,
+    "tertiary": "eczema",
+    "confidence_3": 0.0369
+  },
+  "images/train/psoriasis/psoriasis_00130.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8506,
+    "secondary": "eczema",
+    "confidence_2": 0.0939,
+    "tertiary": "acne",
+    "confidence_3": 0.0554
+  },
+  "images/train/psoriasis/psoriasis_00131.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6666,
+    "secondary": "acne",
+    "confidence_2": 0.1934,
+    "tertiary": "eczema",
+    "confidence_3": 0.14
+  },
+  "images/train/psoriasis/psoriasis_00132.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5623,
+    "secondary": "acne",
+    "confidence_2": 0.3119,
+    "tertiary": "eczema",
+    "confidence_3": 0.1258
+  },
+  "images/train/psoriasis/psoriasis_00134.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7668,
+    "secondary": "acne",
+    "confidence_2": 0.1421,
+    "tertiary": "eczema",
+    "confidence_3": 0.0911
+  },
+  "images/train/psoriasis/psoriasis_00136.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8598,
+    "secondary": "acne",
+    "confidence_2": 0.1136,
+    "tertiary": "eczema",
+    "confidence_3": 0.0266
+  },
+  "images/train/psoriasis/psoriasis_00137.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6157,
+    "secondary": "acne",
+    "confidence_2": 0.2959,
+    "tertiary": "eczema",
+    "confidence_3": 0.0885
+  },
+  "images/train/psoriasis/psoriasis_00138.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9197,
+    "secondary": "acne",
+    "confidence_2": 0.0594,
+    "tertiary": "eczema",
+    "confidence_3": 0.0209
+  },
+  "images/train/psoriasis/psoriasis_00139.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8458,
+    "secondary": "acne",
+    "confidence_2": 0.124,
+    "tertiary": "eczema",
+    "confidence_3": 0.0302
+  },
+  "images/train/psoriasis/psoriasis_00141.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.679,
+    "secondary": "acne",
+    "confidence_2": 0.2448,
+    "tertiary": "eczema",
+    "confidence_3": 0.0762
+  },
+  "images/train/psoriasis/psoriasis_00149.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9862,
+    "secondary": "acne",
+    "confidence_2": 0.0111,
+    "tertiary": "eczema",
+    "confidence_3": 0.0027
+  },
+  "images/train/psoriasis/psoriasis_00150.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9614,
+    "secondary": "acne",
+    "confidence_2": 0.0281,
+    "tertiary": "eczema",
+    "confidence_3": 0.0104
+  },
+  "images/train/psoriasis/psoriasis_00151.jpg": {
+    "primary": "acne",
+    "confidence": 0.5114,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3974,
+    "tertiary": "eczema",
+    "confidence_3": 0.0912
+  },
+  "images/train/psoriasis/psoriasis_00153.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9537,
+    "secondary": "acne",
+    "confidence_2": 0.0352,
+    "tertiary": "eczema",
+    "confidence_3": 0.0111
+  },
+  "images/train/psoriasis/psoriasis_00154.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9932,
+    "secondary": "acne",
+    "confidence_2": 0.0058,
+    "tertiary": "eczema",
+    "confidence_3": 0.001
+  },
+  "images/train/psoriasis/psoriasis_00157.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9849,
+    "secondary": "acne",
+    "confidence_2": 0.0116,
+    "tertiary": "eczema",
+    "confidence_3": 0.0035
+  },
+  "images/train/psoriasis/psoriasis_00158.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.935,
+    "secondary": "acne",
+    "confidence_2": 0.0419,
+    "tertiary": "eczema",
+    "confidence_3": 0.0231
+  },
+  "images/train/psoriasis/psoriasis_00161.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9596,
+    "secondary": "acne",
+    "confidence_2": 0.0317,
+    "tertiary": "eczema",
+    "confidence_3": 0.0087
+  },
+  "images/train/psoriasis/psoriasis_00162.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7647,
+    "secondary": "acne",
+    "confidence_2": 0.1509,
+    "tertiary": "eczema",
+    "confidence_3": 0.0844
+  },
+  "images/train/psoriasis/psoriasis_00164.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9105,
+    "secondary": "eczema",
+    "confidence_2": 0.046,
+    "tertiary": "acne",
+    "confidence_3": 0.0435
+  },
+  "images/train/psoriasis/psoriasis_00165.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7831,
+    "secondary": "acne",
+    "confidence_2": 0.1733,
+    "tertiary": "eczema",
+    "confidence_3": 0.0436
+  },
+  "images/train/psoriasis/psoriasis_00166.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9634,
+    "secondary": "eczema",
+    "confidence_2": 0.026,
+    "tertiary": "acne",
+    "confidence_3": 0.0106
+  },
+  "images/train/psoriasis/psoriasis_00167.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8053,
+    "secondary": "acne",
+    "confidence_2": 0.1433,
+    "tertiary": "eczema",
+    "confidence_3": 0.0514
+  },
+  "images/train/psoriasis/psoriasis_00168.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9966,
+    "secondary": "acne",
+    "confidence_2": 0.0023,
+    "tertiary": "eczema",
+    "confidence_3": 0.0011
+  },
+  "images/train/psoriasis/psoriasis_00169.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9318,
+    "secondary": "acne",
+    "confidence_2": 0.057,
+    "tertiary": "eczema",
+    "confidence_3": 0.0113
+  },
+  "images/train/psoriasis/psoriasis_00170.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9801,
+    "secondary": "acne",
+    "confidence_2": 0.0122,
+    "tertiary": "eczema",
+    "confidence_3": 0.0078
+  },
+  "images/train/psoriasis/psoriasis_00171.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9762,
+    "secondary": "eczema",
+    "confidence_2": 0.0209,
+    "tertiary": "acne",
+    "confidence_3": 0.0029
+  },
+  "images/train/psoriasis/psoriasis_00173.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8046,
+    "secondary": "acne",
+    "confidence_2": 0.1252,
+    "tertiary": "eczema",
+    "confidence_3": 0.0702
+  },
+  "images/train/psoriasis/psoriasis_00174.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.611,
+    "secondary": "acne",
+    "confidence_2": 0.2771,
+    "tertiary": "eczema",
+    "confidence_3": 0.1119
+  },
+  "images/train/psoriasis/psoriasis_00175.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9257,
+    "secondary": "acne",
+    "confidence_2": 0.0568,
+    "tertiary": "eczema",
+    "confidence_3": 0.0174
+  },
+  "images/train/psoriasis/psoriasis_00178.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7161,
+    "secondary": "eczema",
+    "confidence_2": 0.2584,
+    "tertiary": "acne",
+    "confidence_3": 0.0254
+  },
+  "images/train/psoriasis/psoriasis_00179.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6395,
+    "secondary": "acne",
+    "confidence_2": 0.2933,
+    "tertiary": "eczema",
+    "confidence_3": 0.0672
+  },
+  "images/train/psoriasis/psoriasis_00180.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5046,
+    "secondary": "eczema",
+    "confidence_2": 0.3461,
+    "tertiary": "acne",
+    "confidence_3": 0.1493
+  },
+  "images/train/psoriasis/psoriasis_00181.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9113,
+    "secondary": "eczema",
+    "confidence_2": 0.0628,
+    "tertiary": "acne",
+    "confidence_3": 0.026
+  },
+  "images/train/psoriasis/psoriasis_00182.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.967,
+    "secondary": "eczema",
+    "confidence_2": 0.0197,
+    "tertiary": "acne",
+    "confidence_3": 0.0133
+  },
+  "images/train/psoriasis/psoriasis_00183.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9671,
+    "secondary": "acne",
+    "confidence_2": 0.0211,
+    "tertiary": "eczema",
+    "confidence_3": 0.0118
+  },
+  "images/train/psoriasis/psoriasis_00184.jpg": {
+    "primary": "acne",
+    "confidence": 0.5372,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3904,
+    "tertiary": "eczema",
+    "confidence_3": 0.0724
+  },
+  "images/train/psoriasis/psoriasis_00186.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7471,
+    "secondary": "eczema",
+    "confidence_2": 0.2292,
+    "tertiary": "acne",
+    "confidence_3": 0.0237
+  },
+  "images/train/psoriasis/psoriasis_00187.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.579,
+    "secondary": "eczema",
+    "confidence_2": 0.2979,
+    "tertiary": "acne",
+    "confidence_3": 0.1231
+  },
+  "images/train/psoriasis/psoriasis_00188.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7305,
+    "secondary": "acne",
+    "confidence_2": 0.1436,
+    "tertiary": "eczema",
+    "confidence_3": 0.1259
+  },
+  "images/train/psoriasis/psoriasis_00192.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9036,
+    "secondary": "eczema",
+    "confidence_2": 0.0662,
+    "tertiary": "acne",
+    "confidence_3": 0.0302
+  },
+  "images/train/psoriasis/psoriasis_00194.jpg": {
+    "primary": "acne",
+    "confidence": 0.4338,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4293,
+    "tertiary": "eczema",
+    "confidence_3": 0.1369
+  },
+  "images/train/psoriasis/psoriasis_00195.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4286,
+    "secondary": "eczema",
+    "confidence_2": 0.3313,
+    "tertiary": "acne",
+    "confidence_3": 0.2401
+  },
+  "images/train/psoriasis/psoriasis_00197.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9019,
+    "secondary": "acne",
+    "confidence_2": 0.088,
+    "tertiary": "eczema",
+    "confidence_3": 0.0101
+  },
+  "images/train/psoriasis/psoriasis_00198.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6337,
+    "secondary": "eczema",
+    "confidence_2": 0.3231,
+    "tertiary": "acne",
+    "confidence_3": 0.0432
+  },
+  "images/train/psoriasis/psoriasis_00199.jpg": {
+    "primary": "acne",
+    "confidence": 0.4948,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3747,
+    "tertiary": "eczema",
+    "confidence_3": 0.1305
+  },
+  "images/train/psoriasis/psoriasis_00201.jpg": {
+    "primary": "eczema",
+    "confidence": 0.3765,
+    "secondary": "acne",
+    "confidence_2": 0.3749,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.2486
+  },
+  "images/train/psoriasis/psoriasis_00203.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4971,
+    "secondary": "acne",
+    "confidence_2": 0.4096,
+    "tertiary": "eczema",
+    "confidence_3": 0.0934
+  },
+  "images/train/psoriasis/psoriasis_00205.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9171,
+    "secondary": "acne",
+    "confidence_2": 0.0553,
+    "tertiary": "eczema",
+    "confidence_3": 0.0276
+  },
+  "images/train/psoriasis/psoriasis_00206.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9084,
+    "secondary": "acne",
+    "confidence_2": 0.0582,
+    "tertiary": "eczema",
+    "confidence_3": 0.0335
+  },
+  "images/train/psoriasis/psoriasis_00207.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5302,
+    "secondary": "eczema",
+    "confidence_2": 0.3466,
+    "tertiary": "acne",
+    "confidence_3": 0.1232
+  },
+  "images/train/psoriasis/psoriasis_00208.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5123,
+    "secondary": "eczema",
+    "confidence_2": 0.4065,
+    "tertiary": "acne",
+    "confidence_3": 0.0813
+  },
+  "images/train/psoriasis/psoriasis_00209.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4849,
+    "secondary": "psoriasis",
+    "confidence_2": 0.444,
+    "tertiary": "acne",
+    "confidence_3": 0.0711
+  },
+  "images/train/psoriasis/psoriasis_00210.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6411,
+    "secondary": "eczema",
+    "confidence_2": 0.2806,
+    "tertiary": "acne",
+    "confidence_3": 0.0783
+  },
+  "images/train/psoriasis/psoriasis_00213.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8075,
+    "secondary": "acne",
+    "confidence_2": 0.1481,
+    "tertiary": "eczema",
+    "confidence_3": 0.0443
+  },
+  "images/train/psoriasis/psoriasis_00214.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8042,
+    "secondary": "eczema",
+    "confidence_2": 0.1302,
+    "tertiary": "acne",
+    "confidence_3": 0.0657
+  },
+  "images/train/psoriasis/psoriasis_00215.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4987,
+    "secondary": "acne",
+    "confidence_2": 0.4623,
+    "tertiary": "eczema",
+    "confidence_3": 0.039
+  },
+  "images/train/psoriasis/psoriasis_00217.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5267,
+    "secondary": "acne",
+    "confidence_2": 0.4487,
+    "tertiary": "eczema",
+    "confidence_3": 0.0246
+  },
+  "images/train/psoriasis/psoriasis_00218.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7837,
+    "secondary": "acne",
+    "confidence_2": 0.1757,
+    "tertiary": "eczema",
+    "confidence_3": 0.0406
+  },
+  "images/train/psoriasis/psoriasis_00220.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8606,
+    "secondary": "eczema",
+    "confidence_2": 0.0934,
+    "tertiary": "acne",
+    "confidence_3": 0.046
+  },
+  "images/train/psoriasis/psoriasis_00221.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8403,
+    "secondary": "acne",
+    "confidence_2": 0.1014,
+    "tertiary": "eczema",
+    "confidence_3": 0.0583
+  },
+  "images/train/psoriasis/psoriasis_00222.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.806,
+    "secondary": "acne",
+    "confidence_2": 0.1432,
+    "tertiary": "eczema",
+    "confidence_3": 0.0508
+  },
+  "images/train/psoriasis/psoriasis_00224.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8374,
+    "secondary": "acne",
+    "confidence_2": 0.1282,
+    "tertiary": "eczema",
+    "confidence_3": 0.0344
+  },
+  "images/train/psoriasis/psoriasis_00225.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8739,
+    "secondary": "eczema",
+    "confidence_2": 0.0711,
+    "tertiary": "acne",
+    "confidence_3": 0.0549
+  },
+  "images/train/psoriasis/psoriasis_00229.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8941,
+    "secondary": "acne",
+    "confidence_2": 0.0604,
+    "tertiary": "eczema",
+    "confidence_3": 0.0455
+  },
+  "images/train/psoriasis/psoriasis_00230.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9849,
+    "secondary": "acne",
+    "confidence_2": 0.0105,
+    "tertiary": "eczema",
+    "confidence_3": 0.0046
+  },
+  "images/train/psoriasis/psoriasis_00231.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8586,
+    "secondary": "eczema",
+    "confidence_2": 0.0986,
+    "tertiary": "acne",
+    "confidence_3": 0.0428
+  },
+  "images/train/psoriasis/psoriasis_00233.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9888,
+    "secondary": "acne",
+    "confidence_2": 0.0073,
+    "tertiary": "eczema",
+    "confidence_3": 0.0039
+  },
+  "images/train/psoriasis/psoriasis_00234.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9839,
+    "secondary": "acne",
+    "confidence_2": 0.0133,
+    "tertiary": "eczema",
+    "confidence_3": 0.0028
+  },
+  "images/train/psoriasis/psoriasis_00235.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9152,
+    "secondary": "acne",
+    "confidence_2": 0.0517,
+    "tertiary": "eczema",
+    "confidence_3": 0.0331
+  },
+  "images/train/psoriasis/psoriasis_00236.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7571,
+    "secondary": "acne",
+    "confidence_2": 0.1659,
+    "tertiary": "eczema",
+    "confidence_3": 0.077
+  },
+  "images/train/psoriasis/psoriasis_00237.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8521,
+    "secondary": "eczema",
+    "confidence_2": 0.1,
+    "tertiary": "acne",
+    "confidence_3": 0.0479
+  },
+  "images/train/psoriasis/psoriasis_00238.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8126,
+    "secondary": "eczema",
+    "confidence_2": 0.1303,
+    "tertiary": "acne",
+    "confidence_3": 0.0572
+  },
+  "images/train/psoriasis/psoriasis_00240.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4597,
+    "secondary": "eczema",
+    "confidence_2": 0.4457,
+    "tertiary": "acne",
+    "confidence_3": 0.0946
+  },
+  "images/train/psoriasis/psoriasis_00241.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5646,
+    "secondary": "acne",
+    "confidence_2": 0.429,
+    "tertiary": "eczema",
+    "confidence_3": 0.0064
+  },
+  "images/train/psoriasis/psoriasis_00242.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.931,
+    "secondary": "acne",
+    "confidence_2": 0.0514,
+    "tertiary": "eczema",
+    "confidence_3": 0.0176
+  },
+  "images/train/psoriasis/psoriasis_00243.jpg": {
+    "primary": "acne",
+    "confidence": 0.6111,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3602,
+    "tertiary": "eczema",
+    "confidence_3": 0.0287
+  },
+  "images/train/psoriasis/psoriasis_00245.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8191,
+    "secondary": "acne",
+    "confidence_2": 0.1241,
+    "tertiary": "eczema",
+    "confidence_3": 0.0568
+  },
+  "images/train/psoriasis/psoriasis_00246.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4936,
+    "secondary": "acne",
+    "confidence_2": 0.4345,
+    "tertiary": "eczema",
+    "confidence_3": 0.0719
+  },
+  "images/train/psoriasis/psoriasis_00247.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8519,
+    "secondary": "eczema",
+    "confidence_2": 0.1349,
+    "tertiary": "acne",
+    "confidence_3": 0.0132
+  },
+  "images/train/psoriasis/psoriasis_00248.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9029,
+    "secondary": "acne",
+    "confidence_2": 0.085,
+    "tertiary": "eczema",
+    "confidence_3": 0.0121
+  },
+  "images/train/psoriasis/psoriasis_00249.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8047,
+    "secondary": "acne",
+    "confidence_2": 0.1391,
+    "tertiary": "eczema",
+    "confidence_3": 0.0562
+  },
+  "images/train/psoriasis/psoriasis_00250.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5024,
+    "secondary": "acne",
+    "confidence_2": 0.4704,
+    "tertiary": "eczema",
+    "confidence_3": 0.0272
+  },
+  "images/train/psoriasis/psoriasis_00253.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8704,
+    "secondary": "acne",
+    "confidence_2": 0.0724,
+    "tertiary": "eczema",
+    "confidence_3": 0.0572
+  },
+  "images/train/psoriasis/psoriasis_00254.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7351,
+    "secondary": "eczema",
+    "confidence_2": 0.1661,
+    "tertiary": "acne",
+    "confidence_3": 0.0989
+  },
+  "images/train/psoriasis/psoriasis_00256.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6066,
+    "secondary": "acne",
+    "confidence_2": 0.3552,
+    "tertiary": "eczema",
+    "confidence_3": 0.0382
+  },
+  "images/train/psoriasis/psoriasis_00257.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9163,
+    "secondary": "eczema",
+    "confidence_2": 0.067,
+    "tertiary": "acne",
+    "confidence_3": 0.0168
+  },
+  "images/train/psoriasis/psoriasis_00260.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9008,
+    "secondary": "eczema",
+    "confidence_2": 0.0847,
+    "tertiary": "acne",
+    "confidence_3": 0.0145
+  },
+  "images/train/psoriasis/psoriasis_00262.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8966,
+    "secondary": "acne",
+    "confidence_2": 0.0577,
+    "tertiary": "eczema",
+    "confidence_3": 0.0457
+  },
+  "images/train/psoriasis/psoriasis_00263.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7549,
+    "secondary": "eczema",
+    "confidence_2": 0.2181,
+    "tertiary": "acne",
+    "confidence_3": 0.0269
+  },
+  "images/train/psoriasis/psoriasis_00264.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9371,
+    "secondary": "eczema",
+    "confidence_2": 0.0334,
+    "tertiary": "acne",
+    "confidence_3": 0.0295
+  },
+  "images/train/psoriasis/psoriasis_00265.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7987,
+    "secondary": "eczema",
+    "confidence_2": 0.1267,
+    "tertiary": "acne",
+    "confidence_3": 0.0746
+  },
+  "images/train/psoriasis/psoriasis_00266.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.857,
+    "secondary": "acne",
+    "confidence_2": 0.1001,
+    "tertiary": "eczema",
+    "confidence_3": 0.0429
+  },
+  "images/train/psoriasis/psoriasis_00267.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7302,
+    "secondary": "eczema",
+    "confidence_2": 0.2486,
+    "tertiary": "acne",
+    "confidence_3": 0.0212
+  },
+  "images/train/psoriasis/psoriasis_00268.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5886,
+    "secondary": "acne",
+    "confidence_2": 0.3327,
+    "tertiary": "eczema",
+    "confidence_3": 0.0787
+  },
+  "images/train/psoriasis/psoriasis_00269.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5076,
+    "secondary": "eczema",
+    "confidence_2": 0.2853,
+    "tertiary": "acne",
+    "confidence_3": 0.2071
+  },
+  "images/train/psoriasis/psoriasis_00270.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9355,
+    "secondary": "eczema",
+    "confidence_2": 0.0554,
+    "tertiary": "acne",
+    "confidence_3": 0.0091
+  },
+  "images/train/psoriasis/psoriasis_00273.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.897,
+    "secondary": "acne",
+    "confidence_2": 0.0844,
+    "tertiary": "eczema",
+    "confidence_3": 0.0186
+  },
+  "images/train/psoriasis/psoriasis_00274.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7325,
+    "secondary": "acne",
+    "confidence_2": 0.2417,
+    "tertiary": "eczema",
+    "confidence_3": 0.0258
+  },
+  "images/train/psoriasis/psoriasis_00275.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6428,
+    "secondary": "acne",
+    "confidence_2": 0.3267,
+    "tertiary": "eczema",
+    "confidence_3": 0.0305
+  },
+  "images/train/psoriasis/psoriasis_00276.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9242,
+    "secondary": "eczema",
+    "confidence_2": 0.0424,
+    "tertiary": "acne",
+    "confidence_3": 0.0334
+  },
+  "images/train/psoriasis/psoriasis_00277.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.864,
+    "secondary": "acne",
+    "confidence_2": 0.0781,
+    "tertiary": "eczema",
+    "confidence_3": 0.0579
+  },
+  "images/train/psoriasis/psoriasis_00278.jpg": {
+    "primary": "eczema",
+    "confidence": 0.3914,
+    "secondary": "acne",
+    "confidence_2": 0.3838,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.2248
+  },
+  "images/train/psoriasis/psoriasis_00279.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8424,
+    "secondary": "eczema",
+    "confidence_2": 0.0897,
+    "tertiary": "acne",
+    "confidence_3": 0.0679
+  },
+  "images/train/psoriasis/psoriasis_00280.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8346,
+    "secondary": "eczema",
+    "confidence_2": 0.1089,
+    "tertiary": "acne",
+    "confidence_3": 0.0564
+  },
+  "images/train/psoriasis/psoriasis_00282.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7479,
+    "secondary": "acne",
+    "confidence_2": 0.1514,
+    "tertiary": "eczema",
+    "confidence_3": 0.1007
+  },
+  "images/train/psoriasis/psoriasis_00283.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8329,
+    "secondary": "acne",
+    "confidence_2": 0.1198,
+    "tertiary": "eczema",
+    "confidence_3": 0.0473
+  },
+  "images/train/psoriasis/psoriasis_00284.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8798,
+    "secondary": "acne",
+    "confidence_2": 0.0662,
+    "tertiary": "eczema",
+    "confidence_3": 0.0539
+  },
+  "images/train/psoriasis/psoriasis_00286.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8127,
+    "secondary": "acne",
+    "confidence_2": 0.1106,
+    "tertiary": "eczema",
+    "confidence_3": 0.0766
+  },
+  "images/train/psoriasis/psoriasis_00287.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9373,
+    "secondary": "acne",
+    "confidence_2": 0.0325,
+    "tertiary": "eczema",
+    "confidence_3": 0.0302
+  },
+  "images/train/psoriasis/psoriasis_00288.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7916,
+    "secondary": "eczema",
+    "confidence_2": 0.1086,
+    "tertiary": "acne",
+    "confidence_3": 0.0999
+  },
+  "images/train/psoriasis/psoriasis_00289.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7798,
+    "secondary": "eczema",
+    "confidence_2": 0.1581,
+    "tertiary": "acne",
+    "confidence_3": 0.0621
+  },
+  "images/train/psoriasis/psoriasis_00290.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8234,
+    "secondary": "eczema",
+    "confidence_2": 0.1075,
+    "tertiary": "acne",
+    "confidence_3": 0.0692
+  },
+  "images/train/psoriasis/psoriasis_00291.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8058,
+    "secondary": "eczema",
+    "confidence_2": 0.1297,
+    "tertiary": "acne",
+    "confidence_3": 0.0645
+  },
+  "images/train/psoriasis/psoriasis_00292.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8217,
+    "secondary": "eczema",
+    "confidence_2": 0.1024,
+    "tertiary": "acne",
+    "confidence_3": 0.0759
+  },
+  "images/train/psoriasis/psoriasis_00293.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4871,
+    "secondary": "acne",
+    "confidence_2": 0.3202,
+    "tertiary": "eczema",
+    "confidence_3": 0.1927
+  },
+  "images/train/psoriasis/psoriasis_00295.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.746,
+    "secondary": "eczema",
+    "confidence_2": 0.2191,
+    "tertiary": "acne",
+    "confidence_3": 0.035
+  },
+  "images/train/psoriasis/psoriasis_00296.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5593,
+    "secondary": "acne",
+    "confidence_2": 0.3188,
+    "tertiary": "eczema",
+    "confidence_3": 0.1219
+  },
+  "images/train/psoriasis/psoriasis_00298.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9689,
+    "secondary": "acne",
+    "confidence_2": 0.0272,
+    "tertiary": "eczema",
+    "confidence_3": 0.0038
+  },
+  "images/train/psoriasis/psoriasis_00299.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5649,
+    "secondary": "eczema",
+    "confidence_2": 0.4063,
+    "tertiary": "acne",
+    "confidence_3": 0.0288
+  },
+  "images/train/psoriasis/psoriasis_00300.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6682,
+    "secondary": "eczema",
+    "confidence_2": 0.2791,
+    "tertiary": "acne",
+    "confidence_3": 0.0527
+  },
+  "images/train/psoriasis/psoriasis_00302.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5305,
+    "secondary": "acne",
+    "confidence_2": 0.4265,
+    "tertiary": "eczema",
+    "confidence_3": 0.043
+  },
+  "images/train/psoriasis/psoriasis_00304.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8088,
+    "secondary": "eczema",
+    "confidence_2": 0.1251,
+    "tertiary": "acne",
+    "confidence_3": 0.0661
+  },
+  "images/validation/acne/acne_00020.jpg": {
+    "primary": "acne",
+    "confidence": 0.954,
+    "secondary": "eczema",
+    "confidence_2": 0.0419,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0041
+  },
+  "images/validation/acne/acne_00040.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5441,
+    "secondary": "acne",
+    "confidence_2": 0.3972,
+    "tertiary": "eczema",
+    "confidence_3": 0.0587
+  },
+  "images/validation/acne/acne_00043.jpg": {
+    "primary": "acne",
+    "confidence": 0.9399,
+    "secondary": "eczema",
+    "confidence_2": 0.0552,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.005
+  },
+  "images/validation/acne/acne_00049.jpg": {
+    "primary": "acne",
+    "confidence": 0.9202,
+    "secondary": "eczema",
+    "confidence_2": 0.0737,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0061
+  },
+  "images/validation/acne/acne_00050.jpg": {
+    "primary": "acne",
+    "confidence": 0.6638,
+    "secondary": "eczema",
+    "confidence_2": 0.1848,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1514
+  },
+  "images/validation/acne/acne_00058.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4149,
+    "secondary": "acne",
+    "confidence_2": 0.3164,
+    "tertiary": "eczema",
+    "confidence_3": 0.2688
+  },
+  "images/validation/acne/acne_00062.jpg": {
+    "primary": "acne",
+    "confidence": 0.8324,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1089,
+    "tertiary": "eczema",
+    "confidence_3": 0.0587
+  },
+  "images/validation/acne/acne_00064.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5472,
+    "secondary": "acne",
+    "confidence_2": 0.301,
+    "tertiary": "eczema",
+    "confidence_3": 0.1518
+  },
+  "images/validation/acne/acne_00071.jpg": {
+    "primary": "acne",
+    "confidence": 0.4257,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4189,
+    "tertiary": "eczema",
+    "confidence_3": 0.1554
+  },
+  "images/validation/acne/acne_00081.jpg": {
+    "primary": "acne",
+    "confidence": 0.7779,
+    "secondary": "eczema",
+    "confidence_2": 0.188,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0342
+  },
+  "images/validation/acne/acne_00091.jpg": {
+    "primary": "acne",
+    "confidence": 0.8282,
+    "secondary": "eczema",
+    "confidence_2": 0.1289,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0429
+  },
+  "images/validation/acne/acne_00102.jpg": {
+    "primary": "acne",
+    "confidence": 0.8805,
+    "secondary": "eczema",
+    "confidence_2": 0.097,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0226
+  },
+  "images/validation/acne/acne_00105.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5571,
+    "secondary": "acne",
+    "confidence_2": 0.3383,
+    "tertiary": "eczema",
+    "confidence_3": 0.1046
+  },
+  "images/validation/acne/acne_00110.jpg": {
+    "primary": "acne",
+    "confidence": 0.5158,
+    "secondary": "eczema",
+    "confidence_2": 0.2956,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1885
+  },
+  "images/validation/acne/acne_00123.jpg": {
+    "primary": "acne",
+    "confidence": 0.5304,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3849,
+    "tertiary": "eczema",
+    "confidence_3": 0.0846
+  },
+  "images/validation/acne/acne_00128.jpg": {
+    "primary": "acne",
+    "confidence": 0.7787,
+    "secondary": "eczema",
+    "confidence_2": 0.1306,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0908
+  },
+  "images/validation/acne/acne_00130.jpg": {
+    "primary": "acne",
+    "confidence": 0.8373,
+    "secondary": "eczema",
+    "confidence_2": 0.1124,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0503
+  },
+  "images/validation/acne/acne_00135.jpg": {
+    "primary": "acne",
+    "confidence": 0.9426,
+    "secondary": "eczema",
+    "confidence_2": 0.0546,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0028
+  },
+  "images/validation/acne/acne_00160.jpg": {
+    "primary": "acne",
+    "confidence": 0.8163,
+    "secondary": "eczema",
+    "confidence_2": 0.1599,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0237
+  },
+  "images/validation/acne/acne_00161.jpg": {
+    "primary": "acne",
+    "confidence": 0.7816,
+    "secondary": "psoriasis",
+    "confidence_2": 0.162,
+    "tertiary": "eczema",
+    "confidence_3": 0.0564
+  },
+  "images/validation/acne/acne_00174.jpg": {
+    "primary": "acne",
+    "confidence": 0.8175,
+    "secondary": "eczema",
+    "confidence_2": 0.1701,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0124
+  },
+  "images/validation/acne/acne_00187.jpg": {
+    "primary": "acne",
+    "confidence": 0.8093,
+    "secondary": "eczema",
+    "confidence_2": 0.1116,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0791
+  },
+  "images/validation/acne/acne_00188.jpg": {
+    "primary": "acne",
+    "confidence": 0.9305,
+    "secondary": "eczema",
+    "confidence_2": 0.0636,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0059
+  },
+  "images/validation/acne/acne_00190.jpg": {
+    "primary": "acne",
+    "confidence": 0.9038,
+    "secondary": "eczema",
+    "confidence_2": 0.0721,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0242
+  },
+  "images/validation/acne/acne_00191.jpg": {
+    "primary": "acne",
+    "confidence": 0.9398,
+    "secondary": "eczema",
+    "confidence_2": 0.0474,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0128
+  },
+  "images/validation/acne/acne_00199.jpg": {
+    "primary": "acne",
+    "confidence": 0.6358,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2237,
+    "tertiary": "eczema",
+    "confidence_3": 0.1405
+  },
+  "images/validation/acne/acne_00201.jpg": {
+    "primary": "acne",
+    "confidence": 0.9012,
+    "secondary": "eczema",
+    "confidence_2": 0.0959,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0029
+  },
+  "images/validation/acne/acne_00205.jpg": {
+    "primary": "acne",
+    "confidence": 0.8279,
+    "secondary": "eczema",
+    "confidence_2": 0.1282,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0439
+  },
+  "images/validation/acne/acne_00207.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7728,
+    "secondary": "acne",
+    "confidence_2": 0.1715,
+    "tertiary": "eczema",
+    "confidence_3": 0.0557
+  },
+  "images/validation/acne/acne_00212.jpg": {
+    "primary": "acne",
+    "confidence": 0.8211,
+    "secondary": "eczema",
+    "confidence_2": 0.1634,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0155
+  },
+  "images/validation/acne/acne_00227.jpg": {
+    "primary": "acne",
+    "confidence": 0.8383,
+    "secondary": "psoriasis",
+    "confidence_2": 0.096,
+    "tertiary": "eczema",
+    "confidence_3": 0.0657
+  },
+  "images/validation/acne/acne_00235.jpg": {
+    "primary": "acne",
+    "confidence": 0.4405,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3514,
+    "tertiary": "eczema",
+    "confidence_3": 0.2082
+  },
+  "images/validation/acne/acne_00236.jpg": {
+    "primary": "acne",
+    "confidence": 0.8227,
+    "secondary": "eczema",
+    "confidence_2": 0.16,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0174
+  },
+  "images/validation/acne/acne_00241.jpg": {
+    "primary": "acne",
+    "confidence": 0.8755,
+    "secondary": "eczema",
+    "confidence_2": 0.0743,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0502
+  },
+  "images/validation/acne/acne_00243.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.547,
+    "secondary": "acne",
+    "confidence_2": 0.3277,
+    "tertiary": "eczema",
+    "confidence_3": 0.1253
+  },
+  "images/validation/acne/acne_00245.jpg": {
+    "primary": "acne",
+    "confidence": 0.5424,
+    "secondary": "eczema",
+    "confidence_2": 0.4124,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0452
+  },
+  "images/validation/acne/acne_00257.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8602,
+    "secondary": "acne",
+    "confidence_2": 0.0947,
+    "tertiary": "eczema",
+    "confidence_3": 0.0452
+  },
+  "images/validation/acne/acne_00261.jpg": {
+    "primary": "acne",
+    "confidence": 0.5015,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4216,
+    "tertiary": "eczema",
+    "confidence_3": 0.0769
+  },
+  "images/validation/acne/acne_00262.jpg": {
+    "primary": "acne",
+    "confidence": 0.7662,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2078,
+    "tertiary": "eczema",
+    "confidence_3": 0.026
+  },
+  "images/validation/acne/acne_00263.jpg": {
+    "primary": "acne",
+    "confidence": 0.5473,
+    "secondary": "eczema",
+    "confidence_2": 0.2899,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1627
+  },
+  "images/validation/acne/acne_00266.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5088,
+    "secondary": "acne",
+    "confidence_2": 0.3869,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1043
+  },
+  "images/validation/acne/acne_00269.jpg": {
+    "primary": "acne",
+    "confidence": 0.8287,
+    "secondary": "eczema",
+    "confidence_2": 0.1095,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0617
+  },
+  "images/validation/acne/acne_00270.jpg": {
+    "primary": "acne",
+    "confidence": 0.448,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3551,
+    "tertiary": "eczema",
+    "confidence_3": 0.197
+  },
+  "images/validation/acne/acne_00279.jpg": {
+    "primary": "eczema",
+    "confidence": 0.3994,
+    "secondary": "acne",
+    "confidence_2": 0.392,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.2086
+  },
+  "images/validation/acne/acne_00300.jpg": {
+    "primary": "acne",
+    "confidence": 0.9226,
+    "secondary": "eczema",
+    "confidence_2": 0.0691,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0083
+  },
+  "images/validation/eczema/eczema_00005.jpg": {
+    "primary": "acne",
+    "confidence": 0.607,
+    "secondary": "eczema",
+    "confidence_2": 0.2873,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1056
+  },
+  "images/validation/eczema/eczema_00007.jpg": {
+    "primary": "acne",
+    "confidence": 0.5506,
+    "secondary": "eczema",
+    "confidence_2": 0.2282,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.2212
+  },
+  "images/validation/eczema/eczema_00012.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8663,
+    "secondary": "acne",
+    "confidence_2": 0.0993,
+    "tertiary": "eczema",
+    "confidence_3": 0.0344
+  },
+  "images/validation/eczema/eczema_00025.jpg": {
+    "primary": "acne",
+    "confidence": 0.6304,
+    "secondary": "eczema",
+    "confidence_2": 0.2158,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.1538
+  },
+  "images/validation/eczema/eczema_00031.jpg": {
+    "primary": "acne",
+    "confidence": 0.5739,
+    "secondary": "eczema",
+    "confidence_2": 0.4041,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.022
+  },
+  "images/validation/eczema/eczema_00035.jpg": {
+    "primary": "acne",
+    "confidence": 0.8554,
+    "secondary": "eczema",
+    "confidence_2": 0.1038,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0409
+  },
+  "images/validation/eczema/eczema_00036.jpg": {
+    "primary": "acne",
+    "confidence": 0.7797,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1468,
+    "tertiary": "eczema",
+    "confidence_3": 0.0734
+  },
+  "images/validation/eczema/eczema_00038.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7776,
+    "secondary": "acne",
+    "confidence_2": 0.1469,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0754
+  },
+  "images/validation/eczema/eczema_00050.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4768,
+    "secondary": "acne",
+    "confidence_2": 0.4406,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0826
+  },
+  "images/validation/eczema/eczema_00052.jpg": {
+    "primary": "acne",
+    "confidence": 0.6438,
+    "secondary": "eczema",
+    "confidence_2": 0.3206,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0356
+  },
+  "images/validation/eczema/eczema_00056.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5799,
+    "secondary": "acne",
+    "confidence_2": 0.3543,
+    "tertiary": "eczema",
+    "confidence_3": 0.0657
+  },
+  "images/validation/eczema/eczema_00064.jpg": {
+    "primary": "acne",
+    "confidence": 0.5212,
+    "secondary": "eczema",
+    "confidence_2": 0.4357,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0431
+  },
+  "images/validation/eczema/eczema_00065.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5116,
+    "secondary": "acne",
+    "confidence_2": 0.2627,
+    "tertiary": "eczema",
+    "confidence_3": 0.2257
+  },
+  "images/validation/eczema/eczema_00091.jpg": {
+    "primary": "acne",
+    "confidence": 0.8305,
+    "secondary": "eczema",
+    "confidence_2": 0.1529,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0166
+  },
+  "images/validation/eczema/eczema_00097.jpg": {
+    "primary": "acne",
+    "confidence": 0.7414,
+    "secondary": "eczema",
+    "confidence_2": 0.209,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0497
+  },
+  "images/validation/eczema/eczema_00098.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4232,
+    "secondary": "acne",
+    "confidence_2": 0.3944,
+    "tertiary": "eczema",
+    "confidence_3": 0.1824
+  },
+  "images/validation/eczema/eczema_00100.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4998,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4519,
+    "tertiary": "acne",
+    "confidence_3": 0.0483
+  },
+  "images/validation/eczema/eczema_00114.jpg": {
+    "primary": "acne",
+    "confidence": 0.9164,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0444,
+    "tertiary": "eczema",
+    "confidence_3": 0.0393
+  },
+  "images/validation/eczema/eczema_00115.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7379,
+    "secondary": "acne",
+    "confidence_2": 0.1343,
+    "tertiary": "eczema",
+    "confidence_3": 0.1277
+  },
+  "images/validation/eczema/eczema_00126.jpg": {
+    "primary": "acne",
+    "confidence": 0.8771,
+    "secondary": "eczema",
+    "confidence_2": 0.096,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0269
+  },
+  "images/validation/eczema/eczema_00141.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8301,
+    "secondary": "eczema",
+    "confidence_2": 0.1592,
+    "tertiary": "acne",
+    "confidence_3": 0.0107
+  },
+  "images/validation/eczema/eczema_00142.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8548,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1332,
+    "tertiary": "acne",
+    "confidence_3": 0.012
+  },
+  "images/validation/eczema/eczema_00143.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8692,
+    "secondary": "eczema",
+    "confidence_2": 0.096,
+    "tertiary": "acne",
+    "confidence_3": 0.0348
+  },
+  "images/validation/eczema/eczema_00149.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.3734,
+    "secondary": "acne",
+    "confidence_2": 0.3229,
+    "tertiary": "eczema",
+    "confidence_3": 0.3037
+  },
+  "images/validation/eczema/eczema_00150.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4636,
+    "secondary": "eczema",
+    "confidence_2": 0.3798,
+    "tertiary": "acne",
+    "confidence_3": 0.1566
+  },
+  "images/validation/eczema/eczema_00152.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8018,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1801,
+    "tertiary": "acne",
+    "confidence_3": 0.0181
+  },
+  "images/validation/eczema/eczema_00160.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6338,
+    "secondary": "eczema",
+    "confidence_2": 0.3577,
+    "tertiary": "acne",
+    "confidence_3": 0.0085
+  },
+  "images/validation/eczema/eczema_00169.jpg": {
+    "primary": "eczema",
+    "confidence": 0.5931,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3434,
+    "tertiary": "acne",
+    "confidence_3": 0.0635
+  },
+  "images/validation/eczema/eczema_00175.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4604,
+    "secondary": "psoriasis",
+    "confidence_2": 0.3734,
+    "tertiary": "acne",
+    "confidence_3": 0.1662
+  },
+  "images/validation/eczema/eczema_00179.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5668,
+    "secondary": "eczema",
+    "confidence_2": 0.3473,
+    "tertiary": "acne",
+    "confidence_3": 0.0859
+  },
+  "images/validation/eczema/eczema_00185.jpg": {
+    "primary": "eczema",
+    "confidence": 0.8953,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0941,
+    "tertiary": "acne",
+    "confidence_3": 0.0105
+  },
+  "images/validation/eczema/eczema_00189.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9393,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0474,
+    "tertiary": "acne",
+    "confidence_3": 0.0133
+  },
+  "images/validation/eczema/eczema_00190.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6801,
+    "secondary": "acne",
+    "confidence_2": 0.2175,
+    "tertiary": "eczema",
+    "confidence_3": 0.1024
+  },
+  "images/validation/eczema/eczema_00191.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9089,
+    "secondary": "acne",
+    "confidence_2": 0.0571,
+    "tertiary": "eczema",
+    "confidence_3": 0.034
+  },
+  "images/validation/eczema/eczema_00219.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7136,
+    "secondary": "psoriasis",
+    "confidence_2": 0.1708,
+    "tertiary": "acne",
+    "confidence_3": 0.1157
+  },
+  "images/validation/eczema/eczema_00222.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9839,
+    "secondary": "psoriasis",
+    "confidence_2": 0.0151,
+    "tertiary": "acne",
+    "confidence_3": 0.001
+  },
+  "images/validation/eczema/eczema_00225.jpg": {
+    "primary": "acne",
+    "confidence": 0.7238,
+    "secondary": "eczema",
+    "confidence_2": 0.2668,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0094
+  },
+  "images/validation/eczema/eczema_00245.jpg": {
+    "primary": "eczema",
+    "confidence": 0.9544,
+    "secondary": "acne",
+    "confidence_2": 0.0258,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.0198
+  },
+  "images/validation/eczema/eczema_00249.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4985,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2785,
+    "tertiary": "acne",
+    "confidence_3": 0.223
+  },
+  "images/validation/eczema/eczema_00255.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.491,
+    "secondary": "eczema",
+    "confidence_2": 0.4642,
+    "tertiary": "acne",
+    "confidence_3": 0.0448
+  },
+  "images/validation/eczema/eczema_00269.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9868,
+    "secondary": "acne",
+    "confidence_2": 0.0087,
+    "tertiary": "eczema",
+    "confidence_3": 0.0044
+  },
+  "images/validation/eczema/eczema_00276.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5576,
+    "secondary": "eczema",
+    "confidence_2": 0.2393,
+    "tertiary": "acne",
+    "confidence_3": 0.2031
+  },
+  "images/validation/eczema/eczema_00279.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6557,
+    "secondary": "acne",
+    "confidence_2": 0.2385,
+    "tertiary": "eczema",
+    "confidence_3": 0.1058
+  },
+  "images/validation/eczema/eczema_00283.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9172,
+    "secondary": "acne",
+    "confidence_2": 0.0552,
+    "tertiary": "eczema",
+    "confidence_3": 0.0276
+  },
+  "images/validation/eczema/eczema_00286.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.557,
+    "secondary": "acne",
+    "confidence_2": 0.2572,
+    "tertiary": "eczema",
+    "confidence_3": 0.1857
+  },
+  "images/validation/eczema/eczema_00302.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7983,
+    "secondary": "eczema",
+    "confidence_2": 0.176,
+    "tertiary": "acne",
+    "confidence_3": 0.0257
+  },
+  "images/validation/psoriasis/psoriasis_00004.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9386,
+    "secondary": "acne",
+    "confidence_2": 0.0565,
+    "tertiary": "eczema",
+    "confidence_3": 0.0049
+  },
+  "images/validation/psoriasis/psoriasis_00007.jpg": {
+    "primary": "acne",
+    "confidence": 0.499,
+    "secondary": "psoriasis",
+    "confidence_2": 0.4591,
+    "tertiary": "eczema",
+    "confidence_3": 0.0419
+  },
+  "images/validation/psoriasis/psoriasis_00010.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4907,
+    "secondary": "eczema",
+    "confidence_2": 0.4598,
+    "tertiary": "acne",
+    "confidence_3": 0.0495
+  },
+  "images/validation/psoriasis/psoriasis_00013.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9086,
+    "secondary": "eczema",
+    "confidence_2": 0.076,
+    "tertiary": "acne",
+    "confidence_3": 0.0154
+  },
+  "images/validation/psoriasis/psoriasis_00019.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7332,
+    "secondary": "eczema",
+    "confidence_2": 0.2293,
+    "tertiary": "acne",
+    "confidence_3": 0.0374
+  },
+  "images/validation/psoriasis/psoriasis_00025.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7824,
+    "secondary": "eczema",
+    "confidence_2": 0.1762,
+    "tertiary": "acne",
+    "confidence_3": 0.0413
+  },
+  "images/validation/psoriasis/psoriasis_00026.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7293,
+    "secondary": "eczema",
+    "confidence_2": 0.1873,
+    "tertiary": "acne",
+    "confidence_3": 0.0834
+  },
+  "images/validation/psoriasis/psoriasis_00027.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6175,
+    "secondary": "eczema",
+    "confidence_2": 0.343,
+    "tertiary": "acne",
+    "confidence_3": 0.0395
+  },
+  "images/validation/psoriasis/psoriasis_00032.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8797,
+    "secondary": "acne",
+    "confidence_2": 0.0642,
+    "tertiary": "eczema",
+    "confidence_3": 0.0561
+  },
+  "images/validation/psoriasis/psoriasis_00045.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4388,
+    "secondary": "eczema",
+    "confidence_2": 0.3238,
+    "tertiary": "acne",
+    "confidence_3": 0.2374
+  },
+  "images/validation/psoriasis/psoriasis_00046.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6811,
+    "secondary": "eczema",
+    "confidence_2": 0.1667,
+    "tertiary": "acne",
+    "confidence_3": 0.1522
+  },
+  "images/validation/psoriasis/psoriasis_00079.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9743,
+    "secondary": "acne",
+    "confidence_2": 0.0152,
+    "tertiary": "eczema",
+    "confidence_3": 0.0105
+  },
+  "images/validation/psoriasis/psoriasis_00081.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9148,
+    "secondary": "acne",
+    "confidence_2": 0.081,
+    "tertiary": "eczema",
+    "confidence_3": 0.0042
+  },
+  "images/validation/psoriasis/psoriasis_00084.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9798,
+    "secondary": "acne",
+    "confidence_2": 0.0131,
+    "tertiary": "eczema",
+    "confidence_3": 0.0071
+  },
+  "images/validation/psoriasis/psoriasis_00097.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9769,
+    "secondary": "eczema",
+    "confidence_2": 0.0149,
+    "tertiary": "acne",
+    "confidence_3": 0.0082
+  },
+  "images/validation/psoriasis/psoriasis_00098.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9413,
+    "secondary": "acne",
+    "confidence_2": 0.0411,
+    "tertiary": "eczema",
+    "confidence_3": 0.0176
+  },
+  "images/validation/psoriasis/psoriasis_00104.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9619,
+    "secondary": "eczema",
+    "confidence_2": 0.0253,
+    "tertiary": "acne",
+    "confidence_3": 0.0128
+  },
+  "images/validation/psoriasis/psoriasis_00116.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9024,
+    "secondary": "eczema",
+    "confidence_2": 0.0568,
+    "tertiary": "acne",
+    "confidence_3": 0.0408
+  },
+  "images/validation/psoriasis/psoriasis_00133.jpg": {
+    "primary": "eczema",
+    "confidence": 0.7433,
+    "secondary": "psoriasis",
+    "confidence_2": 0.2151,
+    "tertiary": "acne",
+    "confidence_3": 0.0416
+  },
+  "images/validation/psoriasis/psoriasis_00143.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9913,
+    "secondary": "acne",
+    "confidence_2": 0.0053,
+    "tertiary": "eczema",
+    "confidence_3": 0.0035
+  },
+  "images/validation/psoriasis/psoriasis_00145.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9628,
+    "secondary": "acne",
+    "confidence_2": 0.0284,
+    "tertiary": "eczema",
+    "confidence_3": 0.0088
+  },
+  "images/validation/psoriasis/psoriasis_00146.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9266,
+    "secondary": "acne",
+    "confidence_2": 0.0477,
+    "tertiary": "eczema",
+    "confidence_3": 0.0257
+  },
+  "images/validation/psoriasis/psoriasis_00147.jpg": {
+    "primary": "eczema",
+    "confidence": 0.3751,
+    "secondary": "acne",
+    "confidence_2": 0.3174,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.3074
+  },
+  "images/validation/psoriasis/psoriasis_00148.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5911,
+    "secondary": "acne",
+    "confidence_2": 0.3046,
+    "tertiary": "eczema",
+    "confidence_3": 0.1043
+  },
+  "images/validation/psoriasis/psoriasis_00152.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9229,
+    "secondary": "acne",
+    "confidence_2": 0.0519,
+    "tertiary": "eczema",
+    "confidence_3": 0.0253
+  },
+  "images/validation/psoriasis/psoriasis_00156.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.997,
+    "secondary": "acne",
+    "confidence_2": 0.0024,
+    "tertiary": "eczema",
+    "confidence_3": 0.0006
+  },
+  "images/validation/psoriasis/psoriasis_00160.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9878,
+    "secondary": "acne",
+    "confidence_2": 0.0091,
+    "tertiary": "eczema",
+    "confidence_3": 0.0031
+  },
+  "images/validation/psoriasis/psoriasis_00172.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9079,
+    "secondary": "acne",
+    "confidence_2": 0.064,
+    "tertiary": "eczema",
+    "confidence_3": 0.0281
+  },
+  "images/validation/psoriasis/psoriasis_00177.jpg": {
+    "primary": "eczema",
+    "confidence": 0.4433,
+    "secondary": "acne",
+    "confidence_2": 0.3236,
+    "tertiary": "psoriasis",
+    "confidence_3": 0.2332
+  },
+  "images/validation/psoriasis/psoriasis_00189.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9349,
+    "secondary": "acne",
+    "confidence_2": 0.0526,
+    "tertiary": "eczema",
+    "confidence_3": 0.0125
+  },
+  "images/validation/psoriasis/psoriasis_00191.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.8782,
+    "secondary": "acne",
+    "confidence_2": 0.0811,
+    "tertiary": "eczema",
+    "confidence_3": 0.0407
+  },
+  "images/validation/psoriasis/psoriasis_00196.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9551,
+    "secondary": "acne",
+    "confidence_2": 0.0384,
+    "tertiary": "eczema",
+    "confidence_3": 0.0065
+  },
+  "images/validation/psoriasis/psoriasis_00200.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5445,
+    "secondary": "acne",
+    "confidence_2": 0.3641,
+    "tertiary": "eczema",
+    "confidence_3": 0.0915
+  },
+  "images/validation/psoriasis/psoriasis_00204.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7447,
+    "secondary": "eczema",
+    "confidence_2": 0.1857,
+    "tertiary": "acne",
+    "confidence_3": 0.0696
+  },
+  "images/validation/psoriasis/psoriasis_00211.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.639,
+    "secondary": "acne",
+    "confidence_2": 0.298,
+    "tertiary": "eczema",
+    "confidence_3": 0.063
+  },
+  "images/validation/psoriasis/psoriasis_00212.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5183,
+    "secondary": "acne",
+    "confidence_2": 0.4276,
+    "tertiary": "eczema",
+    "confidence_3": 0.0541
+  },
+  "images/validation/psoriasis/psoriasis_00219.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7647,
+    "secondary": "eczema",
+    "confidence_2": 0.1327,
+    "tertiary": "acne",
+    "confidence_3": 0.1026
+  },
+  "images/validation/psoriasis/psoriasis_00223.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.7184,
+    "secondary": "acne",
+    "confidence_2": 0.1969,
+    "tertiary": "eczema",
+    "confidence_3": 0.0847
+  },
+  "images/validation/psoriasis/psoriasis_00244.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9562,
+    "secondary": "eczema",
+    "confidence_2": 0.0239,
+    "tertiary": "acne",
+    "confidence_3": 0.0199
+  },
+  "images/validation/psoriasis/psoriasis_00251.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9152,
+    "secondary": "acne",
+    "confidence_2": 0.059,
+    "tertiary": "eczema",
+    "confidence_3": 0.0258
+  },
+  "images/validation/psoriasis/psoriasis_00258.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9491,
+    "secondary": "eczema",
+    "confidence_2": 0.0314,
+    "tertiary": "acne",
+    "confidence_3": 0.0195
+  },
+  "images/validation/psoriasis/psoriasis_00261.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.9069,
+    "secondary": "eczema",
+    "confidence_2": 0.0771,
+    "tertiary": "acne",
+    "confidence_3": 0.0159
+  },
+  "images/validation/psoriasis/psoriasis_00281.jpg": {
+    "primary": "acne",
+    "confidence": 0.6836,
+    "secondary": "psoriasis",
+    "confidence_2": 0.247,
+    "tertiary": "eczema",
+    "confidence_3": 0.0695
+  },
+  "images/validation/psoriasis/psoriasis_00285.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.4227,
+    "secondary": "acne",
+    "confidence_2": 0.3929,
+    "tertiary": "eczema",
+    "confidence_3": 0.1844
+  },
+  "images/validation/psoriasis/psoriasis_00294.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.6206,
+    "secondary": "acne",
+    "confidence_2": 0.3333,
+    "tertiary": "eczema",
+    "confidence_3": 0.0461
+  },
+  "images/validation/psoriasis/psoriasis_00301.jpg": {
+    "primary": "psoriasis",
+    "confidence": 0.5098,
+    "secondary": "eczema",
+    "confidence_2": 0.4014,
+    "tertiary": "acne",
+    "confidence_3": 0.0888
+  }
+}
