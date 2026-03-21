@@ -259,7 +259,8 @@ def main():
             combined_labels = torch.cat([visual_labels, text_labels], dim=1)
 
             # 7) Forward pass
-            with torch.autocast(device_type="cuda", dtype=torch.bfloat16, enabled=config.bf16):
+            with torch.autocast(device_type=device.type, dtype=torch.bfloat16,
+                                enabled=config.bf16 and device.type == "cuda"):
                 outputs = slm(
                     inputs_embeds=combined_embeds,
                     attention_mask=combined_attn,
@@ -347,7 +348,8 @@ def validate(slm, projection, feat_extractor, val_loader, config, device):
         text_labels[attention_mask == 0] = -100
         combined_labels = torch.cat([visual_labels, text_labels], dim=1)
 
-        with torch.autocast(device_type="cuda", dtype=torch.bfloat16, enabled=config.bf16):
+        with torch.autocast(device_type=device.type, dtype=torch.bfloat16,
+                            enabled=config.bf16 and device.type == "cuda"):
             outputs = slm(
                 inputs_embeds=combined_embeds,
                 attention_mask=combined_attn,
