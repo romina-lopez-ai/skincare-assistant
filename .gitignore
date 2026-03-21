@@ -1,1 +1,6 @@
 __pycache__/
+*.pyc
+.env
+.env.*
+*.pth
+visual_alignment/outputs/
