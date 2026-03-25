@@ -15,7 +15,7 @@ class Phase2Config:
     output_dir: str = "visual_alignment/outputs"
 
     # SLM
-    slm_model_name: str = "meta-llama/Llama-3.2-3B-Instruct"
+    slm_model_name: str = "meta-llama/Llama-3.2-3B"
     hf_token: str = ""
 
     # Architecture
