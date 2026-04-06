@@ -1,0 +1,301 @@
+{
+  "total": 300,
+  "unique": 300,
+  "duplicates": 0,
+  "passed": 300,
+  "failed": 0,
+  "avg_overall": 0.9918518518518519,
+  "pct_roles_valid": 1,
+  "pct_count_valid": 1,
+  "pct_think_tags": 1,
+  "pct_think_nontrivial": 1,
+  "pct_double_newline": 1,
+  "pct_cites_source": 0.9266666666666666,
+  "pct_follow_up": 1,
+  "pct_no_hallucination": 1,
+  "pct_no_treatment": 1,
+  "by_type": {
+    "edge_second_opinion": {
+      "count": 11,
+      "avg_overall": 1.0,
+      "pct_think_tags": 1,
+      "pct_cites_source": 1
+    },
+    "edge_out_of_scope": {
+      "count": 11,
+      "avg_overall": 1.0,
+      "pct_think_tags": 1,
+      "pct_cites_source": 1
+    },
+    "edge_partial_overlap": {
+      "count": 11,
+      "avg_overall": 0.889,
+      "pct_think_tags": 1,
+      "pct_cites_source": 0
+    },
+    "one_chunk": {
+      "count": 105,
+      "avg_overall": 1.0,
+      "pct_think_tags": 1,
+      "pct_cites_source": 1
+    },
+    "two_chunk": {
+      "count": 105,
+      "avg_overall": 1.0,
+      "pct_think_tags": 1,
+      "pct_cites_source": 1
+    },
+    "edge_medication_not_in_ctx": {
+      "count": 11,
+      "avg_overall": 0.889,
+      "pct_think_tags": 1,
+      "pct_cites_source": 0
+    },
+    "edge_multi_condition_gap": {
+      "count": 11,
+      "avg_overall": 1.0,
+      "pct_think_tags": 1,
+      "pct_cites_source": 1
+    },
+    "edge_no_context": {
+      "count": 12,
+      "avg_overall": 1.0,
+      "pct_think_tags": 1,
+      "pct_cites_source": 1
+    },
+    "edge_irrelevant_domain": {
+      "count": 12,
+      "avg_overall": 1.0,
+      "pct_think_tags": 1,
+      "pct_cites_source": 1
+    },
+    "edge_too_generic": {
+      "count": 11,
+      "avg_overall": 1.0,
+      "pct_think_tags": 1,
+      "pct_cites_source": 1
+    }
+  },
+  "by_file": {
+    "temp_val.jsonl": {
+      "count": 28,
+      "passed": 28,
+      "failed": 0,
+      "avg_score": 0.992
+    },
+    "temp_train.jsonl": {
+      "count": 234,
+      "passed": 234,
+      "failed": 0,
+      "avg_score": 0.992
+    },
+    "temp_test.jsonl": {
+      "count": 38,
+      "passed": 38,
+      "failed": 0,
+      "avg_score": 0.988
+    }
+  },
+  "worst_entries": [
+    {
+      "file": "temp_test.jsonl",
+      "index": 9,
+      "type": "edge_partial_overlap",
+      "topic": "actinic keratosis",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['UpToDate Dermatology Module']"
+      ]
+    },
+    {
+      "file": "temp_test.jsonl",
+      "index": 12,
+      "type": "edge_medication_not_in_ctx",
+      "topic": "psoriasis",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['British Association of Dermatologists Evidence Review']"
+      ]
+    },
+    {
+      "file": "temp_test.jsonl",
+      "index": 17,
+      "type": "edge_partial_overlap",
+      "topic": "urticaria",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['Mayo Clinic Dermatology Reference']"
+      ]
+    },
+    {
+      "file": "temp_test.jsonl",
+      "index": 23,
+      "type": "edge_medication_not_in_ctx",
+      "topic": "eczema",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['WHO Skin Health Resource']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 1,
+      "type": "edge_medication_not_in_ctx",
+      "topic": "acne",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['Journal of Investigative Dermatology — Meta-analysis']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 5,
+      "type": "edge_partial_overlap",
+      "topic": "actinic keratosis",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['AAD Clinical Practice Guidelines']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 15,
+      "type": "edge_medication_not_in_ctx",
+      "topic": "contact dermatitis",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['WHO Skin Health Resource']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 17,
+      "type": "edge_partial_overlap",
+      "topic": "seborrheic dermatitis",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['AAD Clinical Practice Guidelines']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 29,
+      "type": "edge_medication_not_in_ctx",
+      "topic": "lichen planus",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['UpToDate Dermatology Module']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 34,
+      "type": "edge_medication_not_in_ctx",
+      "topic": "actinic keratosis",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['WHO Skin Health Resource']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 45,
+      "type": "edge_partial_overlap",
+      "topic": "lichen planus",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['Dermatology Knowledge Base — Clinical Study']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 52,
+      "type": "edge_medication_not_in_ctx",
+      "topic": "rosacea",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['British Association of Dermatologists Evidence Review']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 126,
+      "type": "edge_partial_overlap",
+      "topic": "psoriasis",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['British Association of Dermatologists Evidence Review']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 127,
+      "type": "edge_partial_overlap",
+      "topic": "contact dermatitis",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['AAD Clinical Practice Guidelines']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 138,
+      "type": "edge_partial_overlap",
+      "topic": "lichen planus",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['AAD Clinical Practice Guidelines']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 139,
+      "type": "edge_partial_overlap",
+      "topic": "eczema",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['Mayo Clinic Dermatology Reference']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 173,
+      "type": "edge_partial_overlap",
+      "topic": "rosacea",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['Journal of Investigative Dermatology — Meta-analysis']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 192,
+      "type": "edge_medication_not_in_ctx",
+      "topic": "lichen planus",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['UpToDate Dermatology Module']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 195,
+      "type": "edge_medication_not_in_ctx",
+      "topic": "urticaria",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['British Association of Dermatologists Evidence Review']"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 215,
+      "type": "edge_medication_not_in_ctx",
+      "topic": "urticaria",
+      "score": 0.889,
+      "violations": [
+        "no source cited. Available: ['AAD Clinical Practice Guidelines']"
+      ]
+    }
+  ]
+}
