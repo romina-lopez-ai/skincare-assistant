@@ -10,6 +10,7 @@ The project is organized into several key modules, each handling a specific part
 Contains all the data used for training and evaluation.
 - `images_dataset/`: Raw skin images categorized into `acne`, `eczema`, and `psoriasis`.
 - `dataset_a/`: Visual alignment dataset (A) for mapping images to clinical reasoning.
+- `dataset_d/`: Joint consultation dataset (D) for final multitask training.
 - `medical_notes_dataset/`: Ground truth clinical notes and descriptions.
 - `densenet_predictions.json`: Pre-computed predictions from the DenseNet model.
 
@@ -26,8 +27,8 @@ Scripts for generating synthetic clinical notes and dialogues via OpenAI Batch A
 ### 4. `prepare_datasets/`
 Utility scripts to assemble the final multitask datasets.
 - `prepare_dataset_a.py`: Generates the visual alignment dataset.
-- `system_prompt.py`: Contains the unified system prompt used across all tasks.
-- `dataset_d/`: Dedicated folder for Dataset D (Joint Consultation) generation scripts and its specific `DATASET_PREPARATION.md` guide.
+- `system_prompt.py`: Unified system prompt.
+- `dataset_d/`: Scripts for Joint Consultation data, featuring both API-based and local generation methods (LLM-based).
 
 ### 5. `visual_alignment/`
 Code for multimodal integration and joint training of the Small Language Model (SLM).
@@ -41,6 +42,7 @@ Code for multimodal integration and joint training of the Small Language Model (
 C:\Users\lsant\Projects\skincare_model\
 ├───datasets\
 │   ├───dataset_a\
+│   ├───dataset_d\
 │   ├───images_dataset\
 │   ├───medical_notes_dataset\
 │   └───densenet_predictions.json
@@ -56,18 +58,30 @@ C:\Users\lsant\Projects\skincare_model\
 │       └───train.py
 ├───medical_notes_generation\
 │   ├───batch_chunks\
-│   └───scripts\
-│       ├───prepare_batch.py
-│       ├───submit_batch.py
-│       └───parse_results.py
+│   ├───scripts\
+│   │   ├───cancel_batches.py
+│   │   ├───check_batch.py
+│   │   ├───parse_results.py
+│   │   ├───prepare_batch.py
+│   │   ├───prompts.py
+│   │   └───submit_batch.py
+│   ├───batch_ids.txt
+│   ├───plan.md
+│   └───README.md
 ├───prepare_datasets\
 │   ├───prepare_dataset_a.py
 │   ├───system_prompt.py
 │   └───dataset_d\
 │       ├───DATASET_PREPARATION.md
-│       ├───parse_batch_d.py
-│       ├───prepare_batch_d.py
-│       └───prepare_dataset_d.py
+│       ├───prepare_dataset_d_api_ver\
+│       │   ├───parse_batch_d.py
+│       │   ├───prepare_batch_d.py
+│       │   └───prepare_dataset_d.py
+│       └───prepare_dataset_d_local_ver\
+│           ├───generate_local_d.ipynb
+│           ├───generate_local_d.py
+│           ├───GENERATION_MECHANISM.md
+│           └───local_generation_plan.md
 ├───visual_alignment\
 │   ├───config.py
 │   ├───dataset.py
@@ -75,6 +89,7 @@ C:\Users\lsant\Projects\skincare_model\
 │   ├───note_parser.py
 │   ├───projection.py
 │   └───train.py
+├───.gitignore
 ├───multitask_training_plan.md
 ├───README.md
 └───requirements.txt

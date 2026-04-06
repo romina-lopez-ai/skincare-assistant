@@ -5,41 +5,37 @@ This directory contains the scripts required to generate the fine-tuning dataset
 ## Prerequisites
 
 ### 1. Environment & API Keys
-The generation scripts use OpenAI's GPT-4o and GPT-4o-mini models.
+The generation scripts use either OpenAI's GPT-4o models or local LLMs.
 - **Python Libraries**: Install the required dependencies:
   ```bash
-  pip install openai python-dotenv
+  pip install openai python-dotenv tqdm transformers torch accelerate bitsandbytes
   ```
-- **API Key**: Create a `.env` file in this directory (or in the root `medical_notes_generation/` directory) with your OpenAI API key:
-  ```env
-  OPENAI_API_KEY=your_api_key_here
-  ```
+- **API Key (Optional)**: If using OpenAI scripts, create a `.env` file with your `OPENAI_API_KEY`.
 
 ### 2. Required Input Files
 Before running the scripts, ensure the following files are present in the `datasets/` directory:
 - `datasets/densenet_predictions.json`: Pre-computed predictions from the DenseNet-121 vision backbone.
-- `datasets/medical_notes_dataset/train.jsonl`: Ground truth clinical notes for the training set.
-- `datasets/medical_notes_dataset/validation.jsonl`: Ground truth clinical notes for the validation set.
+- `datasets/medical_notes_dataset/train.jsonl`: Ground truth clinical notes.
+- `datasets/medical_notes_dataset/validation.jsonl`: Ground truth clinical notes.
 
 ## Dataset Scripts
 
 ### 1. `prepare_dataset_a.py` (Visual Alignment)
 - **Task**: Teaches the model to "see" and interpret visual tokens using clinical notes as ground truth.
 - **Output**: `datasets/dataset_a/train.jsonl` and `validation.jsonl`.
-- **Run**:
-  ```bash
-  python prepare_dataset_a.py
-  ```
+- **Run**: `python prepare_dataset_a.py`
 
-### 2. `prepare_dataset_d.py` (Joint Consultation)
-- **Task**: Generates natural symptom collection dialogues followed by a joint diagnosis.
+### 2. `generate_local_d.py` (Joint Consultation - Local)
+- **Task**: Generates Dataset D using a local Large Language Model (e.g., Qwen3.5-4B). This is the recommended method as it avoids API costs and leverages local GPUs.
+- **Technical Details**: See [GENERATION_MECHANISM.md](./GENERATION_MECHANISM.md) for details on the prompting and parsing logic.
 - **Output**: `datasets/dataset_d/train.jsonl` and `validation.jsonl`.
-- **Run (Sequential)**:
-  ```bash
-  python prepare_dataset_d.py
-  ```
+- **Run**: `python generate_local_d.py`
 
-### 3. Batch Mode (Recommended for Dataset D)
+### 3. `prepare_dataset_d.py` (Joint Consultation - OpenAI)
+- **Task**: Generates Dataset D using the OpenAI API (GPT-4o).
+- **Run**: `python prepare_dataset_d.py`
+
+### 4. Batch Mode (OpenAI Batch API)
 For large-scale generation of Dataset D, use the Batch API to save 50% on costs:
 
 1. **Prepare Batch File**:
