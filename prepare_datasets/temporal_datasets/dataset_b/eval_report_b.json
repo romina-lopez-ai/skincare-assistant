@@ -1,0 +1,165 @@
+{
+  "total": 400,
+  "unique": 400,
+  "duplicates": 0,
+  "passed": 400,
+  "failed": 0,
+  "avg_overall": 0.9537912489538262,
+  "avg_clinical_coverage": 0.9560416666666667,
+  "avg_single_q_rate": 0.9473708513708514,
+  "avg_length_variety": 0.780626224639265,
+  "pct_structural_ok": 1,
+  "pct_count_ok": 1,
+  "pct_end_symptoms": 1,
+  "pct_identity_ok": 0.9925,
+  "by_type": {
+    "edge": {
+      "count": 120,
+      "avg_overall": 0.944,
+      "avg_coverage": 0.908,
+      "pct_end_symptoms": 1,
+      "pct_identity_ok": 0.975
+    },
+    "normal": {
+      "count": 280,
+      "avg_overall": 0.958,
+      "avg_coverage": 0.976,
+      "pct_end_symptoms": 1,
+      "pct_identity_ok": 1
+    }
+  },
+  "by_file": {
+    "temp_val.jsonl": {
+      "count": 36,
+      "passed": 36,
+      "failed": 0,
+      "avg_score": 0.95
+    },
+    "temp_train.jsonl": {
+      "count": 318,
+      "passed": 318,
+      "failed": 0,
+      "avg_score": 0.954
+    },
+    "temp_test.jsonl": {
+      "count": 46,
+      "passed": 46,
+      "failed": 0,
+      "avg_score": 0.954
+    }
+  },
+  "worst_dialogues": [
+    {
+      "file": "temp_train.jsonl",
+      "index": 97,
+      "type": "edge",
+      "edge_type": "self_diagnosis",
+      "score": 0.736,
+      "violations": [
+        "double-question at turn 5",
+        "double-question at turn 7",
+        "double-question at turn 9",
+        "double-question at turn 11",
+        "double-question at turn 13"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 268,
+      "type": "edge",
+      "edge_type": "self_diagnosis",
+      "score": 0.79,
+      "violations": [
+        "double-question at turn 9",
+        "double-question at turn 11",
+        "turn 7: matched '\\bprescri\\w*\\b'"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 60,
+      "type": "edge",
+      "edge_type": "self_diagnosis",
+      "score": 0.829,
+      "violations": [
+        "double-question at turn 7",
+        "double-question at turn 9",
+        "turn 13: matched '\\bprescri\\w*\\b'"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 106,
+      "type": "edge",
+      "edge_type": "out_of_domain",
+      "score": 0.858,
+      "violations": [
+        "double-question at turn 3"
+      ]
+    },
+    {
+      "file": "temp_test.jsonl",
+      "index": 1,
+      "type": "edge",
+      "edge_type": "non_committal",
+      "score": 0.874,
+      "violations": [
+        "double-question at turn 1",
+        "double-question at turn 3"
+      ]
+    },
+    {
+      "file": "temp_test.jsonl",
+      "index": 15,
+      "type": "normal",
+      "edge_type": null,
+      "score": 0.876,
+      "violations": [
+        "double-question at turn 3",
+        "double-question at turn 5",
+        "double-question at turn 7",
+        "double-question at turn 9",
+        "double-question at turn 17"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 25,
+      "type": "edge",
+      "edge_type": "contradictory",
+      "score": 0.893,
+      "violations": [
+        "double-question at turn 3",
+        "double-question at turn 5",
+        "double-question at turn 7",
+        "double-question at turn 11"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 158,
+      "type": "edge",
+      "edge_type": "out_of_domain",
+      "score": 0.893,
+      "violations": [
+        "double-question at turn 3"
+      ]
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 75,
+      "type": "edge",
+      "edge_type": "out_of_domain",
+      "score": 0.896,
+      "violations": []
+    },
+    {
+      "file": "temp_train.jsonl",
+      "index": 307,
+      "type": "edge",
+      "edge_type": "out_of_domain",
+      "score": 0.898,
+      "violations": []
+    }
+  ]
+}
