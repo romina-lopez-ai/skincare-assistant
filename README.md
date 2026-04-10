@@ -9,7 +9,8 @@ The project is organized into several key modules, each handling a specific part
 ### 1. `datasets/`
 Contains all the data used for training and evaluation.
 - `images_dataset/`: Raw skin images categorized into `acne`, `eczema`, and `psoriasis`.
-- `dataset_a/`: Visual alignment dataset (A) for mapping images to clinical reasoning.
+- `dataset_a/`: Visual alignment dataset (A).
+- `dataset_b/` & `dataset_c/`: Datasets for symptom collection and RAG QA.
 - `dataset_d/`: Joint consultation dataset (D) for final multitask training.
 - `medical_notes_dataset/`: Ground truth clinical notes and descriptions.
 - `densenet_predictions.json`: Pre-computed predictions from the DenseNet model.
@@ -27,21 +28,29 @@ Scripts for generating synthetic clinical notes and dialogues via OpenAI Batch A
 ### 4. `prepare_datasets/`
 Utility scripts to assemble the final multitask datasets.
 - `prepare_dataset_a.py`: Generates the visual alignment dataset.
-- `system_prompt.py`: Unified system prompt.
-- `dataset_d/`: Scripts for Joint Consultation data, featuring both API-based and local generation methods (LLM-based).
+- `prepare_dataset_b/` & `prepare_dataset_c/`: Scripts for processing text-based tasks.
+- `dataset_d/`: Scripts for Joint Consultation data (API and local generation).
+- `temporal_datasets/`: Intermediate storage for processed datasets.
 
 ### 5. `visual_alignment/`
-Code for multimodal integration and joint training of the Small Language Model (SLM).
+Code for multimodal integration and visual fine-tuning.
 - `projection.py`: MLP mapping DenseNet features to the LLM space.
-- `train.py`: Main training loop for multimodal fine-tuning.
-- `config.py` & `generate.py`: Configuration and inference utilities.
+- `train.py`: Main training loop for Phase 2 (Visual Alignment).
+
+### 6. `unified_training/`
+Final multitask training and model merging.
+- `train.py`: Full multitask fine-tuning script.
+- `merge_model.py`: Merges LoRA weights back into the base model.
+- `evaluate.py`: Evaluation logic for the unified model.
 
 ## Directory Structure
 
 ```text
-C:\Users\lsant\Projects\skincare_model\
+skincare_model\
 ├───datasets\
 │   ├───dataset_a\
+│   ├───dataset_b\
+│   ├───dataset_c\
 │   ├───dataset_d\
 │   ├───images_dataset\
 │   ├───medical_notes_dataset\
@@ -69,19 +78,18 @@ C:\Users\lsant\Projects\skincare_model\
 │   ├───plan.md
 │   └───README.md
 ├───prepare_datasets\
+│   ├───dataset_b\
+│   ├───dataset_c\
+│   ├───dataset_d\
+│   ├───temporal_datasets\
 │   ├───prepare_dataset_a.py
-│   ├───system_prompt.py
-│   └───dataset_d\
-│       ├───DATASET_PREPARATION.md
-│       ├───prepare_dataset_d_api_ver\
-│       │   ├───parse_batch_d.py
-│       │   ├───prepare_batch_d.py
-│       │   └───prepare_dataset_d.py
-│       └───prepare_dataset_d_local_ver\
-│           ├───generate_local_d.ipynb
-│           ├───generate_local_d.py
-│           ├───GENERATION_MECHANISM.md
-│           └───local_generation_plan.md
+│   └───system_prompt.py
+├───unified_training\
+│   ├───config.py
+│   ├───dataset.py
+│   ├───evaluate.py
+│   ├───merge_model.py
+│   └───train.py
 ├───visual_alignment\
 │   ├───config.py
 │   ├───dataset.py
@@ -90,6 +98,7 @@ C:\Users\lsant\Projects\skincare_model\
 │   ├───projection.py
 │   └───train.py
 ├───.gitignore
+├───inference_example.py
 ├───multitask_training_plan.md
 ├───README.md
 └───requirements.txt
