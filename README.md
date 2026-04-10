@@ -111,3 +111,84 @@ The project follows a curriculum learning strategy:
 ## Getting Started
 1. Install dependencies: `pip install -r requirements.txt`
 2. Refer to `multitask_training_plan.md` for the step-by-step execution guide.
+
+## Using the Trained Model
+
+The final merged model is available on Hugging Face: [santiagoboxiga/skincare-llama-3.2-3b](https://huggingface.co/santiagoboxiga/skincare-llama-3.2-3b)
+
+### Requirements
+```bash
+pip install transformers torch accelerate torchvision pillow
+```
+
+### Interactive Chat
+Run the included inference script for a multi-turn conversation with the assistant:
+```bash
+python inference_example.py
+```
+
+The model will be downloaded automatically from Hugging Face on first run (~6.4 GB).
+
+To use a local copy of the merged model instead:
+```bash
+python inference_example.py --model-path unified_training/outputs/merged_model
+```
+
+**Options:**
+```
+--model-path       HF repo ID or local path (default: santiagoboxiga/skincare-llama-3.2-3b)
+--max-new-tokens   Max tokens per response (default: 256)
+--densenet-path    Path to DenseNet checkpoint (default: densenet_model/outputs/model.pth)
+--projection-path  Path to projection.pth (auto-detected if omitted)
+```
+
+**Chat commands:**
+- `reset` — start a new conversation without reloading the model
+- `quit` — exit
+
+### Consultation Flow
+
+The script supports the full consultation pipeline: symptom collection → image upload → diagnosis.
+
+```
+You: My skin is red and itchy
+Assistant: How long have you been experiencing this?
+You: About 3 weeks
+Assistant: Where on your body is the rash located?
+...
+Assistant: [END_SYMPTOMS]
+------------------------------------------------------------
+Symptom collection complete.
+Provide a skin image for visual diagnosis (just paste the path):
+------------------------------------------------------------
+You: datasets/images_dataset/test/psoriasis/psoriasis_00108.jpg
+
+Processing image ...
+Assistant: <think>The image shows... </think> [DIAGNOSIS]...[/DIAGNOSIS]
+------------------------------------------------------------
+Diagnosis complete. Type 'reset' to start a new consultation.
+------------------------------------------------------------
+```
+
+### Capabilities
+
+The model supports three clinical modes depending on the input:
+
+| Mode | Trigger | Behavior |
+|---|---|---|
+| Symptom Collection | User describes skin symptoms | Asks one focused question at a time, ends with `[END_SYMPTOMS]` |
+| Follow-up QA | User message contains a `[CONTEXT]` block | Answers using only the provided context |
+| Visual Diagnosis | Skin image provided after symptom collection | Reasons with `<think>`, wraps output in `[DIAGNOSIS]...[/DIAGNOSIS]` |
+
+### Visual Pipeline
+
+For visual diagnosis, the script requires two additional components beyond the merged LLM:
+
+| Component | File | Purpose |
+|---|---|---|
+| DenseNet-121 | `densenet_model/outputs/model.pth` | Extracts 1024-dim features from skin images |
+| ProjectionMLP | `projection.pth` (in merged model dir) | Maps DenseNet features → 32 visual tokens in LLM embedding space |
+
+Both are loaded automatically at startup if present. Without them, the script runs in text-only mode (symptom collection and QA only).
+
+> **Note:** The system prompt is required for correct model behavior. The model will not produce `[END_SYMPTOMS]`, `<think>` blocks, or disclaimers without it. The prompt is baked into `inference_example.py`.
