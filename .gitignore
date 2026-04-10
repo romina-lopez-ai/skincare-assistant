@@ -4,3 +4,5 @@ __pycache__/
 .env.*
 *.pth
 visual_alignment/outputs/
+unified_training/outputs/
+.claude/
