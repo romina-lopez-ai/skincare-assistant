@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dermatology Chatbot — Test Interface</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ============================================================
+       Header
+       ============================================================ -->
+  <header class="app-header">
+    <h1>Dermatology Chatbot &mdash; Local Test Interface</h1>
+    <div class="header-right">
+      <span id="phase-badge" class="phase-badge" data-phase="start">start</span>
+      <button id="reset-btn" class="btn btn-danger">&#x21BA; Reset Session</button>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       Chat panel (left)
+       ============================================================ -->
+  <section class="chat-panel">
+
+    <!-- Message history -->
+    <div id="chat-messages" class="chat-messages" aria-live="polite" aria-label="Chat history">
+      <!-- Messages appended by app.js -->
+    </div>
+
+    <!-- Input area -->
+    <div class="chat-input-area">
+
+      <!-- Image upload row (shown when a file is staged) -->
+      <div class="image-upload-row">
+        <button id="upload-btn" class="btn btn-upload" title="Attach a skin image">
+          &#128247; Attach Image
+        </button>
+        <img id="upload-thumb" class="upload-preview-thumb" alt="preview" />
+        <span id="upload-filename" class="upload-filename"></span>
+        <input id="image-file-input" type="file" accept="image/*" />
+      </div>
+
+      <!-- Text input + send -->
+      <div class="input-row">
+        <textarea
+          id="message-input"
+          placeholder="Describe your skin concern, or ask a question&hellip; (Enter to send, Shift+Enter for new line)"
+          rows="1"
+          aria-label="Message input"
+        ></textarea>
+        <button id="send-btn" class="btn btn-primary">Send &#9658;</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Debug panel (right)
+       ============================================================ -->
+  <aside class="debug-panel">
+
+    <div class="debug-header">
+      <h2>Debug &amp; Session State</h2>
+    </div>
+
+    <div class="debug-body">
+
+      <!-- Node path taken this turn -->
+      <div class="debug-section">
+        <div class="debug-section-title">Nodes Visited (last turn)</div>
+        <div class="debug-section-body">
+          <div id="node-path" class="node-path">
+            <span style="color:#94a3b8;font-size:12px;">Waiting for first message…</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Symptom slots -->
+      <div class="debug-section">
+        <div class="debug-section-title">Symptom Slots</div>
+        <div class="debug-section-body">
+          <div id="slot-grid" class="slot-grid">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Boolean flags -->
+      <div class="debug-section">
+        <div class="debug-section-title">State Flags</div>
+        <div class="debug-section-body">
+          <div id="flags-row" class="flags-row">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- DenseNet output (hidden until vision runs) -->
+      <div id="densenet-section" class="debug-section" style="display:none;">
+        <div class="debug-section-title">DenseNet Output</div>
+        <div id="densenet-body" class="debug-section-body">
+          <!-- Rendered by app.js -->
+        </div>
+      </div>
+
+      <!-- Diagnosis summary (hidden until diagnosis runs) -->
+      <div id="diag-section" class="debug-section" style="display:none;">
+        <div class="debug-section-title">Diagnosis Summary</div>
+        <div id="diag-body" class="debug-section-body" style="font-size:12px;line-height:1.6;">
+          <!-- Rendered by app.js -->
+        </div>
+      </div>
+
+      <!-- Full raw state JSON -->
+      <div class="debug-section">
+        <div class="debug-section-title">Full State (raw)</div>
+        <div class="debug-section-body" style="padding:0;">
+          <pre id="state-json" class="state-json">{}</pre>
+        </div>
+      </div>
+
+    </div><!-- /debug-body -->
+  </aside>
+
+</div><!-- /app-shell -->
+
+<!-- Toast notification -->
+<div id="toast" class="toast"></div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
