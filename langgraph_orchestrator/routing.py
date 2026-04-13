@@ -106,8 +106,15 @@ def route_from_input_router(state: ChatState) -> str:
         return ROUTE_AWAIT_OR_STORE_IMAGE
 
     # --- Early image upload during symptom collection ---
-    # Rule: store the image, do NOT jump to diagnosis yet.
-    if state["image_uploaded"] and not state["symptoms_complete"]:
+    # Only route here on the FIRST turn after upload (image_acknowledged=False).
+    # Once await_or_store_image sends the acknowledgement it sets
+    # image_acknowledged=True, and subsequent turns fall through to
+    # ROUTE_COLLECT_SYMPTOMS so symptom collection continues normally.
+    if (
+        state["image_uploaded"]
+        and not state.get("image_acknowledged", False)
+        and not state["symptoms_complete"]
+    ):
         return ROUTE_AWAIT_OR_STORE_IMAGE
 
     # --- Default: keep collecting symptoms ---

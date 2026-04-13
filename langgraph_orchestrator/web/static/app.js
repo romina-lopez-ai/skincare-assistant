@@ -136,7 +136,15 @@ async function uploadPendingImage() {
     const res  = await fetch("/chat/upload-image", { method: "POST", body: formData });
     const data = await res.json();
 
-    addMessageBubble("assistant", data.response);
+    // store_image() returns response="" intentionally — the single acknowledgement
+    // comes from the await_or_store_image node on the next user-message turn.
+    // Show a toast so the user knows the upload succeeded without adding a
+    // duplicate assistant bubble here.
+    if (data.response) {
+      addMessageBubble("assistant", data.response);
+    } else {
+      showToast("Image saved — send a message to continue.");
+    }
     updateDebugFromTurn(data);
     await refreshDebugPanel();
   } catch (err) {

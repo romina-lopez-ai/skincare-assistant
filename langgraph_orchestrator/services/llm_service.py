@@ -44,13 +44,14 @@ def generate_symptom_response(state: dict[str, Any]) -> str:
         Assistant reply string.  When all slots are filled the real model
         should include [END_SYMPTOMS] in its output.
     """
+    # IMPORTANT: this function must only look at symptom_slots.
+    # It must never branch on image_uploaded, image_acknowledged, or phase.
+    # Image acknowledgement is the sole responsibility of await_or_store_image.
     slots = state.get("symptom_slots", {})
     missing = [k for k in REQUIRED_SLOTS if not slots.get(k)]
 
     if missing:
-        return (
-            f"Could you tell me more about the {missing[0]} of your skin concern?"
-        )
+        return f"Could you tell me more about the {missing[0]} of your skin concern?"
     return "Thank you. I have all the information I need. [END_SYMPTOMS]"
 
 

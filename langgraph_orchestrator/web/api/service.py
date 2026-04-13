@@ -140,57 +140,44 @@ def run_turn(session_id: str, user_message: str) -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 def store_image(session_id: str, file_path: str) -> dict[str, Any]:
-    """Store an uploaded image path in session state and return acknowledgment.
+    """Store an uploaded image path in session state silently.
 
-    Does NOT immediately run the vision pipeline.  The pipeline is triggered
-    on the next user message turn once both symptoms and image are present.
-    If symptoms are already complete, the response tells the user to send a
-    message to start the analysis.
+    This function does NOT generate any assistant message.
+    The single acknowledgement is sent by the await_or_store_image node on the
+    next user message turn — having two sources of acknowledgement caused the
+    duplicate-message bug.
+
+    The vision pipeline fires automatically once symptoms_complete and
+    image_uploaded are both True (handled by input_router → run_vision).
 
     Args:
         session_id: Active session identifier.
         file_path:  Absolute or relative path to the saved image file.
 
     Returns:
-        Same structure as run_turn plus image_url.
+        response is always "" — the frontend must not add an assistant bubble.
     """
     state = _sessions.get(session_id)
     if state is None:
         state = start_session(session_id)
 
-    state = {**state, "image_uploaded": True, "image_path": file_path, "image_acknowledged": False}
-
-    # Choose response text based on workflow phase
-    if state.get("symptoms_complete"):
-        response = (
-            "Image received. I now have your symptom details and the image. "
-            "Send any message (e.g. 'analyse') and I will begin the skin analysis."
-        )
-    elif state.get("phase") == "start":
-        response = (
-            "Image saved. Let's start by going through a few symptom questions "
-            "before I analyse it. Please describe what you are experiencing."
-        )
-    else:
-        response = (
-            "Image saved. I'll analyse it once we've finished gathering your "
-            "symptom information. Let's continue — please answer my next question."
-        )
-
+    # Update image flags only — do NOT touch messages
     state = {
         **state,
-        "messages": state["messages"] + [{"role": "assistant", "content": response}],
+        "image_uploaded":    True,
+        "image_path":        file_path,
+        "image_acknowledged": False,   # reset so await_or_store_image sends exactly one ack
     }
     _sessions[session_id] = state
 
     return {
-        "response":         response,
-        "phase":            state.get("phase", "unknown"),
+        "response":          "",       # empty — frontend shows a toast, not a bubble
+        "phase":             state.get("phase", "unknown"),
         "symptoms_complete": state.get("symptoms_complete", False),
-        "image_uploaded":   True,
-        "diagnosis_done":   state.get("diagnosis_done", False),
-        "rag_context_used": False,
-        "nodes_visited":    ["[image_stored]"],
+        "image_uploaded":    True,
+        "diagnosis_done":    state.get("diagnosis_done", False),
+        "rag_context_used":  False,
+        "nodes_visited":     ["[image_stored]"],
     }
 
 
@@ -268,18 +255,22 @@ def _infer_path(before: dict[str, Any], after: dict[str, Any]) -> list[str]:
         else:
             path.append("llm_followup")
 
-    elif symptoms_just_done or not after.get("symptoms_complete"):
-        path.append("collect_symptoms")
-
-    elif after.get("symptoms_complete") and not after.get("image_uploaded"):
-        path.append("await_or_store_image")
-
     elif (
+        # await_or_store_image ran for an early upload:
+        # image_acknowledged flipped False → True this turn
         after.get("image_uploaded")
+        and after.get("image_acknowledged")
+        and not before.get("image_acknowledged", False)
         and not after.get("symptoms_complete")
-        and before.get("image_uploaded") != after.get("image_uploaded")
     ):
         path.append("await_or_store_image")
+
+    elif after.get("symptoms_complete") and not after.get("image_uploaded"):
+        # await_or_store_image ran to prompt the user for an image
+        path.append("await_or_store_image")
+
+    elif symptoms_just_done or not after.get("symptoms_complete"):
+        path.append("collect_symptoms")
 
     if after.get("phase") == "end_session":
         path.append("session_end")
