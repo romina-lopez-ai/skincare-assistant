@@ -74,19 +74,36 @@ def joint_diagnosis(state: ChatState) -> ChatState:
     # Valid diagnosis — commit the milestone.
     # After this point, routing.py guarantees no backward transition.
     # ------------------------------------------------------------------
-    densenet   = state.get("densenet_output") or {}
-    label      = densenet.get("label", "unknown")
-    confidence = densenet.get("confidence", 0.0)
-    summary    = f"Preliminary diagnosis: {label} (confidence {confidence:.0%})"
+    densenet    = state.get("densenet_output") or {}
+    label       = densenet.get("label", "unknown")
+    confidence  = densenet.get("confidence", 0.0)
+    is_cautious = bool(state.get("uncertainty_flag"))
 
-    print(f"[joint_diagnosis] Milestone committed — {summary}")
+    # Build a summary that reflects whether the diagnosis was made confidently
+    # or with hedged language due to medium image confidence.
+    if is_cautious:
+        summary = (
+            f"Preliminary indication: {label} (confidence {confidence:.0%}, "
+            "low-confidence — treat as rough indication only)"
+        )
+    else:
+        summary = f"Preliminary diagnosis: {label} (confidence {confidence:.0%})"
+
+    print(
+        f"[joint_diagnosis] Milestone committed — {summary} "
+        f"({'cautious' if is_cautious else 'confident'})"
+    )
 
     return {
         **state,
-        "messages":          messages,
-        "diagnosis_done":    True,    # irreversible until session reset
-        "diagnosis_summary": summary,
-        "phase":             "follow_up",
-        "uncertainty_flag":  False,   # clear any prior uncertainty
+        "messages":           messages,
+        "diagnosis_done":     True,          # irreversible until session reset
+        "diagnosis_summary":  summary,
+        "phase":              "follow_up",
+        # Preserve uncertainty_flag for cautious diagnoses so downstream nodes
+        # (e.g. llm_followup) can qualify their answers accordingly.
+        # fallback_triggered is always cleared — we committed a diagnosis, so
+        # there is nothing left to fall back from.
+        "uncertainty_flag":   is_cautious,   # True → cautious; False → confident
         "fallback_triggered": False,
     }

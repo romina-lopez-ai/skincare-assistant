@@ -78,25 +78,23 @@ def route_from_input_router(state: ChatState) -> str:
        (image stored; symptom collection continues on next turn)
     6. Default                               → collect_symptoms
 
-    Fallback overrides (applied before the priority ladder):
-    - fallback_triggered = True while not diagnosis_done → collect_symptoms
-      (reset to symptom collection to recover gracefully)
-
     Milestone protection (Phase 4):
     - Two independent guards prevent backward regression after diagnosis:
       1. PRIMARY:   diagnosis_done == True  → always followup_router
       2. SECONDARY: phase == "follow_up"    → always followup_router
-         (catches edge cases where diagnosis_done might not be set yet
-          but the phase already advanced, e.g. malformed joint_diagnosis
-          output on a retry that somehow cleared the flag)
-    - Both guards are checked before any symptom/image collection logic,
-      so no noisy model output or stale tag can route backward to
-      collect_symptoms or await_or_store_image after diagnosis.
-    """
-    # --- Fallback override (only active before diagnosis) ---
-    if state["fallback_triggered"] and not state["diagnosis_done"]:
-        return ROUTE_COLLECT_SYMPTOMS
 
+    Uncertainty / low-confidence fallback (Phase 5):
+    - Tier 3 (conf < 0.40): route_after_vision → await_or_store_image.
+      That node sends a targeted "re-upload" message and resets
+      image_processed=False + image_uploaded=False, so the NEXT image the
+      user provides re-enters via branch 3 above (symptoms_complete +
+      image_uploaded + not image_processed → run_vision).  No special
+      override is needed here; the standard priority ladder handles it.
+    - Malformed diagnosis output: joint_diagnosis leaves image_processed=True
+      and diagnosis_done=False, so on re-entry branch 3 resolves to
+      joint_diagnosis (image_processed=True → ROUTE_JOINT_DIAGNOSIS) for
+      a clean retry.
+    """
     # --- Session end ---
     if state["phase"] == "end_session":
         return ROUTE_SESSION_END
@@ -153,11 +151,13 @@ def route_after_vision(state: ChatState) -> str:
 
     Logic:
     - If image was processed successfully → joint_diagnosis
-    - If uncertainty is high and fallback is triggered → collect_symptoms
-      (ask the user for clearer image or more symptoms before diagnosing)
+    - If confidence was critically low (both flags set) → await_or_store_image
+      The await node sends a focused "please re-upload" message, resets
+      image_processed and image_uploaded, then ends the turn.  The user's
+      next image upload re-enters the normal run_vision path automatically.
     """
     if state["uncertainty_flag"] and state["fallback_triggered"]:
-        return ROUTE_COLLECT_SYMPTOMS
+        return ROUTE_AWAIT_OR_STORE_IMAGE
     return ROUTE_JOINT_DIAGNOSIS
 
 

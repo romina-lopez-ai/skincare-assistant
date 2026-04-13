@@ -214,8 +214,10 @@ def build_graph():
         "project_image_features",
         route_after_vision,
         {
-            ROUTE_JOINT_DIAGNOSIS:  "joint_diagnosis",
-            ROUTE_COLLECT_SYMPTOMS: "collect_symptoms",
+            ROUTE_JOINT_DIAGNOSIS:      "joint_diagnosis",
+            # Tier 3 (conf < 0.40): send a focused re-upload prompt and reset
+            # image flags so the next upload triggers run_vision cleanly.
+            ROUTE_AWAIT_OR_STORE_IMAGE: "await_or_store_image",
         },
     )
 

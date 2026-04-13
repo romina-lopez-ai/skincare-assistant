@@ -227,8 +227,18 @@ def _infer_path(before: dict[str, Any], after: dict[str, Any]) -> list[str]:
     diagnosis_just_done = (
         after.get("diagnosis_done") and not before.get("diagnosis_done")
     )
+    # vision_just_ran: image_processed flipped False→True AND stayed True in final state.
+    # (For Tier 3 fallback, image_processed is reset to False by await_or_store_image,
+    #  so this flag is False for that turn — handled separately below.)
     vision_just_ran = (
         after.get("image_processed") and not before.get("image_processed")
+    )
+    # vision_fallback_turn: run_vision ran but await_or_store_image reset image_uploaded.
+    # Detected by: image was uploaded before the turn, but is False in the final state.
+    vision_fallback_turn = (
+        before.get("image_uploaded", False)
+        and not after.get("image_uploaded", False)
+        and not before.get("image_processed", False)
     )
     was_follow_up = before.get("diagnosis_done", False)
     symptoms_just_done = (
@@ -238,7 +248,12 @@ def _infer_path(before: dict[str, Any], after: dict[str, Any]) -> list[str]:
     if vision_just_ran:
         path += ["run_vision", "project_image_features"]
 
-    if diagnosis_just_done:
+    if vision_fallback_turn:
+        # Tier 3: run_vision + project_image_features ran, then await_or_store_image
+        # sent the re-upload prompt and reset the image flags.
+        path += ["run_vision", "project_image_features", "await_or_store_image"]
+
+    elif diagnosis_just_done:
         path += ["joint_diagnosis", "clean_response"]
 
     elif was_follow_up:

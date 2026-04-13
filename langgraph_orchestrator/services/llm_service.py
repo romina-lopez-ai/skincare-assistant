@@ -47,6 +47,8 @@ def generate_symptom_response(state: dict[str, Any]) -> str:
     # IMPORTANT: this function must only look at symptom_slots.
     # It must never branch on image_uploaded, image_acknowledged, or phase.
     # Image acknowledgement is the sole responsibility of await_or_store_image.
+    # Low-confidence image fallback is also handled by await_or_store_image
+    # (Case C) — it never reaches collect_symptoms.
     slots = state.get("symptom_slots", {})
     missing = [k for k in REQUIRED_SLOTS if not slots.get(k)]
 
@@ -59,10 +61,18 @@ def generate_diagnosis_response(state: dict[str, Any]) -> str:
     """Generate a multimodal diagnosis using symptoms + image features.
 
     MOCK: returns a hardcoded <think> + [DIAGNOSIS] block.
+    The wording is adjusted based on uncertainty_flag:
+
+    - uncertainty_flag=False (confident, conf >= 0.60):
+        Standard diagnosis with clear language.
+    - uncertainty_flag=True  (cautious, 0.40 <= conf < 0.60):
+        Hedged language emphasising that this is a preliminary indication
+        and that professional confirmation is especially important.
 
     Real implementation should:
     - Serialise state["symptom_slots"] into a structured prompt section.
     - Attach state["densenet_output"]["projected_embedding"] as visual context.
+    - Pass uncertainty_flag to the prompt so the LLM can adjust its tone.
     - Call the fine-tuned multimodal LLM.
     - Return the raw output including <think>...</think> and
       [DIAGNOSIS]...[/DIAGNOSIS] tags.
@@ -74,16 +84,30 @@ def generate_diagnosis_response(state: dict[str, Any]) -> str:
     Returns:
         Raw LLM output string with chain-of-thought and diagnosis tags.
     """
-    densenet = state.get("densenet_output") or {}
-    label      = densenet.get("label", "unknown")
-    confidence = densenet.get("confidence", 0.0)
+    densenet    = state.get("densenet_output") or {}
+    label       = densenet.get("label", "unknown")
+    confidence  = densenet.get("confidence", 0.0)
+    is_cautious = bool(state.get("uncertainty_flag"))
+
+    if is_cautious:
+        return (
+            f"<think>DenseNet result: {label} at conf={confidence:.2f} — below "
+            "the high-confidence threshold. Combining with symptom profile but "
+            "hedging language accordingly.</think>\n"
+            "[DIAGNOSIS]Based on your symptoms and the image, there are some "
+            f"preliminary indications that this could be {label}. However, the "
+            "image analysis returned a lower-than-usual confidence score, so this "
+            "should be treated as a rough indication only. I strongly recommend "
+            "consulting a dermatologist for an accurate diagnosis and an appropriate "
+            "treatment plan tailored to your situation.[/DIAGNOSIS]"
+        )
 
     return (
         f"<think>Combining symptom profile with DenseNet result "
         f"({label}, conf={confidence:.2f}). "
         "Patient reports dry, itchy patches. Consistent with eczema.</think>\n"
         "[DIAGNOSIS]Based on your symptoms and the image, this appears to be "
-        "eczema (atopic dermatitis). The affected area shows characteristic dry, "
+        f"{label} (atopic dermatitis). The affected area shows characteristic dry, "
         "scaly patches. I recommend consulting a dermatologist for a confirmed "
         "diagnosis and personalised treatment plan.[/DIAGNOSIS]"
     )

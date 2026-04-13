@@ -27,7 +27,23 @@ Expected real implementation pattern:
 
 from __future__ import annotations
 
-CONFIDENCE_THRESHOLD = 0.6
+# Confidence thresholds for three-tier uncertainty assessment.
+#
+# Tier 1 — conf >= CONFIDENCE_THRESHOLD (0.60):
+#     High confidence. uncertainty_flag=False, fallback_triggered=False.
+#     Normal confident diagnosis proceeds.
+#
+# Tier 2 — CONFIDENCE_FALLBACK_THRESHOLD <= conf < CONFIDENCE_THRESHOLD (0.40–0.59):
+#     Medium confidence. uncertainty_flag=True, fallback_triggered=False.
+#     Proceeds to joint_diagnosis with hedged/cautious language.
+#
+# Tier 3 — conf < CONFIDENCE_FALLBACK_THRESHOLD (0.40):
+#     Low confidence. uncertainty_flag=True, fallback_triggered=True.
+#     route_after_vision sends the turn back to collect_symptoms so the
+#     user is asked for a clearer image or more symptom information.
+
+CONFIDENCE_THRESHOLD          = 0.60  # minimum for a confident diagnosis
+CONFIDENCE_FALLBACK_THRESHOLD = 0.40  # below this → trigger full fallback
 
 
 def run_vision_inference(image_path: str) -> dict:
