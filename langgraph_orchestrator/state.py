@@ -48,6 +48,11 @@ class ChatState(TypedDict):
     fallback_triggered: bool
     uncertainty_flag: bool
 
+    # Internal routing signal — written by input_router and followup_router nodes,
+    # read by route_from_followup_router.  Must be declared in the TypedDict so
+    # LangGraph preserves it across node boundaries.  Never shown to the user.
+    _route: str
+
 
 def create_initial_state(session_id: str) -> ChatState:
     """Return a blank ChatState for a new session.
@@ -84,4 +89,5 @@ def create_initial_state(session_id: str) -> ChatState:
         rag_context=None,
         fallback_triggered=False,
         uncertainty_flag=False,
+        _route="",
     )
