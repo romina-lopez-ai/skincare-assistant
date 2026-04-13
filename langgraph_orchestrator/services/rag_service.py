@@ -1,46 +1,55 @@
 """rag_service.py — Retrieval backend abstraction for the dermatology chatbot.
 
-The function is a **mock** that reproduces the placeholder behavior that
-previously lived inside retrieve_context.py.
+Public interface (called by node files)
+----------------------------------------
+- retrieve_medical_context(query) → formatted [CONTEXT]…[/CONTEXT] string
+
+The public function reads config.USE_MOCK_RAG and delegates to either the
+mock implementation (_mock_retrieve_medical_context) or the real
+implementation (_real_retrieve_medical_context).
 
 Teammate integration guide
 --------------------------
-Replace the function body with a real vector-store retrieval call.  The
-function signature and return type must not change so the node file keeps
-working without modification.
+1. Set USE_MOCK_RAG = False in config.py (or export USE_MOCK_RAG=0).
+2. Fill in _real_retrieve_medical_context below with your vector-store call.
+3. The public function and all node files stay unchanged.
 
-Expected real implementation pattern:
-    1. Encode `query` with the same embedding model used to build the index.
-    2. Search the FAISS / Chroma / Pinecone store for the top-k chunks.
-    3. Assemble the retrieved chunks (with optional source metadata) into the
-       [CONTEXT]...[/CONTEXT] block format shown in the mock.
-    4. Return the formatted string.
-
-The [CONTEXT] block is injected into the LLM prompt by rag_answer.py and
-llm_service.generate_followup_response().
+The _mock_* function is preserved and continues to work exactly as before.
 """
 
 from __future__ import annotations
 
+from langgraph_orchestrator.config import USE_MOCK_RAG
+
+
+# ===========================================================================
+# Public interface — called by node files
+# ===========================================================================
 
 def retrieve_medical_context(query: str) -> str:
     """Search the medical knowledge base for context relevant to query.
-
-    MOCK: always returns a fixed eczema-management excerpt regardless of query.
-
-    Real implementation should:
-    - Embed the query and perform a vector similarity search.
-    - Return the top-k most relevant chunks formatted as a [CONTEXT] block.
-    - If no relevant chunks are found, return an empty or minimal context
-      so the LLM can say it does not have enough information.
 
     Args:
         query: The user's follow-up question text.
 
     Returns:
         A formatted [CONTEXT]...[/CONTEXT] string to be injected into the
-        LLM prompt.
+        LLM prompt.  If no relevant chunks are found, the real implementation
+        should return an empty or minimal context so the LLM can say it does
+        not have enough information.
     """
+    if USE_MOCK_RAG:
+        return _mock_retrieve_medical_context(query)
+    return _real_retrieve_medical_context(query)
+
+
+# ===========================================================================
+# Mock implementation — fixed response used during development
+# ===========================================================================
+
+def _mock_retrieve_medical_context(_query: str) -> str:
+    """MOCK: always returns a fixed eczema-management excerpt regardless of query."""
+    _ = _query  # mock — query is not used; input intentionally ignored
     return (
         "[CONTEXT]\n"
         "Source: Dermatology Handbook, Chapter 4 — Eczema Management\n"
@@ -50,4 +59,26 @@ def retrieve_medical_context(query: str) -> str:
         "Trigger avoidance (soaps, certain fabrics, allergens) is an important "
         "part of long-term management.\n"
         "[/CONTEXT]"
+    )
+
+
+# ===========================================================================
+# Real implementation — replace this body with an actual vector-store call
+# ===========================================================================
+
+def _real_retrieve_medical_context(query: str) -> str:
+    """REAL: embed the query and search the vector store for relevant chunks.
+
+    Implementation guide:
+    1. Encode query with the same embedding model used to build the index.
+    2. Search the FAISS / Chroma / Pinecone store for the top-k chunks.
+    3. Assemble the retrieved chunks (with optional source metadata) into a
+       [CONTEXT]...[/CONTEXT] block — the same format as the mock above.
+    4. Return the formatted string.  Return an empty string (or a minimal
+       "[CONTEXT][/CONTEXT]" block) when no relevant chunks are found.
+    """
+    raise NotImplementedError(
+        f"_real_retrieve_medical_context(query={query!r}): replace this with "
+        "your vector-store retrieval call. "
+        "Set USE_MOCK_RAG = True in config.py to use the mock instead."
     )

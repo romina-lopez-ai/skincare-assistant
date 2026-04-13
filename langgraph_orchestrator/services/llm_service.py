@@ -1,41 +1,37 @@
 """llm_service.py — LLM backend abstraction for the dermatology chatbot.
 
-All three functions are **mocks** that reproduce the placeholder text that
-previously lived inside the node files.
+Public interface (called by node files)
+----------------------------------------
+- generate_symptom_response(state)   → next symptom-collection question
+- generate_diagnosis_response(state) → raw multimodal diagnosis text
+- generate_followup_response(state)  → follow-up answer (plain or RAG-grounded)
+
+Each public function reads config.USE_MOCK_LLM and delegates to either the
+mock implementation (_mock_*) or the real implementation (_real_*).
 
 Teammate integration guide
 --------------------------
-Replace each function body with a real call to your fine-tuned LLM + LoRA
-adapters.  The function signatures and return types must not change so the
-node files keep working without modification.
+1. Set USE_MOCK_LLM = False in config.py (or export USE_MOCK_LLM=0).
+2. Fill in each _real_* function below with your model calls.
+3. The public functions and all node files stay unchanged.
 
-Expected real implementation pattern (per function):
-    1. Build a prompt from the state fields shown in each docstring.
-    2. Call the model (e.g. model.generate(...) or pipeline(...)).
-    3. Return the raw model output as a string.
-       - generate_symptom_response  → plain question text
-       - generate_diagnosis_response → raw text that may contain
-         <think>...</think> and [DIAGNOSIS]...[/DIAGNOSIS] tags
-         (clean_response.py strips these before showing to the user)
-       - generate_followup_response → plain answer text
+The _mock_* functions are preserved and continue to work exactly as before.
 """
 
 from __future__ import annotations
 
 from typing import Any
 
+from langgraph_orchestrator.config import USE_MOCK_LLM
 from langgraph_orchestrator.services.symptom_service import REQUIRED_SLOTS
 
 
+# ===========================================================================
+# Public interface — called by node files
+# ===========================================================================
+
 def generate_symptom_response(state: dict[str, Any]) -> str:
     """Generate the next symptom-collection question.
-
-    MOCK: asks about the first unfilled slot.
-
-    Real implementation should:
-    - Format the current symptom_slots and conversation history into a prompt.
-    - Call the fine-tuned LLM to decide what to ask next.
-    - Detect [END_SYMPTOMS] in the model output to signal completion.
 
     Args:
         state: Current ChatState dict.
@@ -44,11 +40,54 @@ def generate_symptom_response(state: dict[str, Any]) -> str:
         Assistant reply string.  When all slots are filled the real model
         should include [END_SYMPTOMS] in its output.
     """
-    # IMPORTANT: this function must only look at symptom_slots.
-    # It must never branch on image_uploaded, image_acknowledged, or phase.
-    # Image acknowledgement is the sole responsibility of await_or_store_image.
-    # Low-confidence image fallback is also handled by await_or_store_image
-    # (Case C) — it never reaches collect_symptoms.
+    if USE_MOCK_LLM:
+        return _mock_generate_symptom_response(state)
+    return _real_generate_symptom_response(state)
+
+
+def generate_diagnosis_response(state: dict[str, Any]) -> str:
+    """Generate a multimodal diagnosis using symptoms + image features.
+
+    Args:
+        state: Current ChatState dict (densenet_output must be populated).
+
+    Returns:
+        Raw LLM output string — may contain <think>…</think> and
+        [DIAGNOSIS]…[/DIAGNOSIS] tags.  clean_response.py strips these
+        before the text is shown to the user.
+    """
+    if USE_MOCK_LLM:
+        return _mock_generate_diagnosis_response(state)
+    return _real_generate_diagnosis_response(state)
+
+
+def generate_followup_response(state: dict[str, Any]) -> str:
+    """Generate a follow-up answer, optionally grounded in RAG context.
+
+    Args:
+        state: Current ChatState dict.  May contain rag_context.
+
+    Returns:
+        Plain assistant reply string (no special tags required).
+    """
+    if USE_MOCK_LLM:
+        return _mock_generate_followup_response(state)
+    return _real_generate_followup_response(state)
+
+
+# ===========================================================================
+# Mock implementations — hardcoded responses used during development
+# ===========================================================================
+
+def _mock_generate_symptom_response(state: dict[str, Any]) -> str:
+    """MOCK: asks about the first unfilled slot.
+
+    IMPORTANT: must only look at symptom_slots.  Must never branch on
+    image_uploaded, image_acknowledged, or phase.  Image acknowledgement
+    is the sole responsibility of await_or_store_image.  Low-confidence
+    image fallback is also handled by await_or_store_image (Case C) —
+    it never reaches collect_symptoms.
+    """
     slots = state.get("symptom_slots", {})
     missing = [k for k in REQUIRED_SLOTS if not slots.get(k)]
 
@@ -57,32 +96,12 @@ def generate_symptom_response(state: dict[str, Any]) -> str:
     return "Thank you. I have all the information I need. [END_SYMPTOMS]"
 
 
-def generate_diagnosis_response(state: dict[str, Any]) -> str:
-    """Generate a multimodal diagnosis using symptoms + image features.
+def _mock_generate_diagnosis_response(state: dict[str, Any]) -> str:
+    """MOCK: returns a hardcoded <think> + [DIAGNOSIS] block.
 
-    MOCK: returns a hardcoded <think> + [DIAGNOSIS] block.
-    The wording is adjusted based on uncertainty_flag:
-
-    - uncertainty_flag=False (confident, conf >= 0.60):
-        Standard diagnosis with clear language.
-    - uncertainty_flag=True  (cautious, 0.40 <= conf < 0.60):
-        Hedged language emphasising that this is a preliminary indication
-        and that professional confirmation is especially important.
-
-    Real implementation should:
-    - Serialise state["symptom_slots"] into a structured prompt section.
-    - Attach state["densenet_output"]["projected_embedding"] as visual context.
-    - Pass uncertainty_flag to the prompt so the LLM can adjust its tone.
-    - Call the fine-tuned multimodal LLM.
-    - Return the raw output including <think>...</think> and
-      [DIAGNOSIS]...[/DIAGNOSIS] tags.
-      (clean_response.py handles stripping before display.)
-
-    Args:
-        state: Current ChatState dict (densenet_output must be populated).
-
-    Returns:
-        Raw LLM output string with chain-of-thought and diagnosis tags.
+    Wording is adjusted based on uncertainty_flag:
+    - uncertainty_flag=False (conf >= 0.60): confident language.
+    - uncertainty_flag=True  (0.40 <= conf < 0.60): hedged language.
     """
     densenet    = state.get("densenet_output") or {}
     label       = densenet.get("label", "unknown")
@@ -113,26 +132,61 @@ def generate_diagnosis_response(state: dict[str, Any]) -> str:
     )
 
 
-def generate_followup_response(state: dict[str, Any]) -> str:
-    """Generate a follow-up answer, optionally grounded in RAG context.
-
-    MOCK: returns a hardcoded placeholder answer.
-
-    Real implementation should:
-    - If state["rag_context"] is set, inject it into the prompt and instruct
-      the LLM to answer using only that context.
-    - If state["rag_context"] is None, answer from the LLM's own knowledge
-      using the conversation history.
-
-    Args:
-        state: Current ChatState dict.  May contain rag_context.
-
-    Returns:
-        Plain assistant reply string (no special tags required).
-    """
+def _mock_generate_followup_response(state: dict[str, Any]) -> str:
+    """MOCK: returns a hardcoded placeholder follow-up answer."""
     return (
         "Based on the available medical information: "
         "Eczema is typically managed with regular moisturising using emollients and, "
         "during flares, topical corticosteroids. Identifying and avoiding personal "
         "triggers (e.g. soaps, fabrics, allergens) is also recommended."
+    )
+
+
+# ===========================================================================
+# Real implementations — replace these bodies with actual model calls
+# ===========================================================================
+
+def _real_generate_symptom_response(state: dict[str, Any]) -> str:
+    """REAL: call the fine-tuned LLM to generate the next symptom question.
+
+    Implementation guide:
+    1. Serialise state["symptom_slots"] and state["messages"] into a prompt.
+    2. Call the model (e.g. pipeline("text-generation", ...)(prompt)).
+    3. Return the raw model output string.
+       - Include [END_SYMPTOMS] in the output when all slots are satisfied.
+    """
+    raise NotImplementedError(
+        "_real_generate_symptom_response: replace this with your LLM call. "
+        "Set USE_MOCK_LLM = True in config.py to use the mock instead."
+    )
+
+
+def _real_generate_diagnosis_response(state: dict[str, Any]) -> str:
+    """REAL: call the fine-tuned multimodal LLM to generate a diagnosis.
+
+    Implementation guide:
+    1. Serialise state["symptom_slots"] into a structured prompt section.
+    2. Attach state["densenet_output"]["projected_embedding"] as visual context.
+    3. Pass state["uncertainty_flag"] so the model can adjust its tone.
+    4. Call the model and return the raw output including <think> and
+       [DIAGNOSIS] tags.  clean_response.py handles stripping before display.
+    """
+    raise NotImplementedError(
+        "_real_generate_diagnosis_response: replace this with your LLM call. "
+        "Set USE_MOCK_LLM = True in config.py to use the mock instead."
+    )
+
+
+def _real_generate_followup_response(state: dict[str, Any]) -> str:
+    """REAL: call the fine-tuned LLM to answer a follow-up question.
+
+    Implementation guide:
+    - If state["rag_context"] is set, inject it into the prompt and instruct
+      the model to answer using only that context.
+    - If state["rag_context"] is None, answer from the model's own knowledge
+      using the full conversation history in state["messages"].
+    """
+    raise NotImplementedError(
+        "_real_generate_followup_response: replace this with your LLM call. "
+        "Set USE_MOCK_LLM = True in config.py to use the mock instead."
     )
