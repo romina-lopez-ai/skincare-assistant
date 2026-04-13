@@ -1,49 +1,83 @@
 from __future__ import annotations
 
 from langgraph_orchestrator.services.llm_service import generate_symptom_response
+from langgraph_orchestrator.services.symptom_service import (
+    REQUIRED_SLOTS,
+    extract_slots_from_message,
+    filled_slot_count,
+    is_symptoms_complete,
+)
 from langgraph_orchestrator.state import ChatState
-
-MAX_SYMPTOM_TURNS = 10
-REQUIRED_SLOTS    = ("location", "duration", "appearance", "severity", "triggers")
 
 
 def collect_symptoms(state: ChatState) -> ChatState:
     """Ask the user focused questions to fill the symptom slots.
 
     Orchestration responsibilities (kept here):
-    - Increment symptom_turns.
-    - Detect completion via [END_SYMPTOMS] signal, slot count, or max turns.
-    - Update phase and symptoms_complete flag.
-    - Append the assistant reply to messages.
+    1. Extract slot values from the latest user message (heuristic).
+    2. Ask the LLM for the next question (or completion signal).
+    3. Apply deterministic completion rules — does not rely solely on
+       the model emitting [END_SYMPTOMS].
+    4. Update symptom_turns, symptoms_complete, phase, and messages.
 
-    Model behavior (delegated to llm_service):
-    - Generating the next question is handled by generate_symptom_response().
+    Model behavior (delegated):
+    - Slot extraction  → symptom_service.extract_slots_from_message()
+    - Completion rules → symptom_service.is_symptoms_complete()
+    - Question text    → llm_service.generate_symptom_response()
     """
-    turns = state["symptom_turns"] + 1
-    slots = state["symptom_slots"]
+    # ------------------------------------------------------------------
+    # 1. Extract slots from the latest user message (before calling LLM)
+    #    so that generate_symptom_response() sees up-to-date slot values
+    #    and skips slots that are already filled.
+    # ------------------------------------------------------------------
+    last_user_msg = ""
+    for msg in reversed(state["messages"]):
+        if msg.get("role") == "user":
+            last_user_msg = msg.get("content", "")
+            break
 
-    reply = generate_symptom_response(state)
+    updated_slots = extract_slots_from_message(last_user_msg, state["symptom_slots"])
+
+    # Pass updated slots forward so the LLM service sees current state
+    state_with_slots = {**state, "symptom_slots": updated_slots}
+
+    # ------------------------------------------------------------------
+    # 2. Ask the LLM for the next question / completion reply
+    # ------------------------------------------------------------------
+    reply = generate_symptom_response(state_with_slots)
+
+    # ------------------------------------------------------------------
+    # 3. Apply deterministic completion rules
+    # ------------------------------------------------------------------
+    turns      = state["symptom_turns"] + 1
+    end_signal = "[END_SYMPTOMS]" in reply
+    complete   = is_symptoms_complete(updated_slots, turns, end_signal)
+
+    # ------------------------------------------------------------------
+    # 4. Log and update state
+    # ------------------------------------------------------------------
+    filled  = filled_slot_count(updated_slots)
+    missing = [k for k in REQUIRED_SLOTS if not updated_slots.get(k)]
+
+    if complete:
+        reason = (
+            "model signal" if end_signal
+            else f"{filled}/{len(REQUIRED_SLOTS)} slots filled"
+            if filled >= 4
+            else "max turns"
+        )
+        print(f"[collect_symptoms] Complete after {turns} turns ({reason})")
+    else:
+        print(f"[collect_symptoms] Turn {turns} — filled {filled}/{len(REQUIRED_SLOTS)}, "
+              f"missing: {missing}")
 
     messages = state["messages"] + [{"role": "assistant", "content": reply}]
 
-    filled           = [k for k, v in slots.items() if v is not None]
-    end_signal       = "[END_SYMPTOMS]" in reply
-    all_slots_filled = len(filled) >= len(REQUIRED_SLOTS)
-    max_turns_reached = turns >= MAX_SYMPTOM_TURNS
-
-    symptoms_complete = end_signal or all_slots_filled or max_turns_reached
-
-    if symptoms_complete:
-        print(f"[collect_symptoms] Complete after {turns} turns "
-              f"(end_signal={end_signal}, max_turns={max_turns_reached})")
-    else:
-        missing = [k for k in REQUIRED_SLOTS if not slots.get(k)]
-        print(f"[collect_symptoms] Turn {turns} — missing: {missing}")
-
     return {
         **state,
+        "symptom_slots":     updated_slots,
         "messages":          messages,
         "symptom_turns":     turns,
-        "symptoms_complete": symptoms_complete,
-        "phase":             "await_image" if symptoms_complete else "symptom_collection",
+        "symptoms_complete": complete,
+        "phase":             "await_image" if complete else "symptom_collection",
     }

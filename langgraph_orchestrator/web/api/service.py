@@ -158,7 +158,7 @@ def store_image(session_id: str, file_path: str) -> dict[str, Any]:
     if state is None:
         state = start_session(session_id)
 
-    state = {**state, "image_uploaded": True, "image_path": file_path}
+    state = {**state, "image_uploaded": True, "image_path": file_path, "image_acknowledged": False}
 
     # Choose response text based on workflow phase
     if state.get("symptoms_complete"):

@@ -15,17 +15,18 @@ def input_router(state: ChatState) -> ChatState:
     Routing logic (in priority order):
     1. If diagnosis is already done → followup_router (handle follow-up question).
     2. If symptoms are complete AND image is uploaded but not yet processed → run_vision.
-    3. If symptoms are complete but no image yet → await_or_store_image.
-    4. If an image was uploaded during symptom collection → await_or_store_image
-       (store it, then continue collecting symptoms).
+    3. If symptoms are complete but no image yet → await_or_store_image (prompt for upload).
+    4. If an image was uploaded early AND not yet acknowledged → await_or_store_image
+       (send the one-time acknowledgement, then return to symptom collection).
     5. Default → collect_symptoms.
+
+    Rule 4 uses image_acknowledged to ensure the acknowledgement message is only
+    sent once.  After await_or_store_image sets image_acknowledged = True, the
+    early image is transparent to the router and symptom collection continues
+    normally through the default branch.
 
     The chosen route is written to state["_route"] so the LangGraph conditional
     edge function can read it without duplicating the logic.
-
-    Real implementation will:
-    - Apply the same priority rules but with stricter checks (e.g. inspect last
-      user message for explicit knowledge questions before reaching diagnosis).
 
     Returns:
         State with "_route" set to one of the ROUTE_* constants above.
@@ -38,8 +39,8 @@ def input_router(state: ChatState) -> ChatState:
         route = ROUTE_RUN_VISION
     elif state["symptoms_complete"] and not state["image_uploaded"]:
         route = ROUTE_AWAIT_OR_STORE_IMAGE
-    elif state["image_uploaded"] and not state["symptoms_complete"]:
-        # Early image upload — store it, keep collecting symptoms
+    elif state["image_uploaded"] and not state["image_acknowledged"] and not state["symptoms_complete"]:
+        # Early image — acknowledge it exactly once, then fall back to symptom collection
         route = ROUTE_AWAIT_OR_STORE_IMAGE
     else:
         route = ROUTE_COLLECT_SYMPTOMS

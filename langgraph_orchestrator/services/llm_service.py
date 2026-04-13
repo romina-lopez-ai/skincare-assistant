@@ -24,8 +24,7 @@ from __future__ import annotations
 
 from typing import Any
 
-# Slot names the LLM should fill during symptom collection
-REQUIRED_SLOTS = ("location", "duration", "appearance", "severity", "triggers")
+from langgraph_orchestrator.services.symptom_service import REQUIRED_SLOTS
 
 
 def generate_symptom_response(state: dict[str, Any]) -> str:

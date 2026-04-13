@@ -32,6 +32,7 @@ class ChatState(TypedDict):
 
     # Image state
     image_uploaded: bool
+    image_acknowledged: bool   # True after the early-upload acknowledgement is sent once
     image_path: str | None
     image_processed: bool
     densenet_output: dict[str, Any] | None
@@ -74,6 +75,7 @@ def create_initial_state(session_id: str) -> ChatState:
         symptom_turns=0,
         symptoms_complete=False,
         image_uploaded=False,
+        image_acknowledged=False,
         image_path=None,
         image_processed=False,
         densenet_output=None,

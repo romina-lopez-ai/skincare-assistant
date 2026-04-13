@@ -34,13 +34,15 @@ def await_or_store_image(state: ChatState) -> ChatState:
     updates: dict = {}
 
     if state["image_uploaded"] and not state["symptoms_complete"]:
-        # Case B: early image — acknowledge and continue symptom collection
+        # Case B: early image, not yet acknowledged — send acknowledgement once
+        # and set image_acknowledged = True so the router never returns here again.
         reply = (
-            "[PLACEHOLDER] Thanks for the image — I've saved it. "
+            "Thanks for the image — I've saved it. "
             "Let's continue with a few more questions before I analyse it."
         )
+        updates["image_acknowledged"] = True
         updates["phase"] = "symptom_collection"
-        print("[await_or_store_image] Early image stored; continuing symptom collection.")
+        print("[await_or_store_image] Early image acknowledged; returning to symptom collection.")
     else:
         # Case A: symptoms done, waiting for image
         reply = (
