@@ -81,8 +81,19 @@ def route_from_input_router(state: ChatState) -> str:
     Fallback overrides (applied before the priority ladder):
     - fallback_triggered = True while not diagnosis_done → collect_symptoms
       (reset to symptom collection to recover gracefully)
+
+    Milestone protection (Phase 4):
+    - Two independent guards prevent backward regression after diagnosis:
+      1. PRIMARY:   diagnosis_done == True  → always followup_router
+      2. SECONDARY: phase == "follow_up"    → always followup_router
+         (catches edge cases where diagnosis_done might not be set yet
+          but the phase already advanced, e.g. malformed joint_diagnosis
+          output on a retry that somehow cleared the flag)
+    - Both guards are checked before any symptom/image collection logic,
+      so no noisy model output or stale tag can route backward to
+      collect_symptoms or await_or_store_image after diagnosis.
     """
-    # --- Fallback override ---
+    # --- Fallback override (only active before diagnosis) ---
     if state["fallback_triggered"] and not state["diagnosis_done"]:
         return ROUTE_COLLECT_SYMPTOMS
 
@@ -90,8 +101,17 @@ def route_from_input_router(state: ChatState) -> str:
     if state["phase"] == "end_session":
         return ROUTE_SESSION_END
 
-    # --- Post-diagnosis: all turns go through followup_router ---
+    # --- MILESTONE GUARD (primary): diagnosis flag is set ---
+    # diagnosis_done = True is irreversible within a session.
+    # Once set, ALL future turns route to follow-up — no exceptions.
     if state["diagnosis_done"]:
+        return ROUTE_FOLLOWUP_ROUTER
+
+    # --- MILESTONE GUARD (secondary): phase is already follow_up ---
+    # Defensive check: if the phase advanced to follow_up but diagnosis_done
+    # was somehow not committed (e.g. malformed output on first attempt),
+    # still honour the forward progress rather than sliding backward.
+    if state["phase"] == "follow_up":
         return ROUTE_FOLLOWUP_ROUTER
 
     # --- Both symptoms and image are ready ---

@@ -33,7 +33,10 @@ def input_router(state: ChatState) -> ChatState:
     """
     route: str
 
-    if state["diagnosis_done"]:
+    # MILESTONE GUARD (primary + secondary) — mirrors routing.py
+    # diagnosis_done is the primary signal; phase == "follow_up" is the
+    # secondary fallback in case the flag and phase are briefly out of sync.
+    if state["diagnosis_done"] or state["phase"] == "follow_up":
         route = ROUTE_FOLLOWUP_ROUTER
     elif state["symptoms_complete"] and state["image_uploaded"] and not state["image_processed"]:
         route = ROUTE_RUN_VISION

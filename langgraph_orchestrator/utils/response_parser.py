@@ -211,3 +211,35 @@ def parse_model_response(raw: str) -> str:
         clean = parse_model_response(raw_llm_output)
     """
     return normalize_response_text(raw)
+
+
+# ---------------------------------------------------------------------------
+# Diagnosis validation — used by joint_diagnosis.py before locking the flag
+# ---------------------------------------------------------------------------
+
+def is_valid_diagnosis_response(text: str) -> bool:
+    """Return True if the diagnosis content is non-empty and meaningful.
+
+    Used by joint_diagnosis.py to decide whether to commit the
+    diagnosis_done = True milestone.  A response is considered valid when:
+
+    - It is non-empty after whitespace stripping.
+    - At least 20 characters of actual content remain after removing known
+      noise tags (prevents empty [DIAGNOSIS][/DIAGNOSIS] blocks from locking
+      in a worthless milestone).
+
+    Note: this function expects the PARSED content — the inner text of the
+    [DIAGNOSIS] block already extracted, or the full cleaned text if no block
+    was present.
+
+    Args:
+        text: Parsed diagnosis content string.
+
+    Returns:
+        True if the diagnosis is substantive and should lock in diagnosis_done.
+    """
+    if not text or not text.strip():
+        return False
+    # Strip noise tags, then measure remaining content
+    content = remove_known_noise_tags(text).strip()
+    return len(content) >= 20
