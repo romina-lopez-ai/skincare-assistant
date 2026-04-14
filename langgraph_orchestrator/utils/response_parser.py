@@ -39,6 +39,7 @@ Handled patterns
 from __future__ import annotations
 
 import re
+from collections import Counter
 
 # ---------------------------------------------------------------------------
 # Compiled patterns — defined once, reused on every call
@@ -116,6 +117,10 @@ _RE_TOKEN_STREAM = re.compile(
     r"(?:\b\w+[.,]\s*){10,}",
     re.IGNORECASE,
 )
+
+# URLs — never valid in a clinical diagnosis response.
+# Used by is_valid_diagnosis_response to reject hallucinated URL loops.
+_RE_URL = re.compile(r"https?://\S+", re.IGNORECASE)
 
 
 # ---------------------------------------------------------------------------
@@ -273,6 +278,39 @@ def strip_token_streams(text: str) -> str:
     return _RE_TOKEN_STREAM.sub("", text)
 
 
+def strip_repeated_lines(text: str) -> str:
+    """Remove any non-trivial line that appears 3 or more times.
+
+    The real model sometimes enters a full-sentence generation loop, emitting
+    the same sentence repeatedly, e.g.:
+
+        DenseNet model visualized: https://www.tensorflow.org/model_search/denseface
+        DenseNet model visualized: https://www.tensorflow.org/model_search/denseface
+        ...  (×12)
+
+    This is different from the same-WORD loop caught by strip_repeated_tokens.
+    Here the repeated unit is an entire line.
+
+    Algorithm:
+    1. Count occurrences of each stripped non-empty line.
+    2. Any line that appears ≥ 3 times is a loop artefact — remove ALL copies.
+       The threshold is 3 (not 2) to preserve legitimate repeated short lines
+       like "---" separators or "Always consult a dermatologist." if it appears
+       twice.
+
+    >>> strip_repeated_lines("A\\nB\\nB\\nB\\nC")
+    'A\\nC'
+    """
+    lines = text.split("\n")
+    counts: Counter[str] = Counter(
+        line.strip() for line in lines if line.strip()
+    )
+    junk: set[str] = {line for line, n in counts.items() if n >= 3}
+    if not junk:
+        return text
+    return "\n".join(line for line in lines if line.strip() not in junk)
+
+
 def _junk_ratio(text: str) -> float:
     """Return the fraction of characters that are repeated-word junk tokens.
 
@@ -327,8 +365,11 @@ def normalize_response_text(text: str) -> str:
     # Step 4 — repeated token loops
     text = strip_repeated_tokens(text)
 
-    # Step 5 — long token-stream runs
+    # Step 5a — long token-stream runs
     text = strip_token_streams(text)
+
+    # Step 5b — repeated-sentence loops (e.g. "DenseNet model visualized: URL" ×12)
+    text = strip_repeated_lines(text)
 
     # Step 6 — proper <think>…</think> chain-of-thought blocks
     text = strip_think_blocks(text)
@@ -410,7 +451,7 @@ def is_valid_diagnosis_response(text: str) -> bool:
     if len(content) < 40:
         return False
 
-    # Rule 3 — junk ratio
+    # Rule 3 — junk ratio (word loops, unicode garbage)
     if _junk_ratio(content) >= 0.30:
         return False
 
@@ -421,5 +462,18 @@ def is_valid_diagnosis_response(text: str) -> bool:
     # Rule 5 — no residual fake-turn markers
     if re.search(r"\[(user|email|inst)\]", content, re.IGNORECASE):
         return False
+
+    # Rule 6 — no URLs (clinical text never contains http links; their presence
+    # means the model hallucinated a "model visualized: URL" loop or similar)
+    if _RE_URL.search(content):
+        return False
+
+    # Rule 7 — no repeated-line loop survived cleanup (safety net: if any non-
+    # trivial line still appears 3+ times the output is still a loop artefact)
+    non_empty_lines = [l.strip() for l in content.split("\n") if len(l.strip()) > 10]
+    if non_empty_lines:
+        most_common_count = Counter(non_empty_lines).most_common(1)[0][1]
+        if most_common_count >= 3:
+            return False
 
     return True

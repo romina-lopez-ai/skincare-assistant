@@ -377,6 +377,15 @@ def _inject_diagnosis_reminder(
       - to stop after [/DIAGNOSIS]
       - not to emit repeated tokens or fake turn markers
 
+    NOTE — DenseNet label is intentionally NOT injected here.
+    The LLM performs its own independent visual reasoning from the projected
+    embeddings.  Injecting DenseNet's top-1 label would bias the model toward
+    that label even when the LLM's own visual assessment is more accurate
+    (e.g. DenseNet says "acne" at 48% confidence on a hand showing psoriasis
+    features, while the LLM correctly reads "psoriasis" from the embeddings).
+    The sidebar showing DenseNet's label and the LLM giving a different
+    diagnosis is expected and acceptable — they are two independent classifiers.
+
     A copy is returned — state["messages"] is never mutated.
     """
     return list(history) + [{"role": "user", "content": _DIAGNOSIS_FORMAT_REMINDER}]
@@ -567,10 +576,11 @@ def _real_generate_diagnosis_response(state: dict[str, Any]) -> str:
     history  = state.get("messages", [])
     densenet = state.get("densenet_output") or {}
 
-    # Build a diagnosis-specific history: append the formatting reminder as
-    # the last user message so the model is explicitly told how to format its
-    # output.  This suppresses leaked think headers, repeated token loops, and
-    # fake continuation markers observed in real-model outputs.
+    # Build a diagnosis-specific history: append the formatting reminder
+    # (with embedded DenseNet context) as the last user message.
+    # This anchors the LLM to DenseNet's classification so the response
+    # and the sidebar show the same condition, and suppresses generation
+    # noise (token loops, fake turns, leaked headers).
     # The reminder is a local copy — state["messages"] is NOT mutated.
     diagnosis_history = _inject_diagnosis_reminder(history)
 
