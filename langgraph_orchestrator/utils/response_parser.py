@@ -20,15 +20,20 @@ easier to debug and extend.
 
 Handled patterns
 ----------------
-| Pattern                         | Action                                |
-|---------------------------------|---------------------------------------|
-| <think>…</think>                | Removed entirely                      |
-| [DIAGNOSIS]…[/DIAGNOSIS]        | First block extracted, rest discarded |
-| [END_SYMPTOMS]                  | Stripped (never user-facing)          |
-| [NOT_AVAILABLE]                 | Stripped (model uncertainty marker)   |
-| Duplicate [DIAGNOSIS] blocks    | Only first kept                       |
-| Stray bracket noise  )) ]] etc  | Stripped from end of text             |
-| Excessive blank lines           | Collapsed to one                      |
+| Pattern                              | Action                                |
+|--------------------------------------|---------------------------------------|
+| <think>…</think>                     | Removed entirely                      |
+| [DIAGNOSIS]…[/DIAGNOSIS]             | First block extracted, rest discarded |
+| [END_SYMPTOMS]                       | Stripped (never user-facing)          |
+| [NOT_AVAILABLE]                      | Stripped (model uncertainty marker)   |
+| Duplicate [DIAGNOSIS] blocks         | Only first kept                       |
+| Stray bracket noise  )) ]] etc       | Stripped from end of text             |
+| Excessive blank lines                | Collapsed to one                      |
+| Leaked think header (no tags)        | Stripped from start                   |
+| Fake turn markers [user]/[email]     | Everything from marker onwards cut    |
+| Repeated junk tokens (dense.dense…)  | Collapsed/removed                     |
+| Unicode box/block garbage  □□□       | Stripped                              |
+| Malformed trailing token streams     | Stripped                              |
 """
 
 from __future__ import annotations
@@ -68,6 +73,49 @@ _RE_TRAILING_NOISE = re.compile(r"[\)\]\}]+\s*$")
 
 # Three or more consecutive blank lines → collapse to one
 _RE_EXCESS_BLANK_LINES = re.compile(r"\n{3,}")
+
+# ---------------------------------------------------------------------------
+# Real-model noise patterns (new)
+# ---------------------------------------------------------------------------
+
+# Leaked think header WITHOUT proper tags — the model sometimes emits lines like:
+#   "think Think Dense (Dense)\nDense: 0.901\nThink: 0.099\n"
+# at the very start of the output instead of wrapping in <think>...</think>.
+# Matches: optional leading whitespace, then "think" word at start of line,
+# followed by any number of "Key: value" debug lines.
+_RE_LEAKED_THINK_HEADER = re.compile(
+    r"^[\s]*think\b[^\n]*\n(?:[A-Za-z][A-Za-z0-9 _]*:\s*[^\n]+\n)*\s*",
+    re.IGNORECASE,
+)
+
+# Fake conversation-continuation markers the model sometimes hallucinates.
+# Everything from "[user]", "[email]", "[inst]", or "[/inst]" onwards is junk.
+_RE_FAKE_CONTINUATION = re.compile(
+    r"\[(user|email|assistant|inst|\/inst|human)\].*$",
+    re.DOTALL | re.IGNORECASE,
+)
+
+# Same-word repeated 5+ times joined by dots or spaces:
+#   "dense.dense.dense.dense.dense" or "think think think think think"
+# These are hallucinated token loops, never valid medical text.
+_RE_REPEATED_WORD = re.compile(
+    r"\b(\w{2,})[. ]+(?:\1[. ]+){4,}\1?\b",
+    re.IGNORECASE,
+)
+
+# Unicode block/box/replacement characters (□ U+25A1, ▪ U+25AA, ▸ U+25B8,
+# U+FFFD replacement char, and the solid block range U+2580-U+259F).
+# These never appear in legitimate clinical text.
+_RE_UNICODE_JUNK = re.compile(
+    r"[\u2580-\u259f\u25a0-\u25ff\ufffd\u2400-\u243f□▪▸]+"
+)
+
+# Long runs of punctuation-separated tokens that are clearly a token stream
+# rather than English prose: 10+ word.word.word or word,word,word sequences.
+_RE_TOKEN_STREAM = re.compile(
+    r"(?:\b\w+[.,]\s*){10,}",
+    re.IGNORECASE,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -150,6 +198,94 @@ def collapse_blank_lines(text: str) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Real-model noise helpers (new)
+# ---------------------------------------------------------------------------
+
+def strip_leaked_think_header(text: str) -> str:
+    """Strip a leaked think-style header that appears WITHOUT proper tags.
+
+    The model sometimes emits debug-like lines at the very start of its output
+    instead of properly wrapping them in <think>...</think>, e.g.:
+
+        think Think Dense (Dense)
+        Dense: 0.901
+        Think: 0.099
+
+        Visual analysis suggests...
+
+    This helper removes that header block when it appears at the start of the
+    text (after any leading whitespace).  It is applied BEFORE <think> tag
+    stripping so the two steps don't interfere.
+
+    >>> strip_leaked_think_header("think Think Dense\\nDense: 0.9\\n\\nDiagnosis here.")
+    'Diagnosis here.'
+    """
+    return _RE_LEAKED_THINK_HEADER.sub("", text)
+
+
+def strip_fake_continuation(text: str) -> str:
+    """Remove everything from a hallucinated [user]/[email]/[inst] marker onwards.
+
+    The model occasionally appends a fake next conversation turn starting with
+    markers like "[user]thank you[email]dense.think.dense..." after the real
+    response ends.  Everything from the first such marker to end-of-string is
+    junk.
+
+    >>> strip_fake_continuation("Good diagnosis.\\n\\n[user]thank you")
+    'Good diagnosis.'
+    """
+    return _RE_FAKE_CONTINUATION.sub("", text)
+
+
+def strip_repeated_tokens(text: str) -> str:
+    """Remove same-word-repeated-many-times token loops.
+
+    Targets patterns like "dense.dense.dense.dense.dense" or
+    "think think think think think" which are hallucinated token loops that
+    the real model can emit when generation goes off the rails.
+
+    >>> strip_repeated_tokens("See a doctor. dense.dense.dense.dense.dense end")
+    'See a doctor.  end'
+    """
+    return _RE_REPEATED_WORD.sub("", text)
+
+
+def strip_unicode_junk(text: str) -> str:
+    """Remove Unicode block/box/garbage characters (□ ▪ ▸ etc.).
+
+    These codepoints never appear in legitimate clinical text and indicate
+    the model emitted raw binary noise or token-embedding artefacts.
+
+    >>> strip_unicode_junk("Diagnosis.\\u25a0\\u25a0\\u25a0")
+    'Diagnosis.'
+    """
+    return _RE_UNICODE_JUNK.sub("", text)
+
+
+def strip_token_streams(text: str) -> str:
+    """Remove long runs of dot/comma-separated word tokens.
+
+    Catches trailing streams like "dense,think,dense,dense,dense,dense,dense..."
+    that are clearly internal token sequences rather than English prose.
+    Only fires on sequences of 10+ tokens to avoid stripping lists of medical
+    terms.
+    """
+    return _RE_TOKEN_STREAM.sub("", text)
+
+
+def _junk_ratio(text: str) -> float:
+    """Return the fraction of characters that are repeated-word junk tokens.
+
+    Used by is_valid_diagnosis_response to reject outputs dominated by garbage.
+    """
+    if not text:
+        return 1.0
+    junk_chars = sum(len(m.group()) for m in _RE_REPEATED_WORD.finditer(text))
+    junk_chars += sum(len(m.group()) for m in _RE_UNICODE_JUNK.finditer(text))
+    return junk_chars / len(text)
+
+
+# ---------------------------------------------------------------------------
 # Composed normaliser — the main entry point
 # ---------------------------------------------------------------------------
 
@@ -157,15 +293,21 @@ def normalize_response_text(text: str) -> str:
     """Apply the full normalisation pipeline to a raw model output string.
 
     Pipeline (in order):
-    1. Strip <think> blocks.
-    2. Try to extract the first [DIAGNOSIS] block.
-       - If found: use its content as the text going forward.
-       - If not found: use the full text (already stripped of <think>).
-    3. Remove residual [DIAGNOSIS]/[/DIAGNOSIS] tags (from duplicates).
-    4. Remove known noise tags ([END_SYMPTOMS], [NOT_AVAILABLE], etc.).
-    5. Strip trailing bracket/paren artifacts.
-    6. Collapse excessive blank lines.
-    7. Final strip of leading/trailing whitespace.
+    1.  Strip Unicode junk characters (□ ▪ etc.) — must run first so later
+        patterns operate on clean ASCII/UTF-8 text.
+    2.  Strip leaked think headers (debug lines without <think> tags).
+    3.  Strip fake continuation markers ([user]/[email]/…) and everything after.
+    4.  Strip repeated token loops (dense.dense.dense…).
+    5.  Strip long token-stream runs.
+    6.  Strip proper <think>…</think> blocks.
+    7.  Try to extract the first [DIAGNOSIS] block.
+        - If found: use its content going forward.
+        - If not: use the full text (already cleaned above).
+    8.  Remove residual [DIAGNOSIS]/[/DIAGNOSIS] tag fragments.
+    9.  Remove known noise tags ([END_SYMPTOMS], [NOT_AVAILABLE], etc.).
+    10. Strip trailing bracket/paren artifacts.
+    11. Collapse excessive blank lines.
+    12. Final strip of leading/trailing whitespace.
 
     Args:
         text: Raw string from the model.
@@ -173,28 +315,42 @@ def normalize_response_text(text: str) -> str:
     Returns:
         Clean, user-facing string.
     """
-    # Step 1 — remove chain-of-thought
+    # Step 1 — unicode junk (run before any regex that matches word chars)
+    text = strip_unicode_junk(text)
+
+    # Step 2 — leaked think-style header without tags
+    text = strip_leaked_think_header(text)
+
+    # Step 3 — fake turn continuation (everything after [user]/[email]/etc.)
+    text = strip_fake_continuation(text)
+
+    # Step 4 — repeated token loops
+    text = strip_repeated_tokens(text)
+
+    # Step 5 — long token-stream runs
+    text = strip_token_streams(text)
+
+    # Step 6 — proper <think>…</think> chain-of-thought blocks
     text = strip_think_blocks(text)
 
-    # Step 2 — extract diagnosis block if present, else keep full text
+    # Step 7 — extract diagnosis block if present, else keep full cleaned text
     diagnosis_content = extract_first_diagnosis_block(text)
     if diagnosis_content is not None:
         text = diagnosis_content
-    # (If no block, text already has <think> stripped — proceed with it)
 
-    # Step 3 — drop any leftover [DIAGNOSIS] tag fragments
+    # Step 8 — drop any leftover [DIAGNOSIS] tag fragments
     text = strip_residual_diagnosis_tags(text)
 
-    # Step 4 — drop known internal control tags
+    # Step 9 — drop known internal control tags
     text = remove_known_noise_tags(text)
 
-    # Step 5 — trailing artifact cleanup
+    # Step 10 — trailing artifact cleanup
     text = strip_trailing_artifacts(text)
 
-    # Step 6 — collapse blank lines
+    # Step 11 — collapse blank lines
     text = collapse_blank_lines(text)
 
-    # Step 7 — final whitespace trim
+    # Step 12 — final whitespace trim
     return text.strip()
 
 
@@ -221,16 +377,23 @@ def is_valid_diagnosis_response(text: str) -> bool:
     """Return True if the diagnosis content is non-empty and meaningful.
 
     Used by joint_diagnosis.py to decide whether to commit the
-    diagnosis_done = True milestone.  A response is considered valid when:
+    diagnosis_done = True milestone.
 
-    - It is non-empty after whitespace stripping.
-    - At least 20 characters of actual content remain after removing known
-      noise tags (prevents empty [DIAGNOSIS][/DIAGNOSIS] blocks from locking
-      in a worthless milestone).
+    Validation rules (all must pass):
+    1. Non-empty after whitespace stripping.
+    2. At least 40 characters of actual content after stripping noise tags
+       (raised from 20 — real model can produce short-but-legit noise strings
+       that a 20-char threshold would accept).
+    3. Junk ratio < 0.30 — output must not be dominated by repeated tokens,
+       unicode garbage, or token-stream artefacts.
+    4. Contains at least one sentence-ending punctuation mark (. ! ?) — a
+       response made entirely of fragments or partial tokens is rejected.
+    5. Does not still contain a fake-turn marker ([user]/[email]) — indicates
+       cleanup failed to strip a hallucinated continuation.
 
-    Note: this function expects the PARSED content — the inner text of the
-    [DIAGNOSIS] block already extracted, or the full cleaned text if no block
-    was present.
+    Note: this function expects PARSED content — the inner text of the
+    [DIAGNOSIS] block already extracted (or the full cleaned text if no block
+    was present).  Run normalize_response_text() before calling this.
 
     Args:
         text: Parsed diagnosis content string.
@@ -240,6 +403,23 @@ def is_valid_diagnosis_response(text: str) -> bool:
     """
     if not text or not text.strip():
         return False
-    # Strip noise tags, then measure remaining content
+
     content = remove_known_noise_tags(text).strip()
-    return len(content) >= 20
+
+    # Rule 2 — minimum length
+    if len(content) < 40:
+        return False
+
+    # Rule 3 — junk ratio
+    if _junk_ratio(content) >= 0.30:
+        return False
+
+    # Rule 4 — must contain at least one sentence-end punctuation
+    if not re.search(r"[.!?]", content):
+        return False
+
+    # Rule 5 — no residual fake-turn markers
+    if re.search(r"\[(user|email|inst)\]", content, re.IGNORECASE):
+        return False
+
+    return True

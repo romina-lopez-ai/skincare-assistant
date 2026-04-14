@@ -70,6 +70,20 @@ _LLM_MODEL_PATH: str = os.environ.get(
 # Maximum new tokens to generate per turn.  Increase for longer diagnoses.
 _MAX_NEW_TOKENS: int = 256
 
+# Formatting reminder injected as the final user message before visual diagnosis
+# generation.  Its purpose is to suppress the noise patterns observed in real
+# model outputs: leaked think headers, repeated token loops, fake turn markers.
+# It is NOT shown to the end-user — it only influences the generation context.
+_DIAGNOSIS_FORMAT_REMINDER = (
+    "Please provide your visual diagnosis now.\n"
+    "Output format rules — follow exactly:\n"
+    "1. If you need to reason internally, wrap it in <think>...</think>.\n"
+    "2. Your user-facing response MUST be wrapped in [DIAGNOSIS]...[/DIAGNOSIS].\n"
+    "3. Stop immediately after [/DIAGNOSIS]. Do not add any text after it.\n"
+    "4. Do not emit repeated tokens, debug variable names, or continuation markers.\n"
+    "5. Do not write [user], [email], or any fake turn markers."
+)
+
 # System prompt — must match the prompt used during fine-tuning so the model
 # produces the expected tags ([END_SYMPTOMS], [DIAGNOSIS], etc.).
 _SYSTEM_PROMPT = """You are an empathetic dermatology assistant with three clinical capabilities:
@@ -347,6 +361,45 @@ def _extract_first_turn(text: str) -> str:
 
 
 # ===========================================================================
+# Diagnosis output helpers
+# ===========================================================================
+
+def _inject_diagnosis_reminder(
+    history: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Return a copy of history with the diagnosis formatting reminder appended.
+
+    The reminder is added as a new user message at the end of the history so
+    the model sees it as the most recent instruction before generating.  It
+    explicitly tells the model:
+      - to wrap reasoning in <think>...</think>
+      - to wrap the answer in [DIAGNOSIS]...[/DIAGNOSIS]
+      - to stop after [/DIAGNOSIS]
+      - not to emit repeated tokens or fake turn markers
+
+    A copy is returned — state["messages"] is never mutated.
+    """
+    return list(history) + [{"role": "user", "content": _DIAGNOSIS_FORMAT_REMINDER}]
+
+
+def _truncate_after_diagnosis_close(text: str) -> str:
+    """Discard everything after the first [/DIAGNOSIS] closing tag.
+
+    The model sometimes continues generating after [/DIAGNOSIS] (fake turns,
+    repeated tokens, etc.).  Truncating at the tag boundary is the simplest
+    and most reliable way to prevent that noise from reaching the parser.
+
+    If no [/DIAGNOSIS] tag is present the full text is returned unchanged —
+    the parser will still attempt to clean it.
+    """
+    close_tag = "[/DIAGNOSIS]"
+    idx = text.upper().find(close_tag.upper())
+    if idx != -1:
+        return text[: idx + len(close_tag)]
+    return text
+
+
+# ===========================================================================
 # Public interface — called by node files
 # ===========================================================================
 
@@ -514,18 +567,26 @@ def _real_generate_diagnosis_response(state: dict[str, Any]) -> str:
     history  = state.get("messages", [])
     densenet = state.get("densenet_output") or {}
 
+    # Build a diagnosis-specific history: append the formatting reminder as
+    # the last user message so the model is explicitly told how to format its
+    # output.  This suppresses leaked think headers, repeated token loops, and
+    # fake continuation markers observed in real-model outputs.
+    # The reminder is a local copy — state["messages"] is NOT mutated.
+    diagnosis_history = _inject_diagnosis_reminder(history)
+
     projected_embedding = densenet.get("projected_embedding")
 
     if isinstance(projected_embedding, torch.Tensor):
         # ----------------------------------------------------------------
         # PRIMARY PATH: use pre-computed visual tokens from vision_service.
         # ----------------------------------------------------------------
-        return generate_with_image(
-            model, tokenizer, history,
+        raw = generate_with_image(
+            model, tokenizer, diagnosis_history,
             vis_tokens=projected_embedding,
             max_new_tokens=_MAX_NEW_TOKENS,
             device=device,
         )
+        return _truncate_after_diagnosis_close(raw)
 
     # --------------------------------------------------------------------
     # FALLBACK PATH: re-run visual pipeline from image_path.
@@ -561,12 +622,13 @@ def _real_generate_diagnosis_response(state: dict[str, Any]) -> str:
             pooled_features.to(proj_dtype)
         )                                                         # (1, 32, llm_dim)
 
-    return generate_with_image(
-        model, tokenizer, history,
+    raw = generate_with_image(
+        model, tokenizer, diagnosis_history,
         vis_tokens=vis_tokens,
         max_new_tokens=_MAX_NEW_TOKENS,
         device=device,
     )
+    return _truncate_after_diagnosis_close(raw)
 
 
 def _real_generate_followup_response(state: dict[str, Any]) -> str:
