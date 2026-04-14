@@ -34,8 +34,10 @@ USE_MOCK_RAG    = True    # leave True until your vector store is ready
 
 You can also override at launch without editing the file:
 
-```bash
-USE_MOCK_LLM=0 USE_MOCK_VISION=0 uvicorn langgraph_orchestrator.web.app:app --reload
+```Powershell
+$env:USE_MOCK_LLM="0"
+$env:USE_MOCK_VISION="0"
+uvicorn langgraph_orchestrator.web.app:app --reload
 ```
 
 Each flag is independent. If only the vision model is ready, set `USE_MOCK_VISION = False`
