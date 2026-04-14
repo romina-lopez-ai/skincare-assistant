@@ -185,6 +185,28 @@ def store_image(session_id: str, file_path: str) -> dict[str, Any]:
 # State summary (for GET /session/{id}/state)
 # ---------------------------------------------------------------------------
 
+def _strip_tensors(obj: Any) -> Any:
+    """Recursively replace torch.Tensor values with a JSON-safe summary string.
+
+    Real-mode vision_service stores features_tensor and projected_embedding as
+    torch.Tensor objects inside densenet_output.  Pydantic cannot serialize
+    tensors, so this helper converts them to a human-readable shape/dtype
+    description for the debug panel.  The live session state is NOT modified —
+    tensors are only stripped from the copy that goes into the API response.
+    """
+    try:
+        import torch  # noqa: PLC0415
+        if isinstance(obj, torch.Tensor):
+            return f"<Tensor shape={list(obj.shape)} dtype={obj.dtype} device={obj.device}>"
+    except ImportError:
+        pass
+    if isinstance(obj, dict):
+        return {k: _strip_tensors(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_strip_tensors(v) for v in obj]
+    return obj
+
+
 def get_state_summary(session_id: str) -> dict[str, Any] | None:
     """Return a structured state snapshot for the debug panel."""
     state = _sessions.get(session_id)
@@ -200,7 +222,9 @@ def get_state_summary(session_id: str) -> dict[str, Any] | None:
         "image_uploaded":   state.get("image_uploaded", False),
         "image_path":       state.get("image_path"),
         "image_processed":  state.get("image_processed", False),
-        "densenet_output":  state.get("densenet_output"),
+        # Strip torch.Tensor values — tensors are preserved in session state
+        # for workflow use but cannot be JSON-serialised by Pydantic.
+        "densenet_output":  _strip_tensors(state.get("densenet_output")),
         "diagnosis_done":   state.get("diagnosis_done", False),
         "diagnosis_summary": state.get("diagnosis_summary"),
         "rag_context":      state.get("rag_context"),
