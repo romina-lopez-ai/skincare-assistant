@@ -112,9 +112,13 @@ _RE_UNICODE_JUNK = re.compile(
 )
 
 # Long runs of punctuation-separated tokens that are clearly a token stream
-# rather than English prose: 10+ word.word.word or word,word,word sequences.
+# rather than English prose: 10+ word.word.word or Primary:Psoriasis.DenseNet
+# sequences.  Separators include dots, commas, and colons; tokens may contain
+# hyphens (e.g. "Silvery-White.Scales").
+# Uses [ \t]* (not \s*) so the match never spans across newlines — prevents
+# eating the last word of a real sentence that happens to end with a period.
 _RE_TOKEN_STREAM = re.compile(
-    r"(?:\b\w+[.,]\s*){10,}",
+    r"(?:[\w][\w-]*[.,:][ \t]*){10,}",
     re.IGNORECASE,
 )
 
@@ -311,6 +315,28 @@ def strip_repeated_lines(text: str) -> str:
     return "\n".join(line for line in lines if line.strip() not in junk)
 
 
+def strip_trailing_fragment(text: str) -> str:
+    """Remove short orphaned text after the last sentence-ending punctuation.
+
+    After token-stream stripping, a few junk words (e.g. "Itchy Dry The") can
+    be left dangling at the end.  If the last sentence-ending punctuation (. ! ?)
+    is followed by fewer than 40 characters that don't themselves end a sentence,
+    those trailing characters are noise and get trimmed.
+
+    >>> strip_trailing_fragment("Good diagnosis. Itchy Dry The")
+    'Good diagnosis.'
+    >>> strip_trailing_fragment("Good diagnosis. This is a real sentence.")
+    'Good diagnosis. This is a real sentence.'
+    """
+    last_punct = max(text.rfind("."), text.rfind("!"), text.rfind("?"))
+    if last_punct == -1:
+        return text
+    after = text[last_punct + 1:]
+    if 0 < len(after.strip()) < 40:
+        return text[: last_punct + 1].rstrip()
+    return text
+
+
 def _junk_ratio(text: str) -> float:
     """Return the fraction of characters that are repeated-word junk tokens.
 
@@ -387,6 +413,11 @@ def normalize_response_text(text: str) -> str:
 
     # Step 10 — trailing artifact cleanup
     text = strip_trailing_artifacts(text)
+
+    # Step 10b — trim orphaned trailing fragments left after token-stream removal.
+    # If the text ends with a short fragment (< 40 chars) after the last sentence-
+    # ending punctuation, it's almost certainly junk residue, not real content.
+    text = strip_trailing_fragment(text)
 
     # Step 11 — collapse blank lines
     text = collapse_blank_lines(text)

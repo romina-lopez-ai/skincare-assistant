@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from langgraph_orchestrator.services.llm_service import generate_symptom_response
 from langgraph_orchestrator.services.symptom_service import (
+    MIN_SYMPTOM_TURNS,
     REQUIRED_SLOTS,
     extract_slots_from_message,
     filled_slot_count,
@@ -51,6 +52,17 @@ def collect_symptoms(state: ChatState) -> ChatState:
     # ------------------------------------------------------------------
     turns      = state["symptom_turns"] + 1
     end_signal = "[END_SYMPTOMS]" in reply
+
+    # Strip premature [END_SYMPTOMS] — model sometimes ends too early.
+    # Matches inference_example.py MIN_QUESTIONS_BEFORE_END guard.
+    if end_signal and turns < MIN_SYMPTOM_TURNS:
+        end_signal = False
+
+    # Always strip [END_SYMPTOMS] from user-facing text — it's an internal
+    # control tag, never shown to the user regardless of whether we honor it.
+    if "[END_SYMPTOMS]" in reply:
+        reply = reply.replace("[END_SYMPTOMS]", "").strip()
+
     complete   = is_symptoms_complete(updated_slots, turns, end_signal)
 
     # ------------------------------------------------------------------

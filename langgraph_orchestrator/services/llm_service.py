@@ -62,6 +62,7 @@ from langgraph_orchestrator.services.symptom_service import REQUIRED_SLOTS
 # HuggingFace Hub repo ID for the fine-tuned dermatology LLM.
 # Override with the LLM_MODEL_PATH env var to use a local merged-model dir,
 # e.g. unified_training/outputs/merged_model.
+# Local alternative: "unified_training/outputs/merged_model"
 _LLM_MODEL_PATH: str = os.environ.get(
     "LLM_MODEL_PATH",
     "santiagoboxiga/skincare-llama-3.2-3b",
@@ -236,18 +237,22 @@ def _chat_ids(messages: list[dict[str, str]], tokenizer, prime_assistant: bool =
 
 @torch.no_grad()
 def generate_text(model, tokenizer, history: list[dict[str, str]],
-                  max_new_tokens: int, device: torch.device) -> str:
+                  max_new_tokens: int, device: torch.device,
+                  truncate_first_turn: bool = True) -> str:
     """Text-only generation: system prompt + history → next assistant turn.
 
     Args:
-        model:          Loaded causal LM.
-        tokenizer:      Matching tokenizer.
-        history:        User/assistant turn list (system prompt is injected).
-        max_new_tokens: Hard limit on generated tokens.
-        device:         Torch device the model lives on.
+        model:                Loaded causal LM.
+        tokenizer:            Matching tokenizer.
+        history:              User/assistant turn list (system prompt is injected).
+        max_new_tokens:       Hard limit on generated tokens.
+        device:               Torch device the model lives on.
+        truncate_first_turn:  If True, apply _extract_first_turn to trim multi-turn
+                              artifacts.  Set False for follow-up answers that may
+                              legitimately contain multiple paragraphs.
 
     Returns:
-        Cleaned assistant reply string (first turn only).
+        Assistant reply string.
     """
     prompt = build_prompt(history)
     ids    = tokenizer(prompt, return_tensors="pt").input_ids.to(device)
@@ -262,7 +267,9 @@ def generate_text(model, tokenizer, history: list[dict[str, str]],
         eos_token_id=[tokenizer.eos_token_id, eot_id],
     )
     raw = tokenizer.decode(out[0, ids.shape[-1]:], skip_special_tokens=True).strip()
-    return _extract_first_turn(raw)
+    if truncate_first_turn:
+        return _extract_first_turn(raw)
+    return raw
 
 
 @torch.no_grad()
@@ -388,7 +395,7 @@ def _inject_diagnosis_reminder(
 
     A copy is returned — state["messages"] is never mutated.
     """
-    return list(history) + [{"role": "user", "content": _DIAGNOSIS_FORMAT_REMINDER}]
+    return list(history) + [{"role": "system", "content": _DIAGNOSIS_FORMAT_REMINDER}]
 
 
 def _truncate_after_diagnosis_close(text: str) -> str:
@@ -681,4 +688,5 @@ def _real_generate_followup_response(state: dict[str, Any]) -> str:
         # If the last message is not from the user (unusual state), fall
         # through without injection — safer than crashing.
 
-    return generate_text(model, tokenizer, history, _MAX_NEW_TOKENS, device)
+    return generate_text(model, tokenizer, history, _MAX_NEW_TOKENS, device,
+                         truncate_first_turn=False)

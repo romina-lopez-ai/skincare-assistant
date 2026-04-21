@@ -102,9 +102,17 @@ function onFileSelected(event) {
   const file = event.target.files[0];
   if (!file) return;
 
+  // If symptoms are complete (await_image phase), upload and process immediately
+  // — no extra text message needed, matching inference_example.py behavior.
+  const phase = phaseBadge.dataset.phase;
+  if (phase === "await_image") {
+    uploadAndProcessImage(file);
+    return;
+  }
+
+  // Early upload during symptom collection — queue for next message send
   pendingImageFile = file;
 
-  // Show thumbnail + filename above the input
   const reader = new FileReader();
   reader.onload = (e) => {
     uploadThumb.src     = e.target.result;
@@ -113,6 +121,44 @@ function onFileSelected(event) {
   reader.readAsDataURL(file);
   uploadFilename.textContent = file.name;
   showToast("Image ready — send a message to upload it.");
+}
+
+async function uploadAndProcessImage(file) {
+  const formData = new FormData();
+  formData.append("session_id", sessionId);
+  formData.append("file",       file);
+
+  // Show image preview in chat
+  const previewUrl = URL.createObjectURL(file);
+  addImagePreviewToChat(previewUrl);
+
+  // Clear any lingering pending state
+  pendingImageFile = null;
+  uploadThumb.style.display = "none";
+  uploadFilename.textContent = "";
+  imageFileInput.value = "";
+
+  showTyping();
+  disableInput(true);
+
+  try {
+    const res  = await fetch("/chat/upload-image", { method: "POST", body: formData });
+    const data = await res.json();
+
+    hideTyping();
+    if (data.response) {
+      addMessageBubble("assistant", data.response);
+    }
+    updateDebugFromTurn(data);
+    await refreshDebugPanel();
+  } catch (err) {
+    hideTyping();
+    addMessageBubble("assistant", "[Error] Image processing failed.");
+    console.error("[uploadAndProcessImage]", err);
+  } finally {
+    disableInput(false);
+    messageInput.focus();
+  }
 }
 
 async function uploadPendingImage() {

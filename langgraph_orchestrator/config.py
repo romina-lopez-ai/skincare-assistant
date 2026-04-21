@@ -53,10 +53,11 @@ def _env_flag(name: str, default: bool) -> bool:
 # ---------------------------------------------------------------------------
 
 # LLM service (symptom questions, diagnosis text, follow-up answers)
-USE_MOCK_LLM: bool = _env_flag("USE_MOCK_LLM", default=True)
+USE_MOCK_LLM: bool = _env_flag("USE_MOCK_LLM", default=False)
 
 # Vision service (DenseNet inference + projection layer)
-USE_MOCK_VISION: bool = _env_flag("USE_MOCK_VISION", default=True)
+USE_MOCK_VISION: bool = _env_flag("USE_MOCK_VISION", default=False)
 
 # RAG service (vector-store retrieval for follow-up questions)
+# Still mock — no vector store is deployed yet.
 USE_MOCK_RAG: bool = _env_flag("USE_MOCK_RAG", default=True)

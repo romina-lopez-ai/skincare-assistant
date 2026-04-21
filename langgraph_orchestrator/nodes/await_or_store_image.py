@@ -62,7 +62,7 @@ def await_or_store_image(state: ChatState) -> ChatState:
     else:
         # Case A: symptoms done, waiting for image.
         reply = (
-            "[PLACEHOLDER] Great, I have all your symptom details. "
+            "Great, I have all your symptom details. "
             "Please upload a clear photo of the affected area so I can take a look."
         )
         updates["phase"] = "await_image"

@@ -140,38 +140,82 @@ def run_turn(session_id: str, user_message: str) -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 def store_image(session_id: str, file_path: str) -> dict[str, Any]:
-    """Store an uploaded image path in session state silently.
+    """Store an uploaded image path in session state.
 
-    This function does NOT generate any assistant message.
-    The single acknowledgement is sent by the await_or_store_image node on the
-    next user message turn — having two sources of acknowledgement caused the
-    duplicate-message bug.
+    When symptoms are already complete, the graph is invoked immediately so
+    the vision pipeline runs without requiring an extra user message — matching
+    the inference_example.py behavior where providing an image triggers diagnosis.
 
-    The vision pipeline fires automatically once symptoms_complete and
-    image_uploaded are both True (handled by input_router → run_vision).
+    When symptoms are still being collected (early upload), the image is stored
+    silently and the acknowledgement is sent by await_or_store_image on the
+    next user message turn.
 
     Args:
         session_id: Active session identifier.
         file_path:  Absolute or relative path to the saved image file.
 
     Returns:
-        response is always "" — the frontend must not add an assistant bubble.
+        If auto-triggered: response contains the diagnosis text.
+        If early upload: response is "" — frontend shows a toast, not a bubble.
     """
     state = _sessions.get(session_id)
     if state is None:
         state = start_session(session_id)
 
-    # Update image flags only — do NOT touch messages
+    before = dict(state)
+
     state = {
         **state,
         "image_uploaded":    True,
         "image_path":        file_path,
-        "image_acknowledged": False,   # reset so await_or_store_image sends exactly one ack
+        "image_acknowledged": False,
     }
+
+    # Auto-trigger: if symptoms are already complete, run the graph immediately
+    # so the vision pipeline fires without needing an extra user message.
+    if state.get("symptoms_complete"):
+        graph = _get_graph()
+        final_state = dict(state)
+
+        try:
+            result = graph.invoke(state)
+            final_state = dict(result)
+        except Exception as exc:
+            error_msg = (
+                f"[WORKFLOW ERROR — placeholder response]\n"
+                f"The vision pipeline raised an exception: {exc}\n"
+                "Check the server console for the full traceback."
+            )
+            final_state["messages"] = final_state["messages"] + [
+                {"role": "assistant", "content": error_msg}
+            ]
+            print(f"[service.store_image] Graph error: {exc}")
+
+        _sessions[session_id] = final_state
+
+        last_response = ""
+        for msg in reversed(final_state.get("messages", [])):
+            if msg.get("role") == "assistant":
+                last_response = msg["content"]
+                break
+
+        nodes_visited = _infer_path(before, final_state)
+
+        return {
+            "response":         last_response,
+            "phase":            final_state.get("phase", "unknown"),
+            "symptoms_complete": final_state.get("symptoms_complete", False),
+            "image_uploaded":   final_state.get("image_uploaded", False),
+            "diagnosis_done":   final_state.get("diagnosis_done", False),
+            "rag_context_used": final_state.get("rag_context") is not None,
+            "nodes_visited":    nodes_visited,
+        }
+
+    # Early upload — store silently, no graph invocation
     _sessions[session_id] = state
 
     return {
-        "response":          "",       # empty — frontend shows a toast, not a bubble
+        "response":          "",
         "phase":             state.get("phase", "unknown"),
         "symptoms_complete": state.get("symptoms_complete", False),
         "image_uploaded":    True,

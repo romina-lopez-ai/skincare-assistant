@@ -34,6 +34,7 @@ REQUIRED_SLOTS: tuple[str, ...] = (
 
 MIN_SLOTS_REQUIRED = 4   # complete when at least this many slots are filled
 MAX_SYMPTOM_TURNS  = 10  # hard cap — prevents infinite loops
+MIN_SYMPTOM_TURNS  = 3   # minimum assistant turns before allowing completion
 
 
 # ---------------------------------------------------------------------------
@@ -165,9 +166,11 @@ def is_symptoms_complete(
     """Apply the deterministic completion rules.
 
     Rules (checked in order, first True wins):
-    1. end_signal is True        → model explicitly signalled done
-    2. filled_count >= MIN_SLOTS_REQUIRED (4) → enough structured data
-    3. turns >= MAX_SYMPTOM_TURNS            → hard turn cap
+    1. end_signal is True AND turns >= MIN_SYMPTOM_TURNS
+       → model explicitly signalled done (but not prematurely)
+    2. filled_count >= MIN_SLOTS_REQUIRED AND turns >= MIN_SYMPTOM_TURNS
+       → enough structured data AND enough conversation
+    3. turns >= MAX_SYMPTOM_TURNS → hard turn cap (always fires)
 
     Args:
         slots:      Current symptom_slots dict.
@@ -179,9 +182,9 @@ def is_symptoms_complete(
     """
     filled_count = sum(1 for v in slots.values() if v is not None)
 
-    if end_signal:
+    if end_signal and turns >= MIN_SYMPTOM_TURNS:
         return True
-    if filled_count >= MIN_SLOTS_REQUIRED:
+    if filled_count >= MIN_SLOTS_REQUIRED and turns >= MIN_SYMPTOM_TURNS:
         return True
     if turns >= MAX_SYMPTOM_TURNS:
         return True

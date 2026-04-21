@@ -80,19 +80,17 @@ from langgraph_orchestrator.state import ChatState
 # ---------------------------------------------------------------------------
 
 def _llm_followup(state: ChatState) -> ChatState:
-    """Placeholder: plain LLM response for conversational follow-up questions.
+    """Plain LLM response for conversational follow-up questions.
 
     This handles the 'normal' follow-up path (non-knowledge questions) after
     diagnosis, e.g. "What does eczema look like?" or "Is this serious?".
 
     Not a separate file because it is a thin wrapper around a single LLM call
-    with no special pre- or post-processing.  The real implementation will call
-    the fine-tuned LLM with the full conversation history.
+    with no special pre- or post-processing.
     """
-    reply = (
-        "[PLACEHOLDER — LLM followup] That is a great question. "
-        "Based on your diagnosis and our conversation so far, here is what I can share."
-    )
+    from langgraph_orchestrator.services.llm_service import generate_followup_response
+
+    reply = generate_followup_response(state)
     print("[llm_followup] Generating conversational follow-up response.")
     return {
         **state,
