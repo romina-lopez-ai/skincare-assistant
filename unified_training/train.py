@@ -1,10 +1,7 @@
-"""Phase 4 — Unified Multitask Training (A + B + C + D).
+"""Phase 4 — Training with Dataset F (projection + symptoms → diagnosis).
 
-Initializes from Phase 2 checkpoints (projection + LoRA) and trains on all
-four dataset types simultaneously with weighted sampling.
-
-Image datasets (A, D): visual tokens spliced at image_msg_index position.
-Text datasets (B, C): standard causal LM forward pass.
+Initializes from Phase 2 checkpoints (projection + LoRA) and trains on
+dataset F: image visual tokens + patient symptoms → clinical diagnosis.
 """
 
 import json
@@ -23,7 +20,6 @@ from transformers import (
 )
 from peft import PeftModel
 
-# Add this directory and parent to sys.path for direct execution
 _this_dir = os.path.dirname(os.path.abspath(__file__))
 _project_root = os.path.join(_this_dir, "..")
 for _p in (_this_dir, _project_root):
@@ -32,7 +28,7 @@ for _p in (_this_dir, _project_root):
 
 from visual_alignment.projection import ProjectionMLP
 from unified_training.config import Phase4Config
-from unified_training.dataset import build_datasets, multitask_collate_fn
+from unified_training.dataset import build_datasets, collate_fn
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s"
@@ -75,14 +71,13 @@ class DenseNetFeatureExtractor(torch.nn.Module):
 
 def build_combined_embeddings(
     text_embeds, attention_mask, labels,
-    visual_tokens, has_image, insert_positions, image_batch_indices,
+    visual_tokens, insert_positions,
     num_visual_tokens, device,
 ):
     """Splice visual tokens into text embeddings at the correct positions.
 
-    For image samples: insert N visual tokens at insert_pos, shifting
+    Inserts N visual tokens at insert_pos for each sample, shifting
     subsequent text tokens right.
-    For text-only samples: pad with N zeros at the end (attn=0, label=-100).
 
     Returns combined_embeds, combined_attn, combined_labels — all shape
     (B, max_text_len + N, dim).
@@ -95,44 +90,32 @@ def build_combined_embeddings(
     combined_attn = torch.zeros(B, combined_len, device=device, dtype=attention_mask.dtype)
     combined_labels = torch.full((B, combined_len), -100, device=device, dtype=labels.dtype)
 
-    # Map batch index -> index into visual_tokens tensor
-    img_map = {}
-    if image_batch_indices is not None:
-        for vt_idx, batch_idx in enumerate(image_batch_indices.tolist()):
-            img_map[batch_idx] = vt_idx
-
     for i in range(B):
-        if has_image[i] and i in img_map:
-            pos = insert_positions[i].item()
-            vt = visual_tokens[img_map[i]]  # (N, dim)
+        pos = insert_positions[i].item()
+        vt = visual_tokens[i]  # (N, dim)
 
-            # Before insert point
-            combined_embeds[i, :pos] = text_embeds[i, :pos]
-            combined_attn[i, :pos] = attention_mask[i, :pos]
-            combined_labels[i, :pos] = labels[i, :pos]
+        # Before insert point
+        combined_embeds[i, :pos] = text_embeds[i, :pos]
+        combined_attn[i, :pos] = attention_mask[i, :pos]
+        combined_labels[i, :pos] = labels[i, :pos]
 
-            # Visual tokens
-            combined_embeds[i, pos : pos + N] = vt
-            combined_attn[i, pos : pos + N] = 1
-            combined_labels[i, pos : pos + N] = -100
+        # Visual tokens
+        combined_embeds[i, pos : pos + N] = vt
+        combined_attn[i, pos : pos + N] = 1
+        combined_labels[i, pos : pos + N] = -100
 
-            # After insert point
-            remaining = min(max_text_len - pos, combined_len - pos - N)
-            if remaining > 0:
-                combined_embeds[i, pos + N : pos + N + remaining] = (
-                    text_embeds[i, pos : pos + remaining]
-                )
-                combined_attn[i, pos + N : pos + N + remaining] = (
-                    attention_mask[i, pos : pos + remaining]
-                )
-                combined_labels[i, pos + N : pos + N + remaining] = (
-                    labels[i, pos : pos + remaining]
-                )
-        else:
-            # Text-only: copy text, pad end with zeros
-            combined_embeds[i, :max_text_len] = text_embeds[i]
-            combined_attn[i, :max_text_len] = attention_mask[i]
-            combined_labels[i, :max_text_len] = labels[i]
+        # After insert point
+        remaining = min(max_text_len - pos, combined_len - pos - N)
+        if remaining > 0:
+            combined_embeds[i, pos + N : pos + N + remaining] = (
+                text_embeds[i, pos : pos + remaining]
+            )
+            combined_attn[i, pos + N : pos + N + remaining] = (
+                attention_mask[i, pos : pos + remaining]
+            )
+            combined_labels[i, pos + N : pos + N + remaining] = (
+                labels[i, pos : pos + remaining]
+            )
 
     return combined_embeds, combined_attn, combined_labels
 
@@ -142,11 +125,11 @@ def build_combined_embeddings(
 # ---------------------------------------------------------------------------
 
 @torch.no_grad()
-def validate_single(
+def validate(
     slm, projection, feat_extractor, val_loader,
-    config, device, num_visual_tokens,
+    config, device,
 ):
-    """Run validation on a single dataset loader. Returns average loss."""
+    """Run validation on dataset F. Returns average loss."""
     slm.eval()
     projection.eval()
     total_loss = 0.0
@@ -156,25 +139,20 @@ def validate_single(
         input_ids = batch["input_ids"].to(device)
         attn_mask = batch["attention_mask"].to(device)
         labels_batch = batch["labels"].to(device)
-        has_image = batch["has_image"]
         insert_positions = batch["insert_positions"]
-        images = batch["images"]
-        image_batch_indices = batch["image_batch_indices"]
+        images = batch["images"].to(device)
 
         text_embeds = slm.get_input_embeddings()(input_ids)
 
-        visual_tokens = None
-        if images is not None:
-            images_dev = images.to(device)
-            vis_feat = feat_extractor(images_dev)
-            visual_tokens = projection(vis_feat.to(torch.bfloat16))
-            visual_tokens = visual_tokens.to(text_embeds.dtype)
+        vis_feat = feat_extractor(images)
+        visual_tokens = projection(vis_feat.to(torch.bfloat16))
+        visual_tokens = visual_tokens.to(text_embeds.dtype)
 
         combined_embeds, combined_attn, combined_labels = (
             build_combined_embeddings(
                 text_embeds, attn_mask, labels_batch,
-                visual_tokens, has_image, insert_positions,
-                image_batch_indices, num_visual_tokens, device,
+                visual_tokens, insert_positions,
+                config.num_visual_tokens, device,
             )
         )
 
@@ -193,24 +171,6 @@ def validate_single(
     slm.train()
     projection.train()
     return total_loss / max(num_batches, 1)
-
-
-def validate_all(
-    slm, projection, feat_extractor, val_loaders, config, device,
-):
-    """Validate on each dataset and compute weighted combined loss."""
-    losses = {}
-    weights = {"A": config.mix_a, "B": config.mix_b, "C": config.mix_c, "D": config.mix_d}
-
-    for ds_type, loader in val_loaders.items():
-        losses[ds_type] = validate_single(
-            slm, projection, feat_extractor, loader,
-            config, device, config.num_visual_tokens,
-        )
-
-    combined = sum(weights[t] * losses[t] for t in losses)
-    losses["combined"] = combined
-    return losses
 
 
 # ---------------------------------------------------------------------------
@@ -336,28 +296,23 @@ def main():
     )
 
     # ---- Datasets ----
-    train_dataset, val_datasets, train_sampler = build_datasets(
-        config, tokenizer,
-    )
+    train_dataset, val_dataset = build_datasets(config, tokenizer)
     train_loader = DataLoader(
         train_dataset,
         batch_size=config.batch_size,
-        sampler=train_sampler,
-        collate_fn=multitask_collate_fn,
+        shuffle=True,
+        collate_fn=collate_fn,
         num_workers=2,
         pin_memory=True,
     )
-    val_loaders = {
-        ds_type: DataLoader(
-            ds,
-            batch_size=config.batch_size,
-            shuffle=False,
-            collate_fn=multitask_collate_fn,
-            num_workers=2,
-            pin_memory=True,
-        )
-        for ds_type, ds in val_datasets.items()
-    }
+    val_loader = DataLoader(
+        val_dataset,
+        batch_size=config.batch_size,
+        shuffle=False,
+        collate_fn=collate_fn,
+        num_workers=2,
+        pin_memory=True,
+    )
 
     # ---- Optimizer (two param groups) ----
     lora_params = [p for p in slm.parameters() if p.requires_grad]
@@ -389,8 +344,6 @@ def main():
             f"(best val loss: {best_val_loss:.4f}, starting at epoch {start_epoch + 1})"
         )
 
-    # Build scheduler after resume so it covers only the remaining epochs.
-    # This ensures the cosine schedule is fresh when continuing a completed run.
     remaining_epochs = config.epochs - start_epoch
     num_steps = (len(train_loader) * remaining_epochs) // config.grad_accum_steps
     scheduler = get_cosine_schedule_with_warmup(
@@ -407,37 +360,28 @@ def main():
         total_loss = 0.0
         optimizer.zero_grad()
 
-        # Track per-dataset loss within epoch
-        epoch_ds_loss = {"A": 0.0, "B": 0.0, "C": 0.0, "D": 0.0}
-        epoch_ds_count = {"A": 0, "B": 0, "C": 0, "D": 0}
-
         for step, batch in enumerate(train_loader):
             input_ids = batch["input_ids"].to(device)
             attn_mask = batch["attention_mask"].to(device)
             labels_batch = batch["labels"].to(device)
-            has_image = batch["has_image"]
             insert_positions = batch["insert_positions"]
-            images = batch["images"]
-            image_batch_indices = batch["image_batch_indices"]
+            images = batch["images"].to(device)
 
             # 1) Text embeddings
             text_embeds = slm.get_input_embeddings()(input_ids)
 
-            # 2) Visual tokens for image samples
-            visual_tokens = None
-            if images is not None:
-                images_dev = images.to(device)
-                with torch.no_grad():
-                    vis_feat = feat_extractor(images_dev)
-                visual_tokens = projection(vis_feat.to(torch.bfloat16))
-                visual_tokens = visual_tokens.to(text_embeds.dtype)
+            # 2) Visual tokens
+            with torch.no_grad():
+                vis_feat = feat_extractor(images)
+            visual_tokens = projection(vis_feat.to(torch.bfloat16))
+            visual_tokens = visual_tokens.to(text_embeds.dtype)
 
             # 3) Splice visual tokens into embeddings
             combined_embeds, combined_attn, combined_labels = (
                 build_combined_embeddings(
                     text_embeds, attn_mask, labels_batch,
-                    visual_tokens, has_image, insert_positions,
-                    image_batch_indices, config.num_visual_tokens, device,
+                    visual_tokens, insert_positions,
+                    config.num_visual_tokens, device,
                 )
             )
 
@@ -464,34 +408,20 @@ def main():
                 scheduler.step()
                 optimizer.zero_grad()
 
-            step_loss = outputs.loss.item()
-            total_loss += step_loss
-
-            # Track per-dataset training loss
-            for ds_type in batch["dataset_types"]:
-                epoch_ds_loss[ds_type] += step_loss
-                epoch_ds_count[ds_type] += 1
+            total_loss += outputs.loss.item()
 
         avg_train_loss = total_loss / len(train_loader)
 
         # ---- Validation ----
-        val_losses = validate_all(
-            slm, projection, feat_extractor, val_loaders, config, device,
+        val_loss = validate(
+            slm, projection, feat_extractor, val_loader, config, device,
         )
 
         # Log
         epoch_info = {
             "epoch": epoch + 1,
             "train_loss": round(avg_train_loss, 4),
-            "train_loss_per_dataset": {
-                t: round(epoch_ds_loss[t] / max(epoch_ds_count[t], 1), 4)
-                for t in "ABCD"
-            },
-            "val_loss_A": round(val_losses["A"], 4),
-            "val_loss_B": round(val_losses["B"], 4),
-            "val_loss_C": round(val_losses["C"], 4),
-            "val_loss_D": round(val_losses["D"], 4),
-            "val_loss_combined": round(val_losses["combined"], 4),
+            "val_loss": round(val_loss, 4),
             "lr_proj": optimizer.param_groups[0]["lr"],
             "lr_lora": optimizer.param_groups[1]["lr"],
         }
@@ -500,20 +430,17 @@ def main():
         logger.info(
             f"Epoch {epoch+1}/{config.epochs} | "
             f"Train: {avg_train_loss:.4f} | "
-            f"Val A: {val_losses['A']:.4f} B: {val_losses['B']:.4f} "
-            f"C: {val_losses['C']:.4f} D: {val_losses['D']:.4f} | "
-            f"Combined: {val_losses['combined']:.4f}"
+            f"Val: {val_loss:.4f}"
         )
 
-        # Checkpoint on best combined val loss
-        if val_losses["combined"] < best_val_loss:
-            best_val_loss = val_losses["combined"]
+        # Checkpoint on best val loss
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
             patience_counter = 0
             save_checkpoint(projection, slm, config.output_dir)
         else:
             patience_counter += 1
 
-        # Save full training state every epoch for crash recovery
         save_resume_state(
             projection, slm, optimizer, scheduler,
             epoch, best_val_loss, patience_counter,
@@ -536,7 +463,7 @@ def main():
         os.remove(resume_marker)
         logger.info("Cleared resume state (training completed successfully)")
 
-    logger.info(f"Training complete. Best combined val loss: {best_val_loss:.4f}")
+    logger.info(f"Training complete. Best val loss: {best_val_loss:.4f}")
 
 
 if __name__ == "__main__":
