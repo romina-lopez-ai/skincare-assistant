@@ -67,7 +67,7 @@ from langgraph_orchestrator.services.symptom_service import REQUIRED_SLOTS
 #       will still load but its performance may vary slightly.
 _LLM_MODEL_PATH: str = os.environ.get(
     "LLM_MODEL_PATH",
-    "unsloth/Llama-3.2-3B-Instruct",  # base model for adapter loading
+    "meta-llama/Llama-3.2-3B-Instruct",  # base model for adapter loading
     #"RominaLopez/llama-3.2-3b-4bit-quantized",  # base model for adapter loading
 )
 
@@ -80,7 +80,6 @@ _ADAPTER_PATHS: dict[str, str] = {
     "symptoms": os.path.join(_ADAPTER_ROOT, "symptoms"),  # symptom collection
     "image":    os.path.join(_ADAPTER_ROOT, "image"),     # visual diagnosis
     "rag":      os.path.join(_ADAPTER_ROOT, "rag"),       # followup / RAG QA
-    "diagnosis":os.path.join(_ADAPTER_ROOT, "diagnosis"), # text diagnosis (not yet trained)
 }
 
 # Maximum new tokens to generate per turn.  Increase for longer diagnoses.
