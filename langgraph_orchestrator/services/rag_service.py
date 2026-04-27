@@ -63,22 +63,49 @@ def _mock_retrieve_medical_context(_query: str) -> str:
 
 
 # ===========================================================================
-# Real implementation — replace this body with an actual vector-store call
+# Real implementation — ChromaDB + BM25 + FlashRank retrieval
 # ===========================================================================
 
 def _real_retrieve_medical_context(query: str) -> str:
-    """REAL: embed the query and search the vector store for relevant chunks.
+    """REAL: retrieve grounded clinical context from ChromaDB via rag/retriever.py.
 
-    Implementation guide:
-    1. Encode query with the same embedding model used to build the index.
-    2. Search the FAISS / Chroma / Pinecone store for the top-k chunks.
-    3. Assemble the retrieved chunks (with optional source metadata) into a
-       [CONTEXT]...[/CONTEXT] block — the same format as the mock above.
-    4. Return the formatted string.  Return an empty string (or a minimal
-       "[CONTEXT][/CONTEXT]" block) when no relevant chunks are found.
+    Pipeline (implemented in rag/retriever.py):
+        1. Query expansion  — append clinical keywords
+        2. Dense retrieval  — ChromaDB semantic search
+        3. BM25 retrieval   — lexical search over same corpus
+        4. RRF fusion       — merges + deduplicates both lists
+        5. FlashRank rerank — cross-encoder refines top candidates
+        6. Score filter     — drops chunks below RELEVANCE_THRESHOLD
+        7. Top-2 returned   — matches Dataset-C 1-chunk / 2-chunk format
+
+    NOTE: LLM generation is NOT done here.  The [CONTEXT] string returned by
+    this function is injected into the last user message by
+    llm_service._real_generate_followup_response(), which uses the model
+    already loaded in llm_service._load_llm() — no second model is loaded.
+    rag/answer_generator.py and rag/model_loader.py are NOT called.
+
+    Returns:
+        Formatted "[CONTEXT]\n...\n[/CONTEXT]" string, or empty string when
+        no chunk passes RELEVANCE_THRESHOLD (the LLM answers from its own knowledge).
     """
-    raise NotImplementedError(
-        f"_real_retrieve_medical_context(query={query!r}): replace this with "
-        "your vector-store retrieval call. "
-        "Set USE_MOCK_RAG = True in config.py to use the mock instead."
-    )
+    from rag.retriever import retriever  # noqa: PLC0415 — lazy import to avoid startup cost
+
+    result    = retriever({"question": query})
+    evidences = result.get("evidences", [])
+
+    if not evidences:
+        return ""
+
+    blocks = []
+    for i, ev in enumerate(evidences, start=1):
+        text   = ev.get("text", "").strip()
+        meta   = ev.get("meta", {})
+        source = meta.get("title") or meta.get("source", "Unknown source")
+        score  = ev.get("score", 0.0)
+        if text:
+            blocks.append(f"[Evidence {i} | source: {source} | relevance: {score:.2f}]\n{text}")
+
+    if not blocks:
+        return ""
+
+    return "[CONTEXT]\n" + "\n\n".join(blocks) + "\n[/CONTEXT]"

@@ -59,51 +59,65 @@ from langgraph_orchestrator.services.symptom_service import REQUIRED_SLOTS
 # Model / generation settings
 # ---------------------------------------------------------------------------
 
-# HuggingFace Hub repo ID for the fine-tuned dermatology LLM.
-# Override with the LLM_MODEL_PATH env var to use a local merged-model dir,
-# e.g. unified_training/outputs/merged_model.
-# Local alternative: "unified_training/outputs/merged_model"
+# Base LLM — must be the unmerged base model when using LoRA adapters.
+# Override with LLM_MODEL_PATH to point to a local directory.
+# NOTE: image adapter was trained on meta-llama/Llama-3.2-3B;
+#       symptoms adapter was trained on Llama-3.2-3B-Instruct (Kaggle).
+#       Using 3B-Instruct as base gives best symptoms quality; image adapter
+#       will still load but its performance may vary slightly.
 _LLM_MODEL_PATH: str = os.environ.get(
     "LLM_MODEL_PATH",
-    "santiagoboxiga/skincare-llama-3.2-3b",
+    "unsloth/Llama-3.2-3B-Instruct",  # base model for adapter loading
+    #"RominaLopez/llama-3.2-3b-4bit-quantized",  # base model for adapter loading
 )
+
+# Adapter paths — one folder per task, relative to repo root.
+# A folder is skipped automatically if adapter_model.safetensors is missing.
+_ADAPTER_ROOT = os.path.normpath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "model", "adapters")
+)
+_ADAPTER_PATHS: dict[str, str] = {
+    "symptoms": os.path.join(_ADAPTER_ROOT, "symptoms"),  # symptom collection
+    "image":    os.path.join(_ADAPTER_ROOT, "image"),     # visual diagnosis
+    "rag":      os.path.join(_ADAPTER_ROOT, "rag"),       # followup / RAG QA
+    "diagnosis":os.path.join(_ADAPTER_ROOT, "diagnosis"), # text diagnosis (not yet trained)
+}
 
 # Maximum new tokens to generate per turn.  Increase for longer diagnoses.
-_MAX_NEW_TOKENS: int = 256
+_MAX_NEW_TOKENS: int = 1024
 
-# Formatting reminder injected as the final user message before visual diagnosis
-# generation.  Its purpose is to suppress the noise patterns observed in real
-# model outputs: leaked think headers, repeated token loops, fake turn markers.
-# It is NOT shown to the end-user — it only influences the generation context.
-_DIAGNOSIS_FORMAT_REMINDER = (
-    "Please provide your visual diagnosis now.\n"
-    "Output format rules — follow exactly:\n"
-    "1. If you need to reason internally, wrap it in <think>...</think>.\n"
-    "2. Your user-facing response MUST be wrapped in [DIAGNOSIS]...[/DIAGNOSIS].\n"
-    "3. Stop immediately after [/DIAGNOSIS]. Do not add any text after it.\n"
-    "4. Do not emit repeated tokens, debug variable names, or continuation markers.\n"
-    "5. Do not write [user], [email], or any fake turn markers."
+# separate prompts — replaced single _SYSTEM_PROMPT with three focused prompts,
+# one per clinical phase, so each LLM call gets only the instructions it needs.
+
+# separate prompts — symptom collection phase
+_SYSTEM_PROMPT_SYMPTOMS = """You are an empathetic dermatology assistant in the symptom collection phase.
+
+Collect detailed information about the user's skin concern through focused,
+one-at-a-time questions covering location, duration, morphology, severity, and
+triggers. Ask only one question per turn. Never diagnose during this phase.
+When you have gathered all the necessary information, end your reply with [END_SYMPTOMS].
+
+Always recommend consulting a dermatologist. Never provide a definitive diagnosis."""
+
+# NEW dataset d — matches SYSTEM_VISUAL_DIAGNOSIS in prepare_datasets/system_prompt.py exactly.
+# Must stay in sync: position of visual tokens depends on system prompt token length.
+_SYSTEM_PROMPT_DIAGNOSIS = (
+    "You are a dermatology assistant. Analyze the image tokens, then the patient "
+    "symptoms ([PATIENT_SYMPTOMS]) and DenseNet statistics ([DENSENET_STATISTICS]). "
+    "Reason inside <think>...</think> covering: visual morphology, symptom correlation, "
+    "statistical validation, and differential diagnosis (1-2 sentences each). "
+    "Respond inside [DIAGNOSIS]...[/DIAGNOSIS] as a doctor speaking to the patient: "
+    "plain language, 3-4 short paragraphs, no headers, explain what you see and why. "
+    "Never provide a definitive diagnosis. Always recommend consulting a dermatologist."
 )
 
-# System prompt — must match the prompt used during fine-tuning so the model
-# produces the expected tags ([END_SYMPTOMS], [DIAGNOSIS], etc.).
-_SYSTEM_PROMPT = """You are an empathetic dermatology assistant with three clinical capabilities:
+# separate prompts — follow-up QA phase
+_SYSTEM_PROMPT_FOLLOWUP = """You are an empathetic dermatology assistant in the follow-up phase.
 
-1. SYMPTOM COLLECTION
-   When a user describes skin symptoms, collect detailed information through
-   focused one-at-a-time questions covering location, duration, morphology,
-   severity, and triggers. Never diagnose during this phase.
-   End with [END_SYMPTOMS] when collection is complete.
-
-2. VISUAL DIAGNOSIS
-   When you receive visual input (image tokens), reason step by step using
-   <think>...</think> before responding. Integrate both the visual findings
-   and the symptoms previously collected. Wrap your response in
-   [DIAGNOSIS]...[/DIAGNOSIS]. Always include a disclaimer.
-
-3. FOLLOW-UP QA
-   When a [CONTEXT] block is provided, answer using only that context.
-   Do not speculate beyond what the context contains.
+The patient has already received a diagnosis. Answer follow-up questions clearly
+and concisely. When a [CONTEXT] block is provided, answer using only that context
+and do not speculate beyond what it contains. If no context is provided, answer
+from your general dermatology knowledge.
 
 Always recommend consulting a dermatologist. Never provide a definitive diagnosis."""
 
@@ -112,38 +126,45 @@ Always recommend consulting a dermatologist. Never provide a definitive diagnosi
 # Lazy model loader — loads once per process and caches in module globals
 # ---------------------------------------------------------------------------
 
-_llm_model     = None   # transformers AutoModelForCausalLM
+_llm_model     = None   # PeftModel (if any adapter loaded) or AutoModelForCausalLM
 _llm_tokenizer = None   # transformers AutoTokenizer
 _llm_device: torch.device | None = None
+_loaded_adapters: set[str] = set()  # names of adapters successfully loaded
+
+
+def _adapter_is_ready(path: str) -> bool:
+    """Return True if path contains the two files PEFT requires."""
+    return (
+        os.path.isfile(os.path.join(path, "adapter_config.json")) and
+        os.path.isfile(os.path.join(path, "adapter_model.safetensors"))
+    )
 
 
 def _load_llm():
-    """Load and cache the LLM (tokenizer + model) on first call.
+    """Load and cache the base LLM + available LoRA adapters on first call.
+
+    Adapter loading (MultiLoRA):
+        Each entry in _ADAPTER_PATHS is checked for adapter_config.json +
+        adapter_model.safetensors.  Present adapters are loaded via PEFT with
+        their folder name as the adapter_name.  Missing/empty folders are
+        skipped — the base model weights are used for those tasks instead.
 
     Returns:
         (tokenizer, model, device)
-
-    STATUS: FULLY WIRED.
-    On first call this will download ~6.4 GB from HuggingFace if using the
-    default repo ID.  Set the LLM_MODEL_PATH env var to a local path to
-    skip the download.
-
-    TODO: If the base model changes (e.g. LLaMA-3.2-1B), verify that
-    _SYSTEM_PROMPT and the special-token IDs used in _chat_ids() still match.
     """
-    global _llm_model, _llm_tokenizer, _llm_device
+    global _llm_model, _llm_tokenizer, _llm_device, _loaded_adapters
 
     if _llm_model is not None:
         return _llm_tokenizer, _llm_model, _llm_device
 
-    # Import here so that mock-only runs never pay the transformers import cost.
     from transformers import AutoModelForCausalLM, AutoTokenizer  # type: ignore
+    from peft import PeftModel  # type: ignore  # separate prompts — MultiLoRA
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     dtype  = torch.bfloat16 if device.type == "cuda" else torch.float32
 
-    print(f"[llm_service] Loading LLM from: {_LLM_MODEL_PATH}")
-    print("[llm_service] (First run may download ~6.4 GB — this can take a few minutes)")
+    print(f"[llm_service] Loading base LLM from: {_LLM_MODEL_PATH}")
+    print("[llm_service] (First run may download the model — this can take a few minutes)")
 
     tokenizer = AutoTokenizer.from_pretrained(_LLM_MODEL_PATH)
     if tokenizer.pad_token is None:
@@ -156,13 +177,30 @@ def _load_llm():
     )
     if device.type != "cuda":
         model = model.to(device)
+
+    # --- MultiLoRA: load each available adapter ---  # separate prompts
+    first_loaded = True
+    for adapter_name, adapter_path in _ADAPTER_PATHS.items():
+        if not _adapter_is_ready(adapter_path):
+            print(f"[llm_service] Adapter '{adapter_name}': not found — will use base model for this task.")
+            continue
+        if first_loaded:
+            model = PeftModel.from_pretrained(  # separate prompts — wraps base model with PEFT
+                model, adapter_path, adapter_name=adapter_name, is_trainable=False
+            )
+            first_loaded = False
+        else:
+            model.load_adapter(adapter_path, adapter_name=adapter_name)  # separate prompts
+        _loaded_adapters.add(adapter_name)
+        print(f"[llm_service] Adapter '{adapter_name}': loaded from {adapter_path}")
+
     model.eval()
 
     _llm_tokenizer = tokenizer
     _llm_model     = model
     _llm_device    = device
 
-    print("[llm_service] LLM ready.")
+    print(f"[llm_service] LLM ready. Loaded adapters: {_loaded_adapters or {'(none — base model only)'}}")
     return _llm_tokenizer, _llm_model, _llm_device
 
 
@@ -170,23 +208,26 @@ def _load_llm():
 # Helper functions — adapted from inference_example.py
 # ===========================================================================
 
-def build_prompt(history: list[dict[str, str]]) -> str:
+def build_prompt(history: list[dict[str, str]], system_prompt: str = _SYSTEM_PROMPT_SYMPTOMS) -> str:  # separate prompts — added system_prompt param
     """Serialise message history into a LLaMA-3.2 chat prompt string.
 
-    Prepends _SYSTEM_PROMPT automatically.  Skips messages with empty content.
+    Prepends system_prompt automatically.  Skips messages with empty content.
 
     Args:
-        history: List of {"role": ..., "content": ...} dicts.  Should contain
-                 only user/assistant turns (system is injected here).
+        history:       List of {"role": ..., "content": ...} dicts.  Should contain
+                       only user/assistant turns (system is injected here).
+        system_prompt: The phase-specific system prompt to prepend.  Defaults to
+                       _SYSTEM_PROMPT_SYMPTOMS.
 
     Returns:
         Fully-formatted prompt string ending with the assistant header so the
         model generates the next assistant turn.
     """
+    print(f"[llm_service] build_prompt → system_prompt: {system_prompt.splitlines()[0]!r}")  # separate prompts — debug
     text  = "<|begin_of_text|>"
     text += (
         f"<|start_header_id|>system<|end_header_id|>\n\n"
-        f"{_SYSTEM_PROMPT}<|eot_id|>"
+        f"{system_prompt}<|eot_id|>"  # separate prompts — was _SYSTEM_PROMPT
     )
     for msg in history:
         if msg["content"] == "":
@@ -238,23 +279,22 @@ def _chat_ids(messages: list[dict[str, str]], tokenizer, prime_assistant: bool =
 @torch.no_grad()
 def generate_text(model, tokenizer, history: list[dict[str, str]],
                   max_new_tokens: int, device: torch.device,
-                  truncate_first_turn: bool = True) -> str:
+                  system_prompt: str = _SYSTEM_PROMPT_SYMPTOMS,
+                  extract_first_turn: bool = True) -> str:  # separate prompts — added system_prompt param
     """Text-only generation: system prompt + history → next assistant turn.
 
     Args:
-        model:                Loaded causal LM.
-        tokenizer:            Matching tokenizer.
-        history:              User/assistant turn list (system prompt is injected).
-        max_new_tokens:       Hard limit on generated tokens.
-        device:               Torch device the model lives on.
-        truncate_first_turn:  If True, apply _extract_first_turn to trim multi-turn
-                              artifacts.  Set False for follow-up answers that may
-                              legitimately contain multiple paragraphs.
+        model:          Loaded causal LM.
+        tokenizer:      Matching tokenizer.
+        history:        User/assistant turn list (system prompt is injected).
+        max_new_tokens: Hard limit on generated tokens.
+        device:         Torch device the model lives on.
+        system_prompt:  The phase-specific system prompt to use.
 
     Returns:
-        Assistant reply string.
+        Cleaned assistant reply string (first turn only).
     """
-    prompt = build_prompt(history)
+    prompt = build_prompt(history, system_prompt)  # separate prompts — was build_prompt(history)
     ids    = tokenizer(prompt, return_tensors="pt").input_ids.to(device)
     eot_id = tokenizer.convert_tokens_to_ids("<|eot_id|>")
 
@@ -267,9 +307,7 @@ def generate_text(model, tokenizer, history: list[dict[str, str]],
         eos_token_id=[tokenizer.eos_token_id, eot_id],
     )
     raw = tokenizer.decode(out[0, ids.shape[-1]:], skip_special_tokens=True).strip()
-    if truncate_first_turn:
-        return _extract_first_turn(raw)
-    return raw
+    return _extract_first_turn(raw)
 
 
 @torch.no_grad()
@@ -280,6 +318,7 @@ def generate_with_image(
     vis_tokens: torch.Tensor,
     max_new_tokens: int,
     device: torch.device,
+    system_prompt: str = _SYSTEM_PROMPT_DIAGNOSIS,  # separate prompts — added system_prompt param
 ) -> str:
     """Multimodal generation: inject pre-computed visual tokens into input embeddings.
 
@@ -294,6 +333,7 @@ def generate_with_image(
                         Produced by vision_service._real_project_vision_features.
         max_new_tokens: Hard limit on generated tokens.
         device:         Torch device the model lives on.
+        system_prompt:  The phase-specific system prompt to use.
 
     Returns:
         Raw LLM output string.  May contain <think>…</think> and
@@ -305,30 +345,60 @@ def generate_with_image(
     feat_extractor + projection + image_path, because the projection step
     already ran in vision_service.project_vision_features.
     """
-    full_messages = [{"role": "system", "content": _SYSTEM_PROMPT}] + history
-    text_ids      = _chat_ids(full_messages, tokenizer, prime_assistant=True)
+    # NEW dataset d — layout: [sys] + [vis_tokens] + [user_context] + [asst_header]
+    # Matches image_msg_index=1 training layout in unified_training/dataset.py.
+    # _SYSTEM_PROMPT_DIAGNOSIS must stay identical to SYSTEM_VISUAL_DIAGNOSIS in
+    # prepare_datasets/system_prompt.py — visual token position depends on sys length.
 
-    # Split off the trailing assistant header so visual tokens slot between
-    # the conversation context and the header.
+    # 1) Tokenize system turn only — marks the injection point for visual tokens
+    sys_ids = _chat_ids(
+        [{"role": "system", "content": system_prompt}], tokenizer, prime_assistant=False
+    )
+
+    # 2) Tokenize full conversation (sys + history) + assistant prime
+    full_messages = [{"role": "system", "content": system_prompt}] + history
+    all_ids = _chat_ids(full_messages, tokenizer, prime_assistant=True)
+
     asst_header_ids = tokenizer.encode(
         "<|start_header_id|>assistant<|end_header_id|>\n\n",
         add_special_tokens=False,
     )
-    pre_ids  = text_ids[: len(text_ids) - len(asst_header_ids)]
 
-    pre_tensor  = torch.tensor([pre_ids],       dtype=torch.long, device=device)
+    # 3) Split: sys | user_context | asst_header
+    sys_end  = len(sys_ids)
+    ctx_ids  = all_ids[sys_end : len(all_ids) - len(asst_header_ids)]
+
+    sys_tensor  = torch.tensor([sys_ids],         dtype=torch.long, device=device)
+    ctx_tensor  = torch.tensor([ctx_ids],         dtype=torch.long, device=device)
     asst_tensor = torch.tensor([asst_header_ids], dtype=torch.long, device=device)
 
     embed_fn    = model.get_input_embeddings()
-    pre_embeds  = embed_fn(pre_tensor)   # (1, T_pre, llm_dim)
+    sys_embeds  = embed_fn(sys_tensor)   # (1, T_sys,  llm_dim)
+    ctx_embeds  = embed_fn(ctx_tensor)   # (1, T_ctx,  llm_dim)
     asst_embeds = embed_fn(asst_tensor)  # (1, T_asst, llm_dim)
 
-    # Move visual tokens to the correct device and dtype
-    vis_tokens = vis_tokens.to(device).to(pre_embeds.dtype)  # (1, 32, llm_dim)
+    vis_tokens = vis_tokens.to(device).to(sys_embeds.dtype)  # (1, 32, llm_dim)
 
-    # Combine: [context] + [visual tokens] + [assistant header]
-    combined  = torch.cat([pre_embeds, vis_tokens, asst_embeds], dim=1)
+    # 4) Assemble: [sys] + [vis_tokens] + [user_context] + [asst_header]
+    combined  = torch.cat([sys_embeds, vis_tokens, ctx_embeds, asst_embeds], dim=1)
     attn_mask = torch.ones(combined.shape[:2], dtype=torch.long, device=device)
+
+    # ── DEBUG PRINT ──────────────────────────────────────────────────────────
+    _sep = "=" * 60
+    print(f"\n{_sep}")
+    print("[llm_service] generate_with_image — FULL PROMPT SENT TO MODEL")
+    print(f"  Layout : [sys({len(sys_ids)} tok)] + [vis_tokens(32)] + "
+          f"[ctx({len(ctx_ids)} tok)] + [asst_header({len(asst_header_ids)} tok)]")
+    print(f"  Total  : {len(sys_ids) + 32 + len(ctx_ids) + len(asst_header_ids)} positions")
+    print(f"\n── SYSTEM PROMPT ──\n{system_prompt}")
+    if ctx_ids:
+        print(f"\n── USER CONTEXT ──\n{tokenizer.decode(ctx_ids, skip_special_tokens=True)}")
+    else:
+        print("\n── USER CONTEXT ── (empty)")
+    print(f"\n── VISUAL TOKENS ── shape={vis_tokens.shape} dtype={vis_tokens.dtype} "
+          f"mean={vis_tokens.float().mean().item():.4f} std={vis_tokens.float().std().item():.4f}")
+    print(_sep)
+    # ─────────────────────────────────────────────────────────────────────────
 
     eot_id = tokenizer.convert_tokens_to_ids("<|eot_id|>")
     out = model.generate(
@@ -340,8 +410,15 @@ def generate_with_image(
         eos_token_id=[tokenizer.eos_token_id, eot_id],
     )
     raw = tokenizer.decode(out[0], skip_special_tokens=True).strip()
-    # Remove repeated garbage patterns occasionally emitted by the model
     raw = re.sub(r'(\[\]\s*){3,}', '', raw).strip()
+
+    # ── DEBUG PRINT ──────────────────────────────────────────────────────────
+    print(f"\n{_sep}")
+    print("[llm_service] RAW MODEL RESPONSE:")
+    print(raw)
+    print(f"{_sep}\n")
+    # ─────────────────────────────────────────────────────────────────────────
+
     return raw
 
 
@@ -370,33 +447,6 @@ def _extract_first_turn(text: str) -> str:
 # ===========================================================================
 # Diagnosis output helpers
 # ===========================================================================
-
-def _inject_diagnosis_reminder(
-    history: list[dict[str, Any]],
-) -> list[dict[str, Any]]:
-    """Return a copy of history with the diagnosis formatting reminder appended.
-
-    The reminder is added as a new user message at the end of the history so
-    the model sees it as the most recent instruction before generating.  It
-    explicitly tells the model:
-      - to wrap reasoning in <think>...</think>
-      - to wrap the answer in [DIAGNOSIS]...[/DIAGNOSIS]
-      - to stop after [/DIAGNOSIS]
-      - not to emit repeated tokens or fake turn markers
-
-    NOTE — DenseNet label is intentionally NOT injected here.
-    The LLM performs its own independent visual reasoning from the projected
-    embeddings.  Injecting DenseNet's top-1 label would bias the model toward
-    that label even when the LLM's own visual assessment is more accurate
-    (e.g. DenseNet says "acne" at 48% confidence on a hand showing psoriasis
-    features, while the LLM correctly reads "psoriasis" from the embeddings).
-    The sidebar showing DenseNet's label and the LLM giving a different
-    diagnosis is expected and acceptable — they are two independent classifiers.
-
-    A copy is returned — state["messages"] is never mutated.
-    """
-    return list(history) + [{"role": "system", "content": _DIAGNOSIS_FORMAT_REMINDER}]
-
 
 def _truncate_after_diagnosis_close(text: str) -> str:
     """Discard everything after the first [/DIAGNOSIS] closing tag.
@@ -532,6 +582,28 @@ def _mock_generate_followup_response(state: dict[str, Any]) -> str:
 
 
 # ===========================================================================
+# MultiLoRA dispatch helper  # separate prompts
+# ===========================================================================
+
+def _generate_with_adapter(adapter_name: str, fn, **kwargs) -> str:
+    """Call fn(**kwargs) with the correct adapter active.
+
+    - adapter_name in _loaded_adapters → set_adapter then call fn.
+    - adapter_name not loaded but model is PeftModel → disable all adapters
+      (use base model weights) then call fn.
+    - no adapters loaded at all (plain AutoModelForCausalLM) → call fn directly.
+    """  # separate prompts — MultiLoRA dispatch
+    model = kwargs["model"]
+    if adapter_name in _loaded_adapters:
+        model.set_adapter(adapter_name)
+        return fn(**kwargs)
+    if _loaded_adapters:  # PeftModel, but this specific adapter not trained yet
+        with model.disable_adapter():
+            return fn(**kwargs)
+    return fn(**kwargs)  # plain base model, no PEFT wrapper
+
+
+# ===========================================================================
 # Real implementations
 # ===========================================================================
 
@@ -550,58 +622,98 @@ def _real_generate_symptom_response(state: dict[str, Any]) -> str:
     """
     tokenizer, model, device = _load_llm()
     history = state.get("messages", [])
-    return generate_text(model, tokenizer, history, _MAX_NEW_TOKENS, device)
+    return _generate_with_adapter(  # separate prompts — MultiLoRA dispatch
+        adapter_name="symptoms", fn=generate_text,
+        model=model, tokenizer=tokenizer, history=history,
+        max_new_tokens=_MAX_NEW_TOKENS, device=device,
+        system_prompt=_SYSTEM_PROMPT_SYMPTOMS,
+    )
+
+
+def _build_dataset_d_user_context(state: dict[str, Any]) -> str:
+    """NEW dataset d — build the single user message for visual diagnosis inference.
+
+    Matches the user context format in unified_training Dataset D:
+        [PATIENT_SYMPTOMS]      ← from symptom_slots (deterministic, no LLM call)
+        [DENSENET_STATISTICS]   ← from densenet_output
+
+    Order: symptoms first (clinical), DenseNet last (statistical validation).
+    Matches the <think> reasoning order: visual → symptoms → DenseNet → differential.
+    """
+    slots   = state.get("symptom_slots") or {}
+    densenet = state.get("densenet_output") or {}
+
+    # ── [PATIENT_SYMPTOMS] ───────────────────────────────────────────────────
+    slot_order = ("location", "duration", "appearance", "severity", "triggers")
+    symptom_lines = [
+        f"- {k.capitalize()}: {v}"
+        for k in slot_order
+        if (v := slots.get(k))
+    ]
+    symptoms_block = (
+        "[PATIENT_SYMPTOMS]\n"
+        + ("\n".join(symptom_lines) if symptom_lines else "- No symptom data collected")
+        + "\n[/PATIENT_SYMPTOMS]"
+    )
+
+    # ── [DENSENET_STATISTICS] ────────────────────────────────────────────────
+    primary   = (densenet.get("primary")   or densenet.get("label", "unknown")).capitalize()
+    conf      = densenet.get("confidence", 0.0)
+    secondary = (densenet.get("secondary") or densenet.get("label_2", "")).capitalize()
+    conf2     = densenet.get("confidence_2", 0.0)
+
+    densenet_lines = [
+        "[DENSENET_STATISTICS]",
+        f"- Primary: {primary} ({conf:.2f})",
+    ]
+    if secondary:
+        densenet_lines.append(f"- Secondary: {secondary} ({conf2:.2f})")
+    tertiary = (densenet.get("tertiary") or "").capitalize()
+    if tertiary:
+        conf3 = densenet.get("confidence_3", 0.0)
+        densenet_lines.append(f"- Tertiary: {tertiary} ({conf3:.2f})")
+    densenet_lines.append("[/DENSENET_STATISTICS]")
+    densenet_block = "\n".join(densenet_lines)
+
+    return f"{symptoms_block}\n\n{densenet_block}"
 
 
 def _real_generate_diagnosis_response(state: dict[str, Any]) -> str:
-    """REAL: call the fine-tuned multimodal LLM to generate a diagnosis.
+    """REAL: multimodal diagnosis — NEW dataset d format.
 
-    STATUS: FULLY WIRED — two paths depending on what vision_service provided.
+    Layout sent to model (matches unified_training image_msg_index=1):
+        [sys] + [vis_tokens(32)] + [user_context] + [asst_header]
+
+    user_context = [PATIENT_SYMPTOMS] (from slots) + [DENSENET_STATISTICS]
 
     PRIMARY PATH (USE_MOCK_VISION=False):
-        vision_service._real_project_vision_features() stores a torch.Tensor
-        under state["densenet_output"]["projected_embedding"] (shape (1,32,D)).
-        This function passes it directly to generate_with_image(), which injects
-        the visual tokens into the LLM's input embedding space.
-        This is the correct production path — no redundant DenseNet forward pass.
+        projected_embedding tensor from vision_service is used directly.
 
-    FALLBACK PATH (USE_MOCK_VISION=True but USE_MOCK_LLM=False — mixed mode):
-        projected_embedding is a string (mock) or absent.
-        We re-run DenseNet + projection from state["image_path"] using the
-        vision_service model cache.  This re-runs the visual pipeline but is
-        safe and produces a correct result.
-
-    FUTURE CLEANUP NOTE:
-        Once the team always uses USE_MOCK_VISION=False in integration runs,
-        the fallback path can be removed.  The primary path (consuming the
-        pre-computed tensor from state) is already the intended final design.
-        A possible even cleaner future version could pass the projected_embedding
-        tensor through the state TypedDict (densenet_output["projected_embedding"])
-        and never re-load vision models inside llm_service at all.
+    FALLBACK PATH (USE_MOCK_VISION=True but USE_MOCK_LLM=False):
+        Re-runs DenseNet + projection from state["image_path"].
     """
     tokenizer, model, device = _load_llm()
-    history  = state.get("messages", [])
     densenet = state.get("densenet_output") or {}
 
-    # Build a diagnosis-specific history: append the formatting reminder
-    # (with embedded DenseNet context) as the last user message.
-    # This anchors the LLM to DenseNet's classification so the response
-    # and the sidebar show the same condition, and suppresses generation
-    # noise (token loops, fake turns, leaked headers).
-    # The reminder is a local copy — state["messages"] is NOT mutated.
-    diagnosis_history = _inject_diagnosis_reminder(history)
+    # NEW dataset d — single user message with symptoms + densenet stats
+    user_context = _build_dataset_d_user_context(state)
+    # history is a list with one user message — generate_with_image places it
+    # after visual tokens: [sys] + [vis_tokens] + [user_context] + [asst_header]
+    diagnosis_history = [{"role": "user", "content": user_context}]
 
     projected_embedding = densenet.get("projected_embedding")
 
     if isinstance(projected_embedding, torch.Tensor):
-        # ----------------------------------------------------------------
-        # PRIMARY PATH: use pre-computed visual tokens from vision_service.
-        # ----------------------------------------------------------------
-        raw = generate_with_image(
-            model, tokenizer, diagnosis_history,
+        # PRIMARY PATH: pre-computed visual tokens from vision_service
+        raw = _generate_with_adapter(
+            adapter_name="image",
+            fn=generate_with_image,
+            model=model, tokenizer=tokenizer,
+            history=diagnosis_history,
             vis_tokens=projected_embedding,
             max_new_tokens=_MAX_NEW_TOKENS,
             device=device,
+            system_prompt=_SYSTEM_PROMPT_DIAGNOSIS,
         )
         return _truncate_after_diagnosis_close(raw)
 
@@ -639,11 +751,15 @@ def _real_generate_diagnosis_response(state: dict[str, Any]) -> str:
             pooled_features.to(proj_dtype)
         )                                                         # (1, 32, llm_dim)
 
-    raw = generate_with_image(
-        model, tokenizer, diagnosis_history,
+    raw = _generate_with_adapter(  # separate prompts — MultiLoRA dispatch
+        adapter_name="image",
+        fn=generate_with_image,
+        model=model, tokenizer=tokenizer,
+        history=diagnosis_history,
         vis_tokens=vis_tokens,
         max_new_tokens=_MAX_NEW_TOKENS,
         device=device,
+        system_prompt=_SYSTEM_PROMPT_DIAGNOSIS,
     )
     return _truncate_after_diagnosis_close(raw)
 
@@ -688,5 +804,10 @@ def _real_generate_followup_response(state: dict[str, Any]) -> str:
         # If the last message is not from the user (unusual state), fall
         # through without injection — safer than crashing.
 
-    return generate_text(model, tokenizer, history, _MAX_NEW_TOKENS, device,
-                         truncate_first_turn=False)
+    return _generate_with_adapter(  # separate prompts — MultiLoRA dispatch
+        adapter_name="rag", fn=generate_text,
+        model=model, tokenizer=tokenizer, history=history,
+        max_new_tokens=_MAX_NEW_TOKENS, device=device,
+        system_prompt=_SYSTEM_PROMPT_FOLLOWUP,
+        extract_first_turn=False,  # follow-up answers may be longer and less prone to token loops, so keep the full response instead of truncating to the first turn.
+    )

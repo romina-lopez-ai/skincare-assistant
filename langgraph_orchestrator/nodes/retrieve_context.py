@@ -5,7 +5,7 @@ from langgraph_orchestrator.state import ChatState
 
 
 def retrieve_context(state: ChatState) -> ChatState:
-    """Search the medical knowledge base and store retrieved context.
+    """Search the medical knowledge base and store retrieved context .
 
     Orchestration responsibilities (kept here):
     - Extract the latest user query from message history.
