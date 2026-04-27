@@ -1,34 +1,17 @@
-"""Evaluation orchestrator — Phase 4 fine-tuned vs zero-shot Llama.
+"""Evaluation — Phase 4 fine-tuned vs zero-shot Llama on Dataset F.
 
-Evaluates *behavioral* compliance rather than lexical similarity.
-The model is not trained to reproduce a specific string — it is trained to
-exhibit correct clinical behavior (see multitask_training_plan.md §9.2).
+Evaluates *behavioral* compliance for the image + symptoms → diagnosis task.
 
-Dataset B — Symptom collection (interactive simulation):
-  • end_symptoms_rate     : [END_SYMPTOMS] emitted by end of collection
-  • premature_diag_rate   : [DIAGNOSIS] appears before collection is done
-  • single_question_rate  : one question per assistant turn
-  • correct_flow_rate     : end_symptoms AND no premature diagnosis
-
-Dataset C — RAG QA (single-shot):
-  • think_block_rate      : <think>...</think> present
-  • disclaimer_rate       : response mentions "dermatologist"
-  • context_grounded_rate : response re-uses ≥1 content word from [CONTEXT]
-  • hallucination_rate    : response introduces medical claims absent from context
-
-Dataset A — Visual alignment (fine-tuned: real visual tokens; zero-shot: text-serialized DenseNet):
-  • think_block_rate      : <think>...</think> present
-  • diagnosis_tag_rate    : [DIAGNOSIS] present
-  • condition_match_rate  : primary condition from DenseNet appears in response
-  • disclaimer_rate       : response mentions "dermatologist"
-
-Dataset D — Joint consultation (fine-tuned: real visual tokens; zero-shot: text-serialized DenseNet):
-  Same as A, plus:
-  • symptoms_referenced_rate : <think> block references ≥1 symptom term from prior dialogue
+Dataset F metrics (fine-tuned uses real visual tokens; zero-shot uses text-serialized DenseNet):
+  - think_block_rate      : <think>...</think> present
+  - diagnosis_tag_rate    : [DIAGNOSIS] present
+  - condition_match_rate  : primary condition from DenseNet appears in response
+  - disclaimer_rate       : response mentions "dermatologist"
+  - symptoms_referenced_rate : <think> block references >= 1 symptom term from patient
 
 Usage (from project root):
     python unified_training/evaluate.py
-    python unified_training/evaluate.py --max-samples 5 --dataset b
+    python unified_training/evaluate.py --max-samples 5
     python unified_training/evaluate.py --skip-zeroshot
 
 Outputs:
@@ -90,9 +73,6 @@ class DenseNetFeatureExtractor(torch.nn.Module):
 # Behavioral checkers
 # ---------------------------------------------------------------------------
 
-def has_end_symptoms(text: str) -> bool:
-    return "[END_SYMPTOMS]" in text
-
 def has_diagnosis_tag(text: str) -> bool:
     return "[DIAGNOSIS]" in text
 
@@ -106,51 +86,14 @@ def extract_think_block(text: str) -> str:
 def has_disclaimer(text: str) -> bool:
     return bool(re.search(r"dermatologist", text, re.IGNORECASE))
 
-def is_single_question(text: str) -> bool:
-    """Exactly one '?' per turn — the one-question-at-a-time protocol."""
-    return text.count("?") == 1
-
 def condition_in_response(response: str, primary: str) -> bool:
-    """Check the primary DenseNet condition appears in the response."""
     return primary.lower() in response.lower()
 
 def symptoms_referenced(think_text: str, symptom_words: set[str]) -> bool:
-    """At least one symptom word from the user dialogue appears in <think>."""
     if not symptom_words:
         return False
     think_words = set(re.findall(r"[a-zA-Z]{3,}", think_text.lower()))
     return bool(think_words & symptom_words)
-
-def extract_context_words(messages: list) -> set[str]:
-    """Content words (≥4 chars) from [CONTEXT] blocks."""
-    stop = {"the", "a", "an", "is", "are", "was", "were", "of", "in", "to",
-            "and", "or", "but", "it", "this", "that", "for", "with", "on",
-            "at", "by", "from", "as", "be", "been", "have", "has", "can",
-            "do", "does", "not", "also", "may", "more", "its", "their"}
-    words: set[str] = set()
-    for m in messages:
-        if "[CONTEXT]" in m.get("content", ""):
-            for w in re.findall(r"[a-zA-Z]{4,}", m["content"].lower()):
-                if w not in stop:
-                    words.add(w)
-    return words
-
-def is_context_grounded(response: str, context_words: set[str]) -> bool:
-    if not context_words:
-        return True
-    return bool(set(re.findall(r"[a-zA-Z]{4,}", response.lower())) & context_words)
-
-_MEDICAL_CLAIM_RE = re.compile(
-    r"\b(prescri|medication|drug|dosage|treatment|cream|antibiotic|"
-    r"steroid|cortisone|therapy|surgery|biopsy)\b",
-    re.IGNORECASE,
-)
-
-def has_unsupported_medical_claims(response: str, context_words: set[str]) -> bool:
-    claim_words = set(m.group(0).lower() for m in _MEDICAL_CLAIM_RE.finditer(response))
-    if not claim_words:
-        return False
-    return not claim_words.issubset(context_words)
 
 
 # ---------------------------------------------------------------------------
@@ -171,7 +114,7 @@ def _chat_ids(messages: list, tokenizer, prime_assistant: bool = True) -> list[i
     nl2     = tokenizer.encode("\n\n",                add_special_tokens=False)
 
     for msg in messages:
-        if msg["content"] == "":   # skip image placeholder
+        if msg["content"] == "":
             continue
         role_ids    = tokenizer.encode(msg["role"],    add_special_tokens=False)
         content_ids = tokenizer.encode(msg["content"], add_special_tokens=False)
@@ -273,7 +216,6 @@ def generate_from_ids(model, tokenizer, input_ids: torch.Tensor,
 @torch.no_grad()
 def generate_from_embeds(model, tokenizer, inputs_embeds: torch.Tensor,
                          max_new_tokens: int) -> str:
-    """Generate using inputs_embeds (needed when visual tokens are injected)."""
     attn_mask = torch.ones(inputs_embeds.shape[:2], dtype=torch.long,
                            device=inputs_embeds.device)
     out = model.generate(
@@ -284,12 +226,11 @@ def generate_from_embeds(model, tokenizer, inputs_embeds: torch.Tensor,
         pad_token_id=tokenizer.eos_token_id,
         eos_token_id=tokenizer.eos_token_id,
     )
-    # With inputs_embeds, generate() returns only newly generated token IDs
     return tokenizer.decode(out[0], skip_special_tokens=True).strip()
 
 
 # ---------------------------------------------------------------------------
-# Visual token injection for A/D (fine-tuned path)
+# Visual token injection for fine-tuned path
 # ---------------------------------------------------------------------------
 
 @torch.no_grad()
@@ -298,59 +239,44 @@ def build_visual_embeds(
     image_path: str, feat_extractor, projection,
     device: torch.device, num_visual_tokens: int,
 ) -> torch.Tensor:
-    """Build combined text+visual embeddings for one A/D sample.
+    """Build combined text+visual embeddings for one sample.
 
     Layout: [pre-image text tokens] + [N visual tokens] + [assistant header tokens]
-
-    The empty user message at image_msg_index marks where visual tokens go.
-    Messages after image_msg_index (i.e. the reference assistant turn) are
-    excluded — we're building the prompt for generation, not training.
     """
-    pre_image_msgs  = messages[:image_msg_index]   # everything before the image slot
-    # Build text token IDs: pre-image messages + assistant header primer
+    pre_image_msgs = messages[:image_msg_index]
     text_ids = _chat_ids(pre_image_msgs, tokenizer, prime_assistant=True)
-    insert_pos = len(text_ids) - len(  # right before the assistant header
-        tokenizer.encode("<|start_header_id|>assistant<|end_header_id|>\n\n",
-                         add_special_tokens=False)
-    )
-    # Keep insert_pos at the boundary right after pre-image text (before asst header)
-    # We split: pre_ids + [visual] + asst_header_ids
     asst_header_ids = tokenizer.encode(
         "<|start_header_id|>assistant<|end_header_id|>\n\n",
         add_special_tokens=False,
     )
     pre_ids = text_ids[: len(text_ids) - len(asst_header_ids)]
 
-    pre_tensor   = torch.tensor([pre_ids],        dtype=torch.long, device=device)
-    asst_tensor  = torch.tensor([asst_header_ids], dtype=torch.long, device=device)
+    pre_tensor  = torch.tensor([pre_ids],        dtype=torch.long, device=device)
+    asst_tensor = torch.tensor([asst_header_ids], dtype=torch.long, device=device)
 
-    embed_fn     = model.get_input_embeddings()
-    pre_embeds   = embed_fn(pre_tensor)    # (1, pre_len, D)
-    asst_embeds  = embed_fn(asst_tensor)   # (1, asst_len, D)
+    embed_fn    = model.get_input_embeddings()
+    pre_embeds  = embed_fn(pre_tensor)
+    asst_embeds = embed_fn(asst_tensor)
 
-    # Visual tokens
     image = Image.open(image_path).convert("RGB")
     img_tensor = IMAGE_TRANSFORM(image).unsqueeze(0).to(device)
-    vis_feat   = feat_extractor(img_tensor)                        # (1, densenet_dim)
-    vis_tokens = projection(vis_feat.to(torch.bfloat16))           # (1, N, llm_dim)
+    vis_feat   = feat_extractor(img_tensor)
+    vis_tokens = projection(vis_feat.to(torch.bfloat16))
     vis_tokens = vis_tokens.to(pre_embeds.dtype)
 
-    combined = torch.cat([pre_embeds, vis_tokens, asst_embeds], dim=1)  # (1, L+N+H, D)
+    combined = torch.cat([pre_embeds, vis_tokens, asst_embeds], dim=1)
     return combined
 
 
 # ---------------------------------------------------------------------------
-# Zero-shot text serialization for A/D (no visual tokens)
+# Zero-shot text serialization (no visual tokens)
 # ---------------------------------------------------------------------------
 
 def serialize_densenet(densenet_output: dict) -> str:
-    """Convert DenseNet predictions to a text string for zero-shot baseline."""
-    primary  = densenet_output.get("primary", "unknown")
-    conf     = densenet_output.get("confidence", 0.0)
+    primary   = densenet_output.get("primary", "unknown")
+    conf      = densenet_output.get("confidence", 0.0)
     secondary = densenet_output.get("secondary", "")
-    conf2    = densenet_output.get("confidence_2", 0.0)
-    morphology = ", ".join(densenet_output.get("morphology", []))
-    location = densenet_output.get("location", "")
+    conf2     = densenet_output.get("confidence_2", 0.0)
 
     lines = [
         "[VISUAL_INPUT]",
@@ -358,25 +284,20 @@ def serialize_densenet(densenet_output: dict) -> str:
     ]
     if secondary:
         lines.append(f"Secondary: {secondary} ({conf2:.0%})")
-    if morphology:
-        lines.append(f"Morphology: {morphology}")
-    if location:
-        lines.append(f"Location: {location}")
     lines.append("[/VISUAL_INPUT]")
     return "\n".join(lines)
 
 
-def build_zeroshot_messages_visual(messages: list, image_msg_index: int,
-                                    densenet_output: dict) -> list:
+def build_zeroshot_messages(messages: list, image_msg_index: int,
+                            densenet_output: dict) -> list:
     """Replace the image placeholder with a text-serialized DenseNet message."""
     result = list(messages[:image_msg_index])
     result.append({"role": "user", "content": serialize_densenet(densenet_output)})
-    # Skip the reference assistant turn (index image_msg_index+1 if present)
     return result
 
 
 # ---------------------------------------------------------------------------
-# Symptom words for D (what the user described in the dialogue)
+# Symptom words extraction
 # ---------------------------------------------------------------------------
 
 def extract_symptom_words(messages: list, image_msg_index: int) -> set[str]:
@@ -394,125 +315,10 @@ def extract_symptom_words(messages: list, image_msg_index: int) -> set[str]:
 
 
 # ---------------------------------------------------------------------------
-# Dataset B — interactive simulation
+# Per-sample evaluation
 # ---------------------------------------------------------------------------
 
-def evaluate_b_sample(model, tokenizer, messages: list,
-                       max_new_tokens: int, device: torch.device) -> dict:
-    context = [messages[0]]   # system prompt
-    generated: list[str] = []
-    premature_diag  = False
-    end_symptoms_turn: int | None = None
-    single_q_flags: list[bool] = []
-
-    for msg in messages[1:]:
-        if msg["role"] == "user":
-            context.append(msg)
-        else:
-            ids      = torch.tensor([_chat_ids(context, tokenizer)], dtype=torch.long)
-            response = generate_from_ids(model, tokenizer, ids, max_new_tokens, device)
-            generated.append(response)
-
-            if has_end_symptoms(response) and end_symptoms_turn is None:
-                end_symptoms_turn = len(generated)
-            if has_diagnosis_tag(response) and end_symptoms_turn is None:
-                premature_diag = True
-            single_q_flags.append(is_single_question(response))
-
-            context.append({"role": "assistant", "content": response})
-
-    n = len(generated)
-    return {
-        "end_symptoms_emitted":   end_symptoms_turn is not None,
-        "end_symptoms_turn":      end_symptoms_turn,
-        "premature_diagnosis":    premature_diag,
-        "correct_flow":           (end_symptoms_turn is not None) and (not premature_diag),
-        "total_turns":            n,
-        "single_question_rate":   sum(single_q_flags) / max(n, 1),
-        "last_response":          generated[-1] if generated else "",
-    }
-
-
-# ---------------------------------------------------------------------------
-# Dataset C — single-shot RAG QA
-# ---------------------------------------------------------------------------
-
-def evaluate_c_sample(model, tokenizer, messages: list,
-                       max_new_tokens: int, device: torch.device) -> dict:
-    last_asst_idx = max(
-        (i for i, m in enumerate(messages) if m["role"] == "assistant"),
-        default=None,
-    )
-    if last_asst_idx is None:
-        return {}
-
-    input_msgs    = messages[:last_asst_idx]
-    context_words = extract_context_words(input_msgs)
-    ids           = torch.tensor([_chat_ids(input_msgs, tokenizer)], dtype=torch.long)
-    response      = generate_from_ids(model, tokenizer, ids, max_new_tokens, device)
-
-    return {
-        "has_think_block":     has_think_block(response),
-        "has_disclaimer":      has_disclaimer(response),
-        "context_grounded":    is_context_grounded(response, context_words),
-        "hallucination_flag":  has_unsupported_medical_claims(response, context_words),
-        "response":            response,
-        "reference":           messages[last_asst_idx]["content"],
-    }
-
-
-# ---------------------------------------------------------------------------
-# Dataset A — visual alignment (single-shot)
-# ---------------------------------------------------------------------------
-
-def evaluate_a_sample_finetuned(
-    model, tokenizer, messages: list, image_msg_index: int,
-    image_path: str, densenet_output: dict,
-    feat_extractor, projection,
-    max_new_tokens: int, device: torch.device,
-) -> dict:
-    embeds   = build_visual_embeds(
-        model, tokenizer, messages, image_msg_index,
-        image_path, feat_extractor, projection, device,
-        projection.num_tokens,
-    )
-    response = generate_from_embeds(model, tokenizer, embeds, max_new_tokens)
-    primary  = densenet_output.get("primary", "")
-
-    return {
-        "has_think_block":     has_think_block(response),
-        "has_diagnosis_tag":   has_diagnosis_tag(response),
-        "condition_match":     condition_in_response(response, primary),
-        "has_disclaimer":      has_disclaimer(response),
-        "response":            response,
-        "primary_condition":   primary,
-    }
-
-
-def evaluate_a_sample_zeroshot(
-    model, tokenizer, messages: list, image_msg_index: int,
-    densenet_output: dict, max_new_tokens: int, device: torch.device,
-) -> dict:
-    input_msgs = build_zeroshot_messages_visual(messages, image_msg_index, densenet_output)
-    ids        = torch.tensor([_chat_ids(input_msgs, tokenizer)], dtype=torch.long)
-    response   = generate_from_ids(model, tokenizer, ids, max_new_tokens, device)
-    primary    = densenet_output.get("primary", "")
-
-    return {
-        "has_think_block":     has_think_block(response),
-        "has_diagnosis_tag":   has_diagnosis_tag(response),
-        "condition_match":     condition_in_response(response, primary),
-        "has_disclaimer":      has_disclaimer(response),
-        "response":            response,
-        "primary_condition":   primary,
-    }
-
-
-# ---------------------------------------------------------------------------
-# Dataset D — joint consultation (A metrics + symptoms_referenced)
-# ---------------------------------------------------------------------------
-
-def evaluate_d_sample_finetuned(
+def evaluate_sample_finetuned(
     model, tokenizer, messages: list, image_msg_index: int,
     image_path: str, densenet_output: dict,
     feat_extractor, projection,
@@ -539,11 +345,11 @@ def evaluate_d_sample_finetuned(
     }
 
 
-def evaluate_d_sample_zeroshot(
+def evaluate_sample_zeroshot(
     model, tokenizer, messages: list, image_msg_index: int,
     densenet_output: dict, max_new_tokens: int, device: torch.device,
 ) -> dict:
-    input_msgs    = build_zeroshot_messages_visual(messages, image_msg_index, densenet_output)
+    input_msgs    = build_zeroshot_messages(messages, image_msg_index, densenet_output)
     ids           = torch.tensor([_chat_ids(input_msgs, tokenizer)], dtype=torch.long)
     response      = generate_from_ids(model, tokenizer, ids, max_new_tokens, device)
     primary       = densenet_output.get("primary", "")
@@ -558,6 +364,24 @@ def evaluate_d_sample_zeroshot(
         "symptoms_referenced":    symptoms_referenced(think_text, symptom_words),
         "response":               response,
         "primary_condition":      primary,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Aggregation
+# ---------------------------------------------------------------------------
+
+def aggregate(results: list[dict]) -> dict:
+    n = len(results)
+    if n == 0:
+        return {}
+    return {
+        "n": n,
+        "think_block_rate":          round(sum(r["has_think_block"]      for r in results) / n, 3),
+        "diagnosis_tag_rate":        round(sum(r["has_diagnosis_tag"]    for r in results) / n, 3),
+        "condition_match_rate":      round(sum(r["condition_match"]      for r in results) / n, 3),
+        "disclaimer_rate":           round(sum(r["has_disclaimer"]       for r in results) / n, 3),
+        "symptoms_referenced_rate":  round(sum(r["symptoms_referenced"] for r in results) / n, 3),
     }
 
 
@@ -581,60 +405,13 @@ def resolve_image_path(item: dict, images_root: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Aggregators
-# ---------------------------------------------------------------------------
-
-def agg_b(results: list[dict]) -> dict:
-    n = len(results)
-    if n == 0:
-        return {}
-    return {
-        "n": n,
-        "end_symptoms_rate":    round(sum(r["end_symptoms_emitted"] for r in results) / n, 3),
-        "premature_diag_rate":  round(sum(r["premature_diagnosis"]  for r in results) / n, 3),
-        "correct_flow_rate":    round(sum(r["correct_flow"]         for r in results) / n, 3),
-        "single_question_rate": round(sum(r["single_question_rate"] for r in results) / n, 3),
-    }
-
-def agg_c(results: list[dict]) -> dict:
-    n = len(results)
-    if n == 0:
-        return {}
-    return {
-        "n": n,
-        "think_block_rate":      round(sum(r["has_think_block"]    for r in results) / n, 3),
-        "disclaimer_rate":       round(sum(r["has_disclaimer"]     for r in results) / n, 3),
-        "context_grounded_rate": round(sum(r["context_grounded"]   for r in results) / n, 3),
-        "hallucination_rate":    round(sum(r["hallucination_flag"] for r in results) / n, 3),
-    }
-
-def agg_ad(results: list[dict], include_symptoms: bool = False) -> dict:
-    n = len(results)
-    if n == 0:
-        return {}
-    out = {
-        "n": n,
-        "think_block_rate":    round(sum(r["has_think_block"]   for r in results) / n, 3),
-        "diagnosis_tag_rate":  round(sum(r["has_diagnosis_tag"] for r in results) / n, 3),
-        "condition_match_rate":round(sum(r["condition_match"]   for r in results) / n, 3),
-        "disclaimer_rate":     round(sum(r["has_disclaimer"]    for r in results) / n, 3),
-    }
-    if include_symptoms:
-        out["symptoms_referenced_rate"] = round(
-            sum(r["symptoms_referenced"] for r in results) / n, 3
-        )
-    return out
-
-
-# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
 def main():
     parser = argparse.ArgumentParser(description="Behavioral evaluation: fine-tuned vs zero-shot")
     parser.add_argument("--max-samples",    type=int, default=None,
-                        help="Cap samples per dataset (default: all)")
-    parser.add_argument("--dataset",        choices=["a", "b", "c", "d", "all"], default="all")
+                        help="Cap samples (default: all)")
     parser.add_argument("--max-new-tokens", type=int, default=256)
     parser.add_argument("--skip-zeroshot",  action="store_true")
     args = parser.parse_args()
@@ -643,75 +420,37 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     logger.info(f"Device: {device}")
 
-    # Resolve which datasets to run
-    run_ds = {"a", "b", "c", "d"} if args.dataset == "all" else {args.dataset}
+    val_path = os.path.join(_project_root, config.dataset_val)
+    samples = load_jsonl(val_path, args.max_samples)
+    logger.info(f"Dataset F: {len(samples)} validation samples")
 
-    ds_paths = {
-        "A": os.path.join(_project_root, "datasets/dataset_a/validation.jsonl"),
-        "B": os.path.join(_project_root, "datasets/dataset_b/test.jsonl"),
-        "C": os.path.join(_project_root, "datasets/dataset_c/test.jsonl"),
-        "D": os.path.join(_project_root, "datasets/dataset_d/validation.jsonl"),
-    }
-    active = {k: v for k, v in ds_paths.items() if k.lower() in run_ds}
-
-    all_samples = {tag: load_jsonl(path, args.max_samples) for tag, path in active.items()}
-    for tag, samples in all_samples.items():
-        logger.info(f"Dataset {tag}: {len(samples)} samples")
+    images_root = os.path.join(_project_root, config.images_dir)
 
     all_results: dict = {}
     summary: dict     = {}
 
-    images_root = os.path.join(_project_root, config.images_dir)
-
     # ---- Fine-tuned ----
     ft_model, ft_tok, ft_proj, ft_feat = load_finetuned(config, device)
-    all_results["finetuned"] = {}
+    ft_results = []
 
-    for ds_tag, samples in all_samples.items():
-        ds_results = []
-        pbar = tqdm(enumerate(samples), total=len(samples),
-                    desc=f"finetuned/{ds_tag}", unit="sample")
-        for i, item in pbar:
-            msgs = item["messages"]
-            if ds_tag == "B":
-                r = evaluate_b_sample(ft_model, ft_tok, msgs,
-                                      args.max_new_tokens, device)
-            elif ds_tag == "C":
-                r = evaluate_c_sample(ft_model, ft_tok, msgs,
-                                      args.max_new_tokens, device)
-            elif ds_tag == "A":
-                r = evaluate_a_sample_finetuned(
-                    ft_model, ft_tok, msgs,
-                    item["image_msg_index"],
-                    resolve_image_path(item, images_root),
-                    item["DenseNet_output"],
-                    ft_feat, ft_proj,
-                    args.max_new_tokens, device,
-                )
-            else:  # D
-                r = evaluate_d_sample_finetuned(
-                    ft_model, ft_tok, msgs,
-                    item["image_msg_index"],
-                    resolve_image_path(item, images_root),
-                    item["DenseNet_output"],
-                    ft_feat, ft_proj,
-                    args.max_new_tokens, device,
-                )
-            r["sample_idx"] = i
-            ds_results.append(r)
-            pbar.set_postfix(sample=i + 1)
+    pbar = tqdm(enumerate(samples), total=len(samples),
+                desc="finetuned", unit="sample")
+    for i, item in pbar:
+        r = evaluate_sample_finetuned(
+            ft_model, ft_tok, item["messages"],
+            item["image_msg_index"],
+            resolve_image_path(item, images_root),
+            item["DenseNet_output"],
+            ft_feat, ft_proj,
+            args.max_new_tokens, device,
+        )
+        r["sample_idx"] = i
+        ft_results.append(r)
+        pbar.set_postfix(sample=i + 1)
 
-        all_results["finetuned"][ds_tag] = ds_results
-        key = f"finetuned_{ds_tag}"
-        if ds_tag == "B":
-            summary[key] = agg_b(ds_results)
-        elif ds_tag == "C":
-            summary[key] = agg_c(ds_results)
-        elif ds_tag == "A":
-            summary[key] = agg_ad(ds_results, include_symptoms=False)
-        else:
-            summary[key] = agg_ad(ds_results, include_symptoms=True)
-        logger.info(f"  [{key}] {summary[key]}")
+    all_results["finetuned"] = ft_results
+    summary["finetuned"] = aggregate(ft_results)
+    logger.info(f"  [finetuned] {summary['finetuned']}")
 
     del ft_model, ft_tok, ft_proj, ft_feat
     if device.type == "cuda":
@@ -720,49 +459,24 @@ def main():
     # ---- Zero-shot ----
     if not args.skip_zeroshot:
         zs_model, zs_tok = load_zeroshot(config, device)
-        all_results["zeroshot"] = {}
+        zs_results = []
 
-        for ds_tag, samples in all_samples.items():
-            ds_results = []
-            pbar = tqdm(enumerate(samples), total=len(samples),
-                        desc=f"zeroshot/{ds_tag}", unit="sample")
-            for i, item in pbar:
-                msgs = item["messages"]
-                if ds_tag == "B":
-                    r = evaluate_b_sample(zs_model, zs_tok, msgs,
-                                          args.max_new_tokens, device)
-                elif ds_tag == "C":
-                    r = evaluate_c_sample(zs_model, zs_tok, msgs,
-                                          args.max_new_tokens, device)
-                elif ds_tag == "A":
-                    r = evaluate_a_sample_zeroshot(
-                        zs_model, zs_tok, msgs,
-                        item["image_msg_index"],
-                        item["DenseNet_output"],
-                        args.max_new_tokens, device,
-                    )
-                else:  # D
-                    r = evaluate_d_sample_zeroshot(
-                        zs_model, zs_tok, msgs,
-                        item["image_msg_index"],
-                        item["DenseNet_output"],
-                        args.max_new_tokens, device,
-                    )
-                r["sample_idx"] = i
-                ds_results.append(r)
-                pbar.set_postfix(sample=i + 1)
+        pbar = tqdm(enumerate(samples), total=len(samples),
+                    desc="zeroshot", unit="sample")
+        for i, item in pbar:
+            r = evaluate_sample_zeroshot(
+                zs_model, zs_tok, item["messages"],
+                item["image_msg_index"],
+                item["DenseNet_output"],
+                args.max_new_tokens, device,
+            )
+            r["sample_idx"] = i
+            zs_results.append(r)
+            pbar.set_postfix(sample=i + 1)
 
-            all_results["zeroshot"][ds_tag] = ds_results
-            key = f"zeroshot_{ds_tag}"
-            if ds_tag == "B":
-                summary[key] = agg_b(ds_results)
-            elif ds_tag == "C":
-                summary[key] = agg_c(ds_results)
-            elif ds_tag == "A":
-                summary[key] = agg_ad(ds_results, include_symptoms=False)
-            else:
-                summary[key] = agg_ad(ds_results, include_symptoms=True)
-            logger.info(f"  [{key}] {summary[key]}")
+        all_results["zeroshot"] = zs_results
+        summary["zeroshot"] = aggregate(zs_results)
+        logger.info(f"  [zeroshot] {summary['zeroshot']}")
 
         del zs_model, zs_tok
         if device.type == "cuda":
@@ -770,66 +484,39 @@ def main():
 
     # ---- Print summary ----
     logger.info("\n" + "=" * 72)
-    logger.info("BEHAVIORAL EVALUATION SUMMARY")
+    logger.info("BEHAVIORAL EVALUATION SUMMARY — Dataset F")
     logger.info("=" * 72)
 
     def delta(a, b): s = a - b; return f"{'+'if s>=0 else ''}{s:.1%}"
 
-    if "B" in all_samples:
-        logger.info("\nDataset B — Symptom Collection")
-        logger.info(f"  {'Model':<14} {'EndSymptoms':>12} {'PrematureDx':>12} {'CorrectFlow':>12} {'SingleQ/turn':>13}")
-        logger.info("  " + "-" * 56)
-        for tag in ("finetuned", "zeroshot"):
-            k = f"{tag}_B"
-            if k in summary:
-                m = summary[k]
-                logger.info(f"  {tag:<14} {m['end_symptoms_rate']:>12.1%} {m['premature_diag_rate']:>12.1%} {m['correct_flow_rate']:>12.1%} {m['single_question_rate']:>13.1%}")
-        if "finetuned_B" in summary and "zeroshot_B" in summary:
-            ft, zs = summary["finetuned_B"], summary["zeroshot_B"]
-            logger.info("  " + "-" * 56)
-            logger.info(f"  {'delta (ft-zs)':<14} {delta(ft['end_symptoms_rate'],zs['end_symptoms_rate']):>12} {delta(ft['premature_diag_rate'],zs['premature_diag_rate']):>12} {delta(ft['correct_flow_rate'],zs['correct_flow_rate']):>12} {delta(ft['single_question_rate'],zs['single_question_rate']):>13}")
+    header = f"  {'Model':<14} {'ThinkBlock':>11} {'Diagnosis':>10} {'CondMatch':>10} {'Disclaimer':>11} {'SymptomsRef':>12}"
+    logger.info(f"\n  [zero-shot uses text-serialized DenseNet]")
+    logger.info(header)
+    logger.info("  " + "-" * 66)
 
-    if "C" in all_samples:
-        logger.info("\nDataset C — RAG QA")
-        logger.info(f"  {'Model':<14} {'ThinkBlock':>11} {'Disclaimer':>11} {'Grounded':>10} {'Hallucin.':>10}")
-        logger.info("  " + "-" * 50)
-        for tag in ("finetuned", "zeroshot"):
-            k = f"{tag}_C"
-            if k in summary:
-                m = summary[k]
-                logger.info(f"  {tag:<14} {m['think_block_rate']:>11.1%} {m['disclaimer_rate']:>11.1%} {m['context_grounded_rate']:>10.1%} {m['hallucination_rate']:>10.1%}")
-        if "finetuned_C" in summary and "zeroshot_C" in summary:
-            ft, zs = summary["finetuned_C"], summary["zeroshot_C"]
-            logger.info("  " + "-" * 50)
-            logger.info(f"  {'delta (ft-zs)':<14} {delta(ft['think_block_rate'],zs['think_block_rate']):>11} {delta(ft['disclaimer_rate'],zs['disclaimer_rate']):>11} {delta(ft['context_grounded_rate'],zs['context_grounded_rate']):>10} {delta(ft['hallucination_rate'],zs['hallucination_rate']):>10}")
+    for tag in ("finetuned", "zeroshot"):
+        if tag in summary:
+            m = summary[tag]
+            logger.info(
+                f"  {tag:<14} "
+                f"{m['think_block_rate']:>11.1%} "
+                f"{m['diagnosis_tag_rate']:>10.1%} "
+                f"{m['condition_match_rate']:>10.1%} "
+                f"{m['disclaimer_rate']:>11.1%} "
+                f"{m['symptoms_referenced_rate']:>12.1%}"
+            )
 
-    if "A" in all_samples:
-        logger.info("\nDataset A — Visual Alignment  [zero-shot uses text-serialized DenseNet]")
-        logger.info(f"  {'Model':<14} {'ThinkBlock':>11} {'Diagnosis':>10} {'CondMatch':>10} {'Disclaimer':>11}")
-        logger.info("  " + "-" * 52)
-        for tag in ("finetuned", "zeroshot"):
-            k = f"{tag}_A"
-            if k in summary:
-                m = summary[k]
-                logger.info(f"  {tag:<14} {m['think_block_rate']:>11.1%} {m['diagnosis_tag_rate']:>10.1%} {m['condition_match_rate']:>10.1%} {m['disclaimer_rate']:>11.1%}")
-        if "finetuned_A" in summary and "zeroshot_A" in summary:
-            ft, zs = summary["finetuned_A"], summary["zeroshot_A"]
-            logger.info("  " + "-" * 52)
-            logger.info(f"  {'delta (ft-zs)':<14} {delta(ft['think_block_rate'],zs['think_block_rate']):>11} {delta(ft['diagnosis_tag_rate'],zs['diagnosis_tag_rate']):>10} {delta(ft['condition_match_rate'],zs['condition_match_rate']):>10} {delta(ft['disclaimer_rate'],zs['disclaimer_rate']):>11}")
-
-    if "D" in all_samples:
-        logger.info("\nDataset D — Joint Consultation  [zero-shot uses text-serialized DenseNet]")
-        logger.info(f"  {'Model':<14} {'ThinkBlock':>11} {'Diagnosis':>10} {'CondMatch':>10} {'Disclaimer':>11} {'SymptomsRef':>12}")
-        logger.info("  " + "-" * 62)
-        for tag in ("finetuned", "zeroshot"):
-            k = f"{tag}_D"
-            if k in summary:
-                m = summary[k]
-                logger.info(f"  {tag:<14} {m['think_block_rate']:>11.1%} {m['diagnosis_tag_rate']:>10.1%} {m['condition_match_rate']:>10.1%} {m['disclaimer_rate']:>11.1%} {m['symptoms_referenced_rate']:>12.1%}")
-        if "finetuned_D" in summary and "zeroshot_D" in summary:
-            ft, zs = summary["finetuned_D"], summary["zeroshot_D"]
-            logger.info("  " + "-" * 62)
-            logger.info(f"  {'delta (ft-zs)':<14} {delta(ft['think_block_rate'],zs['think_block_rate']):>11} {delta(ft['diagnosis_tag_rate'],zs['diagnosis_tag_rate']):>10} {delta(ft['condition_match_rate'],zs['condition_match_rate']):>10} {delta(ft['disclaimer_rate'],zs['disclaimer_rate']):>11} {delta(ft['symptoms_referenced_rate'],zs['symptoms_referenced_rate']):>12}")
+    if "finetuned" in summary and "zeroshot" in summary:
+        ft, zs = summary["finetuned"], summary["zeroshot"]
+        logger.info("  " + "-" * 66)
+        logger.info(
+            f"  {'delta (ft-zs)':<14} "
+            f"{delta(ft['think_block_rate'], zs['think_block_rate']):>11} "
+            f"{delta(ft['diagnosis_tag_rate'], zs['diagnosis_tag_rate']):>10} "
+            f"{delta(ft['condition_match_rate'], zs['condition_match_rate']):>10} "
+            f"{delta(ft['disclaimer_rate'], zs['disclaimer_rate']):>11} "
+            f"{delta(ft['symptoms_referenced_rate'], zs['symptoms_referenced_rate']):>12}"
+        )
 
     logger.info("\n" + "=" * 72)
 
