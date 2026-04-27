@@ -6,4 +6,5 @@ __pycache__/
 visual_alignment/outputs/
 unified_training/outputs/
 .claude/
+model/
 venv/
