@@ -1,0 +1,1 @@
+{"lc": 1, "type": "constructor", "id": ["langchain", "schema", "document", "Document"], "kwargs": {"metadata": {"source": "medlineplus", "title": "Itching", "url": "https://medlineplus.gov/itching.html", "review_date": "04/15/2026", "term": "itching"}, "page_content": "# Itching", "type": "Document"}}

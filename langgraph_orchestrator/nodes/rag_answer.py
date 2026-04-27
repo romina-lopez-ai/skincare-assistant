@@ -31,5 +31,5 @@ def rag_answer(state: ChatState) -> ChatState:
     return {
         **state,
         "messages":    messages,
-        "rag_context": None,  # Clear after use — prevents bleed into next turn 
+        "rag_context": None,  # Clear after use — prevents bleed into next turn
     }

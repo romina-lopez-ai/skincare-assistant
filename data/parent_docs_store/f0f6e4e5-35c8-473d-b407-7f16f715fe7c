@@ -1,0 +1,1 @@
+{"lc": 1, "type": "constructor", "id": ["langchain", "schema", "document", "Document"], "kwargs": {"metadata": {"source": "medlineplus", "title": "Skin Conditions", "url": "https://medlineplus.gov/skinconditions.html", "review_date": "04/15/2026", "term": "skin conditions"}, "page_content": "# Skin Conditions", "type": "Document"}}
