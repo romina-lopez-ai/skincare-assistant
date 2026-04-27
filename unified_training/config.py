@@ -8,14 +8,8 @@ load_dotenv()
 @dataclass
 class Phase4Config:
     # Dataset paths
-    dataset_a_train: str = "datasets/dataset_a/train.jsonl"
-    dataset_a_val: str = "datasets/dataset_a/validation.jsonl"
-    dataset_b_train: str = "datasets/dataset_b/train.jsonl"
-    dataset_b_val: str = "datasets/dataset_b/validation.jsonl"
-    dataset_c_train: str = "datasets/dataset_c/train.jsonl"
-    dataset_c_val: str = "datasets/dataset_c/validation.jsonl"
-    dataset_d_train: str = "datasets/dataset_d/train.jsonl"
-    dataset_d_val: str = "datasets/dataset_d/validation.jsonl"
+    dataset_train: str = "datasets/dataset_f/train.jsonl"
+    dataset_val: str = "datasets/dataset_f/validation.jsonl"
     images_dir: str = "datasets/images_dataset"
 
     # Phase 2 checkpoints
@@ -27,7 +21,7 @@ class Phase4Config:
     output_dir: str = "unified_training/outputs"
 
     # SLM
-    slm_model_name: str = "meta-llama/Llama-3.2-3B"
+    slm_model_name: str = "meta-llama/Llama-3.2-3B-Instruct"
     hf_token: str = ""
 
     # Architecture (must match Phase 2)
@@ -54,12 +48,6 @@ class Phase4Config:
     warmup_ratio: float = 0.1
     max_length: int = 1536
     patience: int = 3
-
-    # Mix ratios
-    mix_a: float = 0.25
-    mix_b: float = 0.25
-    mix_c: float = 0.15
-    mix_d: float = 0.35
 
     # Generation / eval
     max_gen_length: int = 256

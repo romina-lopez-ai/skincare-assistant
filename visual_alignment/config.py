@@ -15,7 +15,7 @@ class Phase2Config:
     output_dir: str = "visual_alignment/outputs"
 
     # SLM
-    slm_model_name: str = "meta-llama/Llama-3.2-3B"
+    slm_model_name: str = "meta-llama/Llama-3.2-3B-Instruct"
     hf_token: str = ""
 
     # Architecture
@@ -32,18 +32,18 @@ class Phase2Config:
     # Training
     batch_size: int = 4
     grad_accum_steps: int = 4
-    epochs: int = 30
+    epochs: int = 15
     lr_projection: float = 2e-4
     lr_lora: float = 1e-4
     weight_decay: float = 0.01
     max_grad_norm: float = 1.0
     warmup_ratio: float = 0.1
     max_length: int = 768
-    patience: int = 5
+    patience: int = 3
 
     # Generation / eval
     max_gen_length: int = 256
-    num_gen_samples: int = 3
+    num_gen_samples: int = 4
 
     # Device
     bf16: bool = True

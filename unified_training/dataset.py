@@ -1,7 +1,8 @@
-"""Unified dataset for Phase 4 multitask training.
+"""Dataset for Phase 4 training with dataset F.
 
-Handles all 4 dataset types (A/B/C/D) with proper tokenization,
-assistant-only loss masking, and image loading for visual datasets.
+Handles image-based samples with patient symptoms and visual tokens.
+Each sample has: system prompt, user message with symptoms, empty image
+placeholder at image_msg_index, and assistant diagnosis response.
 """
 
 import json
@@ -10,7 +11,7 @@ import os
 
 import torch
 from PIL import Image
-from torch.utils.data import ConcatDataset, Dataset, WeightedRandomSampler
+from torch.utils.data import Dataset
 from torchvision import transforms
 
 logger = logging.getLogger(__name__)
@@ -24,25 +25,19 @@ IMAGE_TRANSFORM = transforms.Compose([
 IGNORE_INDEX = -100
 
 
-class SingleTaskDataset(Dataset):
-    """Loads one JSONL dataset and returns tokenized conversations.
+class DatasetF(Dataset):
+    """Loads dataset F JSONL and returns tokenized conversations with images.
 
-    For image datasets (A, D): loads the image and records where visual
-    tokens should be inserted. The empty user message at image_msg_index
-    is skipped during tokenization.
-
-    For text datasets (B, C): no image handling.
+    Each sample includes an image and records where visual tokens should be
+    inserted. The empty user message at image_msg_index is skipped during
+    tokenization.
     """
 
-    def __init__(self, jsonl_path, dataset_type, tokenizer, max_length,
-                 images_root=None):
-        self.dataset_type = dataset_type
+    def __init__(self, jsonl_path, tokenizer, max_length, images_root):
         self.tokenizer = tokenizer
         self.max_length = max_length
         self.images_root = images_root
-        self.has_images = dataset_type in ("A", "D")
 
-        # Cache special token IDs
         self._start_header = tokenizer.encode(
             "<|start_header_id|>", add_special_tokens=False
         )
@@ -53,7 +48,6 @@ class SingleTaskDataset(Dataset):
         self._newlines = tokenizer.encode("\n\n", add_special_tokens=False)
         self._bos = [tokenizer.bos_token_id]
 
-        # Pre-tokenize role names
         self._role_ids = {
             "system": tokenizer.encode("system", add_special_tokens=False),
             "user": tokenizer.encode("user", add_special_tokens=False),
@@ -61,24 +55,19 @@ class SingleTaskDataset(Dataset):
         }
 
         self.samples = self._load(jsonl_path)
-        logger.info(
-            f"Dataset {dataset_type}: loaded {len(self.samples)} samples "
-            f"from {jsonl_path}"
-        )
+        logger.info(f"Dataset F: loaded {len(self.samples)} samples from {jsonl_path}")
 
     def _load(self, path):
         samples = []
         with open(path) as f:
             for line in f:
                 item = json.loads(line)
-                sample = {"messages": item["messages"]}
-
-                if self.has_images:
-                    img_rel = item["image_path"].replace("images/", "", 1)
-                    sample["image_path"] = os.path.join(self.images_root, img_rel)
-                    sample["image_msg_index"] = item["image_msg_index"]
-
-                samples.append(sample)
+                img_rel = item["image_path"].replace("images/", "", 1)
+                samples.append({
+                    "messages": item["messages"],
+                    "image_path": os.path.join(self.images_root, img_rel),
+                    "image_msg_index": item["image_msg_index"],
+                })
         return samples
 
     def __len__(self):
@@ -86,27 +75,19 @@ class SingleTaskDataset(Dataset):
 
     def __getitem__(self, idx):
         sample = self.samples[idx]
-        messages = sample["messages"]
-        image_msg_index = sample.get("image_msg_index", -1)
+        tokenized = self._tokenize_conversation(
+            sample["messages"], sample["image_msg_index"]
+        )
 
-        tokenized = self._tokenize_conversation(messages, image_msg_index)
+        image = Image.open(sample["image_path"]).convert("RGB")
 
-        result = {
+        return {
             "input_ids": tokenized["input_ids"],
             "labels": tokenized["labels"],
             "attention_mask": tokenized["attention_mask"],
             "insert_pos": tokenized["insert_pos"],
-            "has_image": self.has_images,
-            "dataset_type": self.dataset_type,
+            "image": IMAGE_TRANSFORM(image),
         }
-
-        if self.has_images:
-            image = Image.open(sample["image_path"]).convert("RGB")
-            result["image"] = IMAGE_TRANSFORM(image)
-        else:
-            result["image"] = None
-
-        return result
 
     def _tokenize_conversation(self, messages, image_msg_index):
         """Tokenize multi-turn conversation with assistant-only loss labels.
@@ -115,8 +96,8 @@ class SingleTaskDataset(Dataset):
           BOS + for each message:
             <|start_header_id|> role <|end_header_id|> \\n\\n content <|eot_id|>
 
-        For image messages (empty user msg at image_msg_index): the message
-        is skipped and its position is recorded as insert_pos.
+        The empty user message at image_msg_index is skipped and its position
+        is recorded as insert_pos for visual token injection.
 
         Labels = IGNORE_INDEX everywhere except assistant content + eot.
         """
@@ -128,12 +109,10 @@ class SingleTaskDataset(Dataset):
             role = msg["role"]
             content = msg["content"]
 
-            # Image placeholder — skip, record position
             if msg_idx == image_msg_index and content == "":
                 insert_pos = len(all_ids)
                 continue
 
-            # Build header: <|start_header_id|> role <|end_header_id|> \n\n
             header_ids = (
                 self._start_header
                 + self._role_ids[role]
@@ -141,30 +120,25 @@ class SingleTaskDataset(Dataset):
                 + self._newlines
             )
 
-            # Content + eot
             content_ids = self.tokenizer.encode(
                 content, add_special_tokens=False
             )
             eot_ids = list(self._eot)
 
             if role == "assistant":
-                # Header: masked. Content + eot: train.
                 all_ids.extend(header_ids)
                 all_labels.extend([IGNORE_INDEX] * len(header_ids))
                 body = content_ids + eot_ids
                 all_ids.extend(body)
                 all_labels.extend(body)
             else:
-                # System/user: all masked
                 segment = header_ids + content_ids + eot_ids
                 all_ids.extend(segment)
                 all_labels.extend([IGNORE_INDEX] * len(segment))
 
-        # Truncate to max_length
         all_ids = all_ids[: self.max_length]
         all_labels = all_labels[: self.max_length]
 
-        # Adjust insert_pos if it would fall beyond truncated length
         if insert_pos >= len(all_ids):
             insert_pos = len(all_ids)
 
@@ -177,64 +151,23 @@ class SingleTaskDataset(Dataset):
 
 
 def build_datasets(config, tokenizer):
-    """Build train and val datasets for all 4 tasks.
+    """Build train and val datasets for dataset F.
 
     Returns:
-        train_dataset: ConcatDataset of all 4 training sets
-        val_datasets: dict of {"A": dataset, "B": ..., "C": ..., "D": ...}
-        train_sampler: WeightedRandomSampler for mix ratios
+        train_dataset: DatasetF for training
+        val_dataset: DatasetF for validation
     """
-    ds_configs = [
-        ("A", config.dataset_a_train, config.dataset_a_val, True),
-        ("B", config.dataset_b_train, config.dataset_b_val, False),
-        ("C", config.dataset_c_train, config.dataset_c_val, False),
-        ("D", config.dataset_d_train, config.dataset_d_val, True),
-    ]
-
-    train_datasets = {}
-    val_datasets = {}
-
-    for ds_type, train_path, val_path, has_img in ds_configs:
-        img_root = config.images_dir if has_img else None
-        train_datasets[ds_type] = SingleTaskDataset(
-            train_path, ds_type, tokenizer, config.max_length, img_root,
-        )
-        val_datasets[ds_type] = SingleTaskDataset(
-            val_path, ds_type, tokenizer, config.max_length, img_root,
-        )
-
-    # Build weighted sampler
-    target_ratios = {
-        "A": config.mix_a,
-        "B": config.mix_b,
-        "C": config.mix_c,
-        "D": config.mix_d,
-    }
-    sample_weights = []
-    for ds_type in ["A", "B", "C", "D"]:
-        ds = train_datasets[ds_type]
-        weight = target_ratios[ds_type] / len(ds)
-        sample_weights.extend([weight] * len(ds))
-
-    combined_train = ConcatDataset(
-        [train_datasets[t] for t in ["A", "B", "C", "D"]]
+    train_dataset = DatasetF(
+        config.dataset_train, tokenizer, config.max_length, config.images_dir,
     )
-    sampler = WeightedRandomSampler(
-        sample_weights,
-        num_samples=len(combined_train),
-        replacement=True,
+    val_dataset = DatasetF(
+        config.dataset_val, tokenizer, config.max_length, config.images_dir,
     )
+    return train_dataset, val_dataset
 
-    return combined_train, val_datasets, sampler
 
-
-def multitask_collate_fn(batch):
-    """Collate mixed-type samples into a padded batch.
-
-    Handles both image and text-only samples. Images are stacked
-    separately; image_indices tracks which batch positions have images.
-    """
-    # Find max text length in batch
+def collate_fn(batch):
+    """Collate image samples into a padded batch."""
     max_len = max(b["input_ids"].size(0) for b in batch)
     B = len(batch)
 
@@ -242,11 +175,7 @@ def multitask_collate_fn(batch):
     labels = torch.full((B, max_len), IGNORE_INDEX, dtype=torch.long)
     attention_mask = torch.zeros(B, max_len, dtype=torch.long)
     insert_positions = torch.full((B,), -1, dtype=torch.long)
-    has_image = torch.zeros(B, dtype=torch.bool)
-    dataset_types = []
-
     images = []
-    image_batch_indices = []
 
     for i, b in enumerate(batch):
         seq_len = b["input_ids"].size(0)
@@ -254,25 +183,12 @@ def multitask_collate_fn(batch):
         labels[i, :seq_len] = b["labels"]
         attention_mask[i, :seq_len] = b["attention_mask"]
         insert_positions[i] = b["insert_pos"]
-        has_image[i] = b["has_image"]
-        dataset_types.append(b["dataset_type"])
-
-        if b["has_image"] and b["image"] is not None:
-            images.append(b["image"])
-            image_batch_indices.append(i)
-
-    images_tensor = torch.stack(images) if images else None
-    image_batch_indices = (
-        torch.tensor(image_batch_indices, dtype=torch.long) if images else None
-    )
+        images.append(b["image"])
 
     return {
         "input_ids": input_ids,
         "labels": labels,
         "attention_mask": attention_mask,
         "insert_positions": insert_positions,
-        "has_image": has_image,
-        "images": images_tensor,
-        "image_batch_indices": image_batch_indices,
-        "dataset_types": dataset_types,
+        "images": torch.stack(images),
     }
