@@ -1,0 +1,290 @@
+{
+  "skincare": {
+    "n": 137,
+    "accuracy": 0.657,
+    "accuracy_ci_95": [
+      0.577,
+      0.73
+    ],
+    "macro_f1": 0.658,
+    "macro_precision": 0.67,
+    "macro_recall": 0.658,
+    "per_class": {
+      "acne": {
+        "precision": 0.929,
+        "recall": 0.867,
+        "f1": 0.897,
+        "support": 45.0
+      },
+      "eczema": {
+        "precision": 0.556,
+        "recall": 0.435,
+        "f1": 0.488,
+        "support": 46.0
+      },
+      "psoriasis": {
+        "precision": 0.525,
+        "recall": 0.674,
+        "f1": 0.59,
+        "support": 46.0
+      }
+    },
+    "per_condition_accuracy": {
+      "acne": {
+        "accuracy": 0.867,
+        "ci_95": [
+          0.756,
+          0.956
+        ],
+        "n": 45
+      },
+      "eczema": {
+        "accuracy": 0.435,
+        "ci_95": [
+          0.283,
+          0.587
+        ],
+        "n": 46
+      },
+      "psoriasis": {
+        "accuracy": 0.674,
+        "ci_95": [
+          0.543,
+          0.805
+        ],
+        "n": 46
+      }
+    },
+    "confusion_matrix": {
+      "labels": [
+        "acne",
+        "eczema",
+        "psoriasis"
+      ],
+      "matrix": [
+        [
+          39,
+          1,
+          5
+        ],
+        [
+          3,
+          20,
+          23
+        ],
+        [
+          0,
+          15,
+          31
+        ]
+      ]
+    },
+    "disclaimer_rate": 1.0,
+    "avg_response_length": 214.4,
+    "bert_score_f1": 0.927,
+    "bert_score_f1_ci_95": [
+      0.926,
+      0.929
+    ],
+    "rouge_l": 0.497,
+    "rouge_l_ci_95": [
+      0.489,
+      0.506
+    ],
+    "load_time_s": 13.5,
+    "total_time_s": 5067.4,
+    "avg_time_per_sample_s": 36.89
+  },
+  "llava-1.5": {
+    "n": 137,
+    "accuracy": 0.672,
+    "accuracy_ci_95": [
+      0.591,
+      0.752
+    ],
+    "macro_f1": 0.694,
+    "macro_precision": 0.757,
+    "macro_recall": 0.673,
+    "per_class": {
+      "acne": {
+        "precision": 0.976,
+        "recall": 0.911,
+        "f1": 0.943,
+        "support": 45.0
+      },
+      "eczema": {
+        "precision": 0.586,
+        "recall": 0.739,
+        "f1": 0.654,
+        "support": 46.0
+      },
+      "psoriasis": {
+        "precision": 0.708,
+        "recall": 0.37,
+        "f1": 0.486,
+        "support": 46.0
+      }
+    },
+    "per_condition_accuracy": {
+      "acne": {
+        "accuracy": 0.911,
+        "ci_95": [
+          0.822,
+          0.978
+        ],
+        "n": 45
+      },
+      "eczema": {
+        "accuracy": 0.739,
+        "ci_95": [
+          0.609,
+          0.848
+        ],
+        "n": 46
+      },
+      "psoriasis": {
+        "accuracy": 0.37,
+        "ci_95": [
+          0.239,
+          0.522
+        ],
+        "n": 46
+      }
+    },
+    "confusion_matrix": {
+      "labels": [
+        "acne",
+        "eczema",
+        "psoriasis"
+      ],
+      "matrix": [
+        [
+          41,
+          2,
+          0
+        ],
+        [
+          1,
+          34,
+          7
+        ],
+        [
+          0,
+          22,
+          17
+        ]
+      ]
+    },
+    "disclaimer_rate": 1.0,
+    "avg_response_length": 148.5,
+    "bert_score_f1": 0.851,
+    "bert_score_f1_ci_95": [
+      0.85,
+      0.852
+    ],
+    "rouge_l": 0.207,
+    "rouge_l_ci_95": [
+      0.203,
+      0.212
+    ],
+    "load_time_s": 13.6,
+    "total_time_s": 2661.6,
+    "avg_time_per_sample_s": 19.33
+  },
+  "llama-3b-base": {
+    "n": 137,
+    "accuracy": 0.504,
+    "accuracy_ci_95": [
+      0.416,
+      0.577
+    ],
+    "macro_f1": 0.6,
+    "macro_precision": 0.769,
+    "macro_recall": 0.504,
+    "per_class": {
+      "acne": {
+        "precision": 1.0,
+        "recall": 0.533,
+        "f1": 0.696,
+        "support": 45.0
+      },
+      "eczema": {
+        "precision": 0.605,
+        "recall": 0.565,
+        "f1": 0.584,
+        "support": 46.0
+      },
+      "psoriasis": {
+        "precision": 0.704,
+        "recall": 0.413,
+        "f1": 0.521,
+        "support": 46.0
+      }
+    },
+    "per_condition_accuracy": {
+      "acne": {
+        "accuracy": 0.533,
+        "ci_95": [
+          0.4,
+          0.667
+        ],
+        "n": 45
+      },
+      "eczema": {
+        "accuracy": 0.565,
+        "ci_95": [
+          0.413,
+          0.717
+        ],
+        "n": 46
+      },
+      "psoriasis": {
+        "accuracy": 0.413,
+        "ci_95": [
+          0.283,
+          0.565
+        ],
+        "n": 46
+      }
+    },
+    "confusion_matrix": {
+      "labels": [
+        "acne",
+        "eczema",
+        "psoriasis"
+      ],
+      "matrix": [
+        [
+          24,
+          2,
+          0
+        ],
+        [
+          0,
+          26,
+          8
+        ],
+        [
+          0,
+          15,
+          19
+        ]
+      ]
+    },
+    "disclaimer_rate": 0.993,
+    "avg_response_length": 273.9,
+    "bert_score_f1": 0.847,
+    "bert_score_f1_ci_95": [
+      0.846,
+      0.848
+    ],
+    "rouge_l": 0.2,
+    "rouge_l_ci_95": [
+      0.197,
+      0.203
+    ],
+    "load_time_s": 10.5,
+    "total_time_s": 4444.4,
+    "avg_time_per_sample_s": 32.36
+  }
+}
