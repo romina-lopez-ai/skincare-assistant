@@ -43,6 +43,8 @@ independently.
 
 from __future__ import annotations
 
+from curses import raw
+from curses import raw
 import os
 import re
 import sys
@@ -67,8 +69,8 @@ from langgraph_orchestrator.services.symptom_service import REQUIRED_SLOTS
 #       will still load but its performance may vary slightly.
 _LLM_MODEL_PATH: str = os.environ.get(
     "LLM_MODEL_PATH",
-    "meta-llama/Llama-3.2-3B-Instruct",  # base model for adapter loading
-    #"RominaLopez/llama-3.2-3b-4bit-quantized",  # base model for adapter loading
+    #"meta-llama/Llama-3.2-3B-Instruct",  # base model for adapter loading
+    "RominaLopez/llama-3.2-3b-4bit-quantized",  # base model for adapter loading
 )
 
 # Adapter paths — one folder per task, relative to repo root.
@@ -120,6 +122,19 @@ from your general dermatology knowledge.
 
 Always recommend consulting a dermatologist. Never provide a definitive diagnosis."""
 
+
+_SYSTEM_PROMPT_FOLLOWUP_RAG = """You are an empathetic dermatology assistant answering a follow-up question using retrieved medical context.
+
+A [CONTEXT] block with prioritized evidence is provided. Always use <think>...</think> to reason internally — your visible response starts after </think>.
+
+RULES:
+1. Answer ONLY from the [CONTEXT] block. Do not add external knowledge or speculate.
+2. Be direct. Do not say "The context says..." or "Based on both sources..." — just give the answer.
+3. Mention the source naturally when relevant (e.g. "According to AAD guidelines...").
+4. If the context is empty or unrelated, say you don't have enough information on that topic.
+5. Never prescribe medications or specific dosages.
+6. always use the tag </think> when finish your reason, because after that the answer will be shown to user, and you should make sure the answer is based on the context, and the user won't see your internal thought. 
+7. Always recommend consulting a dermatologist."""
 
 # ---------------------------------------------------------------------------
 # Lazy model loader — loads once per process and caches in module globals
@@ -306,7 +321,7 @@ def generate_text(model, tokenizer, history: list[dict[str, str]],
         eos_token_id=[tokenizer.eos_token_id, eot_id],
     )
     raw = tokenizer.decode(out[0, ids.shape[-1]:], skip_special_tokens=True).strip()
-    return _extract_first_turn(raw)
+    return _extract_first_turn(raw) if extract_first_turn else raw
 
 
 @torch.no_grad()
@@ -783,11 +798,15 @@ def _real_generate_followup_response(state: dict[str, Any]) -> str:
     """
     tokenizer, model, device = _load_llm()
     history     = list(state.get("messages", []))
+    adapter_name = "base"
+    system_prompt = _SYSTEM_PROMPT_FOLLOWUP
     rag_context = state.get("rag_context")
 
     if rag_context and history:
         last_msg = history[-1]
         if last_msg["role"] == "user":
+            adapter_name = "rag"
+            system_prompt = _SYSTEM_PROMPT_FOLLOWUP_RAG 
             # Inject context directly into the last user message so the model
             # sees [CONTEXT]...[/CONTEXT] immediately before the question.
             # This matches the SYSTEM_PROMPT instruction about [CONTEXT] blocks.
@@ -795,18 +814,40 @@ def _real_generate_followup_response(state: dict[str, Any]) -> str:
                 {
                     "role":    "user",
                     "content": (
-                        f"[CONTEXT]\n{rag_context}\n[/CONTEXT]\n\n"
-                        f"{last_msg['content']}"
+                        #f"[CONTEXT]\n{rag_context}\n[/CONTEXT]\n\n"
+                        #f"{last_msg['content']}"
+                        f"{rag_context}\n\n"
+                        f"[QUESTION]\n{last_msg['content']}"
                     ),
                 }
             ]
         # If the last message is not from the user (unusual state), fall
         # through without injection — safer than crashing.
 
-    return _generate_with_adapter(  # separate prompts — MultiLoRA dispatch
-        adapter_name="rag", fn=generate_text,
+    #Test RAG injection:
+    _sep = "=" * 60
+    print(f"\n{_sep}")
+    print("[llm_service] FOLLOWUP PROMPT DEBUG")
+    print(f"  adapter      : {adapter_name}")
+    print(f"  system_prompt: {system_prompt.splitlines()[0]!r}")
+    print(f"\n── SYSTEM PROMPT ──\n{system_prompt}")
+    print(f"\n── USER MESSAGE (last) ──")
+    print(history[-1]["content"] if history else "(empty)")
+    print(f"{_sep}\n")
+
+    raw = _generate_with_adapter(  # separate prompts — MultiLoRA dispatch
+        adapter_name= adapter_name, fn=generate_text,
         model=model, tokenizer=tokenizer, history=history,
         max_new_tokens=_MAX_NEW_TOKENS, device=device,
-        system_prompt=_SYSTEM_PROMPT_FOLLOWUP,
+        system_prompt= system_prompt,
         extract_first_turn=False,  # follow-up answers may be longer and less prone to token loops, so keep the full response instead of truncating to the first turn.
     )
+
+    _sep = "=" * 60
+    print(f"\n{_sep}")
+    print("[llm_service] RAW MODEL OUTPUT (followup):")
+    print(raw)
+    print(f"{_sep}\n")
+
+    think_end = raw.find("</think>")
+    return raw[think_end + len("</think>"):].strip() if think_end != -1 else raw

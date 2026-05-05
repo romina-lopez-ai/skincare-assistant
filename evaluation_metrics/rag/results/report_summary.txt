@@ -1,0 +1,86 @@
+
+──────────────────── RAG EVALUATION REPORT ────────────────────
+
+─────────────── 1. Retrieval Quality — Hit Rate ───────────────
+
+  k      Overall      Acne    Eczema  Psoriasis
+  ──────────────────────────────────────────────
+  HR@1    0.3529    0.3333    0.5000    0.2500
+  HR@2    0.4706    0.5833    0.5000    0.3333  [PASS]
+
+  FP rate  0.0000  [PASS]  (out-of-index queries that retrieved something)
+
+  n_in_index=34  n_negatives=10
+
+──────────────── 2. Generation Quality — RAGAS ────────────────
+
+  Judge    : llama-3.3-70b-versatile via groq
+  Samples  : 9  |  Filter: all
+  Run date : 2026-05-05T22:27:58
+
+  Metric                  Fine-tuned + R  Base LLaMA + R  Fine-tuned, no  Base LLaMA, no
+  ──────────────────────────────────────────────────────────────────────────────────────
+  faithfulness               0.572±0.384     0.259±0.434     0.093±0.278     0.000±0.000  [FAIL] (thr≥0.8)
+  answer_relevancy           0.918±0.089     0.394±0.477     0.614±0.371     0.178±0.362  [PASS] (thr≥0.75)
+  context_precision          0.333±0.500     0.333±0.500     0.000±0.000     0.000±0.000  [FAIL] (thr≥0.7)
+  context_recall             0.426±0.465     0.426±0.465     0.000±0.000     0.000±0.000  [FAIL] (thr≥0.65)
+
+  Delta (adapter = fine-tuned+RAG − base+RAG)
+  Delta (RAG     = fine-tuned+RAG − fine-tuned+no-RAG)
+  Delta (total   = fine-tuned+RAG − base+no-RAG)
+
+  Metric                   Δ adapter       Δ RAG     Δ total
+  ──────────────────────────────────────────────────────────
+  faithfulness               +0.3123     +0.4790     +0.5716
+  answer_relevancy           +0.5247     +0.3038     +0.7402
+  context_precision          +0.0000     +0.3333     +0.3333
+  context_recall             +0.0000     +0.4259     +0.4259
+
+────────── 3. Per-condition RAGAS — fine-tuned + RAG ──────────
+
+  Condition         Faith    AnswRel    CtxPrec     CtxRec   n
+  ────────────────────────────────────────────────────────
+  acne             0.5000     0.8922     0.3333     0.3333   3
+  eczema           0.9259     0.9057     0.3333     0.5000   3
+  psoriasis        0.2889     0.9567     0.3333     0.4444   3
+
+──────────────────── 4. Qualitative samples ────────────────────
+
+  [01] ACNE | What are the main causes of acne?
+  No context: False
+  Fine-tuned + RAG   [our syst: The main cause of acne is the clogging of hair follicles under the skin....
+  Base LLaMA + RAG: ...
+  Fine-tuned, no RAG [parametr: <p>According to AAD guidelines, the main causes of acne include clogged pores, bacteria, and hormones. The exact cause o...
+  Base LLaMA, no RAG [pure bas: ...
+  Scores [fine-tuned+RAG]: faith=1.00  answe=0.98  conte=0.00  conte=0.00
+
+  [02] ACNE | How long before I see any improvement with acne treatment?
+  No context: False
+  Fine-tuned + RAG   [our syst: It takes at least 6-12 weeks to notice improvement with acne treatment....
+  Base LLaMA + RAG: According to the guidelines, it is recommended to wait at least 3 months before expecting improvement in acne treatment,...
+  Fine-tuned, no RAG [parametr: According to AAD guidelines, it's best to consult a dermatologist for personalized advice on acne treatment. They can he...
+  Base LLaMA, no RAG [pure bas: Typically, it can take 4-6 weeks to see noticeable improvement in acne treatment, as it allows the skin to adjust to the...
+  Scores [fine-tuned+RAG]: faith=0.50  answe=0.96  conte=1.00  conte=1.00
+
+  [03] ACNE | Will my acne leave permanent marks if I don't treat it?
+  No context: True
+  Fine-tuned + RAG   [our syst: It's possible that untreated acne can lead to scarring, but the likelihood and severity of scarring depend on several fa...
+  Base LLaMA + RAG: Acne can cause post-inflammatory hyperpigmentation (PIH), which can lead to permanent discoloration, especially if it's...
+  Fine-tuned, no RAG [parametr: According to AAD guidelines, acne can cause post-inflammatory hyperpigmentation (PIH), but this is not the same as scarr...
+  Base LLaMA, no RAG [pure bas: Acne can cause post-inflammatory hyperpigmentation (PIH), which can lead to permanent discoloration, especially if it's...
+  Scores [fine-tuned+RAG]: faith=0.00  answe=0.74  conte=0.00  conte=0.00
+
+──────────── 5. Pass / Fail — acceptance thresholds ────────────
+
+  Metric                     Value   Threshold  Status
+  ────────────────────────────────────────────────────
+  HR@2                      0.4706       ≥ 0.4  ✓ PASS
+  FP rate                   0.0000       ≤ 0.1  ✓ PASS
+  Faithfulness              0.5716       ≥ 0.8  ✗ FAIL
+  Answer Relevancy          0.9182      ≥ 0.75  ✓ PASS
+  Context Precision         0.3333       ≥ 0.7  ✗ FAIL
+  Context Recall            0.4259      ≥ 0.65  ✗ FAIL
+────────────────────────────────────────────────────────────────
+  Hit rate  → /home/21409109/skincare_model/evaluation_metrics/rag/results/rag_eval_results.json
+  RAGAS     → /home/21409109/skincare_model/evaluation_metrics/rag/results/ragas_detailed_results.json
+────────────────────────────────────────────────────────────────

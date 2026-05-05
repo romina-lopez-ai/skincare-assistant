@@ -1,0 +1,16 @@
+# RAG evaluation dependencies
+# Install from repo root: pip install -r evaluation_metrics/rag/requirements.txt
+
+# RAGAS evaluation framework
+ragas>=0.1.0
+
+# LLM judge providers
+langchain-groq>=0.1.0       # free judge: Llama 3.1 70B via Groq
+langchain-openai>=0.1.0     # paid fallback: GPT-4o-mini
+
+# HuggingFace embeddings for answer_relevancy metric (already in rag/requirements.txt)
+langchain-huggingface>=0.0.3
+sentence-transformers>=2.3.0
+
+# HuggingFace datasets (required by RAGAS)
+datasets>=2.0.0

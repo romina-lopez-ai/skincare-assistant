@@ -1,0 +1,111 @@
+﻿[
+  {
+    "id": "acne_001",
+    "condition": "acne",
+    "type": "in_index",
+    "query": "What are the main causes of acne?",
+    "ground_truth_answer": "Acne is primarily caused by the overproduction of oil, blocked hair follicles that prevent oil from leaving the pore, and bacteria called Propionibacterium acnes that can grow inside the hair follicles.",
+    "expected_source": "QA-Kaggle-dataset-2024_utf8.csv",
+    "chunk_preview": "Acne is primarily caused by the overproduction of oil; blocked hair follicles that don't allow oil to leave the pore, which may cause a clogged pore; bacteria called Propionibacterium acnes"
+  },
+  {
+    "id": "acne_002",
+    "condition": "acne",
+    "type": "in_index",
+    "query": "How long before I see any improvement with acne treatment?",
+    "ground_truth_answer": "Acne treatments often take at least 6 to 12 weeks before improvement is noticed. It is important to give a treatment at least 3 months before deciding if it is working, as long as it is tolerated.",
+    "expected_source": "Fiona Stanley Hospital Dermatology pre-referral guidelines – acne",
+    "chunk_preview": "Acne treatments often take at least 6-12 weeks before improvement is noted regardless of the treatment method. Therefore, as long as therapies are tolerated, it is important to trial these for at least 3-months."
+  },
+  {
+    "id": "acne_003",
+    "condition": "acne",
+    "type": "in_index",
+    "query": "Will my acne leave permanent marks if I don't treat it?",
+    "ground_truth_answer": "Yes, untreated acne increases the risk of permanent scarring and dark marks on the skin. Treating acne helps reduce these long-term changes as well as the impact on your confidence and daily life.",
+    "expected_source": "Fiona Stanley Hospital Dermatology pre-referral guidelines – acne",
+    "chunk_preview": "The aim of treatment is to reduce the number of comedones, inflammatory lesions, and likelihood of permanent scarring and pigmentary changes."
+  },
+  {
+    "id": "eczema_001",
+    "condition": "eczema",
+    "type": "in_index",
+    "query": "why does eczema cause such bad itching?",
+    "ground_truth_answer": "Itching in eczema can be triggered by allergic reactions to food, pollen, or medicines, as well as irritating chemicals, cosmetics, and other substances. The skin inflammation itself also causes the itch.",
+    "expected_source": "MedlinePlus – Itching",
+    "chunk_preview": "Some common causes are: Allergic reactions to food, insect bites, pollen, and medicines. Skin conditions such as eczema, psoriasis, and dry skin. Irritating chemicals, cosmetics, and other substances."
+  },
+  {
+    "id": "eczema_002",
+    "condition": "eczema",
+    "type": "in_index",
+    "query": "Is eczema contagious and what is known about its causes?",
+    "ground_truth_answer": "Eczema is not contagious. Its exact cause is unknown, but it is likely caused by both genetic and environmental factors. It is often a long-lasting disease that may get better or worse over time.",
+    "expected_source": "MedlinePlus – Eczema",
+    "chunk_preview": "Eczema is not contagious. The cause of eczema is unknown. It is likely caused by both genetic and environmental factors. Eczema may get better or worse over time, but it is often a long-lasting disease."
+  },
+  {
+    "id": "eczema_003",
+    "condition": "eczema",
+    "type": "in_index",
+    "query": "What other health conditions are associated with eczema?",
+    "ground_truth_answer": "People with eczema may also develop hay fever and asthma. The most common type is atopic dermatitis, which is most common in babies and children, though adults can have it too. Eczema is often a long-lasting disease.",
+    "expected_source": "MedlinePlus – Eczema",
+    "chunk_preview": "Eczema may get better or worse over time, but it is often a long-lasting disease. People who have it may also develop hay fever and asthma. The most common type of eczema is atopic dermatitis."
+  },
+  {
+    "id": "psoriasis_001",
+    "condition": "psoriasis",
+    "type": "in_index",
+    "query": "How is psoriasis diagnosed?",
+    "ground_truth_answer": "Psoriasis can be hard to diagnose because it can look like other skin diseases. A doctor might need to look at a small skin sample under a microscope to confirm the diagnosis. Psoriasis can last a long time, even a lifetime.",
+    "expected_source": "MedlinePlus – Psoriasis",
+    "chunk_preview": "Psoriasis can be hard to diagnose because it can look like other skin diseases. Your doctor might need to look at a small skin sample under a microscope."
+  },
+  {
+    "id": "psoriasis_002",
+    "condition": "psoriasis",
+    "type": "in_index",
+    "query": "What shampoos are recommended for scalp psoriasis?",
+    "ground_truth_answer": "For scalp psoriasis, the following shampoos are recommended: Nizoral Shampoo, Dercos Shampoo, T-Gel Shampoo, and Sebitar Scalp Treatment. Gentle sun exposure of up to 20 minutes in non-peak UV times (UV index below 3), up to three times per week, can also be helpful.",
+    "expected_source": "FSH Dermatology Psoriasis Guidelines",
+    "chunk_preview": "These include: Nizoral Shampoo, Dercos Shampoo, T-Gel Shampoo, Sebitar Scalp Treatment. Gentle sun exposure can be helpful up to 20 minutes in non-peak UVR times, up to three times per week."
+  },
+  {
+    "id": "psoriasis_003",
+    "condition": "psoriasis",
+    "type": "in_index",
+    "query": "What causes the characteristic skin plaques of psoriasis?",
+    "ground_truth_answer": "In psoriasis, skin cells pile up on the surface, forming the characteristic plaques. This immune response is believed to be triggered by a combination of genetic and environmental factors.",
+    "expected_source": "psoriasisaustralia.org.au_2026.docx",
+    "chunk_preview": "The cells pile up on the skin's surface, forming the characteristic plaques of psoriasis. This immune response is believed to be triggered by a combination of genetic and environmental factors."
+  },
+  {
+    "id": "neg_001",
+    "condition": null,
+    "type": "out_of_index",
+    "query": "What are the stages of colorectal cancer?",
+    "ground_truth_answer": null,
+    "expected_source": null,
+    "chunk_preview": null
+  },
+  {
+    "id": "neg_002",
+    "condition": null,
+    "type": "out_of_index",
+    "query": "How is type 2 diabetes managed with insulin?",
+    "ground_truth_answer": null,
+    "expected_source": null,
+    "chunk_preview": null
+  },
+  {
+    "id": "neg_003",
+    "condition": null,
+    "type": "out_of_index",
+    "query": "What is the standard treatment for hypertension?",
+    "ground_truth_answer": null,
+    "expected_source": null,
+    "chunk_preview": null
+  }
+]
+

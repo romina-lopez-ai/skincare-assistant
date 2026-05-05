@@ -62,7 +62,7 @@ def fetch_medlineplus_api(term: str, max_results:int) -> list:
                 page_content=f"# {clean_title}\n\n{clean_summary}",
                 metadata={
                     "source": "medlineplus",
-                    "title": clean_title,
+                    "title": f"MedlinePlus – {clean_title}",
                     "url": url,
                     "review_date": datetime.now().strftime("%m/%d/%Y"),
                     "term": term

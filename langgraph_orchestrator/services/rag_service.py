@@ -103,8 +103,9 @@ def _real_retrieve_medical_context(query: str) -> str:
         source = meta.get("title") or meta.get("source", "Unknown source")
         score  = ev.get("score", 0.0)
         if text:
-            blocks.append(f"[Evidence {i} | source: {source} | relevance: {score:.2f}]\n{text}")
-
+            #blocks.append(f"[Evidence {i} | source: {source} | relevance: {score:.2f}]\n{text}")
+            score_pct = int(score * 100)
+            blocks.append(f"## PRIORITY {i}: {source}\n{text}")
     if not blocks:
         return ""
 

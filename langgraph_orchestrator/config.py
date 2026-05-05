@@ -60,4 +60,4 @@ USE_MOCK_VISION: bool = _env_flag("USE_MOCK_VISION", default=False)
 
 # RAG service (vector-store retrieval for follow-up questions)
 # Still mock — no vector store is deployed yet.
-USE_MOCK_RAG: bool = _env_flag("USE_MOCK_RAG", default=True)
+USE_MOCK_RAG: bool = _env_flag("USE_MOCK_RAG", default=False)
