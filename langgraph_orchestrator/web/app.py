@@ -103,6 +103,7 @@ async def send_message(req: schemas.ChatRequest) -> schemas.ChatResponse:
         diagnosis_done=result["diagnosis_done"],
         rag_context_used=result["rag_context_used"],
         nodes_visited=result["nodes_visited"],
+        diagnosis_summary=result["diagnosis_summary"],  # Summary: progressive summary card
     )
 
 
@@ -144,6 +145,7 @@ async def upload_image(
         image_uploaded=result["image_uploaded"],
         diagnosis_done=result["diagnosis_done"],
         nodes_visited=result["nodes_visited"],
+        diagnosis_summary=result["diagnosis_summary"],  # Summary: progressive summary card
     )
 
 

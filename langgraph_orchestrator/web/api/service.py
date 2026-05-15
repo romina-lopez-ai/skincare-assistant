@@ -132,6 +132,7 @@ def run_turn(session_id: str, user_message: str) -> dict[str, Any]:
         "diagnosis_done":   final_state.get("diagnosis_done", False),
         "rag_context_used": final_state.get("rag_context") is not None,
         "nodes_visited":    nodes_visited,
+        "diagnosis_summary":  final_state.get("diagnosis_summary"),  # Summary: progressive summary card
     }
 
 
@@ -163,12 +164,19 @@ def store_image(session_id: str, file_path: str) -> dict[str, Any]:
         state = start_session(session_id)
 
     before = dict(state)
-
+    # Summary: mark image as submitted in diagnosis_summary before graph runs (or not).
+    # Covers both the auto-trigger path (symptoms complete) and early upload path.
+    _pre_image_summary = state.get("diagnosis_summary") or {}
+    
     state = {
         **state,
         "image_uploaded":    True,
         "image_path":        file_path,
         "image_acknowledged": False,
+        "diagnosis_summary": {  # Summary: set image status to submitted on upload
+            **_pre_image_summary,
+            "image": {"status": "submitted", "observations": None},
+        },
     }
 
     # Auto-trigger: if symptoms are already complete, run the graph immediately
@@ -209,6 +217,7 @@ def store_image(session_id: str, file_path: str) -> dict[str, Any]:
             "diagnosis_done":   final_state.get("diagnosis_done", False),
             "rag_context_used": final_state.get("rag_context") is not None,
             "nodes_visited":    nodes_visited,
+            "diagnosis_summary":  final_state.get("diagnosis_summary"),  # Summary: progressive summary card
         }
 
     # Early upload — store silently, no graph invocation
@@ -222,6 +231,7 @@ def store_image(session_id: str, file_path: str) -> dict[str, Any]:
         "diagnosis_done":    state.get("diagnosis_done", False),
         "rag_context_used":  False,
         "nodes_visited":     ["[image_stored]"],
+        "diagnosis_summary":  state.get("diagnosis_summary"),  # Summary: includes image submitted status
     }
 
 
@@ -270,7 +280,7 @@ def get_state_summary(session_id: str) -> dict[str, Any] | None:
         # for workflow use but cannot be JSON-serialised by Pydantic.
         "densenet_output":  _strip_tensors(state.get("densenet_output")),
         "diagnosis_done":   state.get("diagnosis_done", False),
-        "diagnosis_summary": state.get("diagnosis_summary"),
+        "diagnosis_summary": state.get("diagnosis_summary"),  # Summary: progressive summary card
         "rag_context":      state.get("rag_context"),
         "fallback_triggered": state.get("fallback_triggered", False),
         "uncertainty_flag": state.get("uncertainty_flag", False),

@@ -34,6 +34,8 @@ class ChatResponse(BaseModel):
     diagnosis_done: bool
     rag_context_used: bool
     nodes_visited: list[str]
+    diagnosis_summary: Optional[dict] = None  # Summary: progressive summary card, present on every turn
+
 
 
 # ---------------------------------------------------------------------------
@@ -49,6 +51,8 @@ class ImageUploadResponse(BaseModel):
     image_uploaded: bool
     diagnosis_done: bool
     nodes_visited: list[str]
+    diagnosis_summary: Optional[dict] = None  # Summary: progressive summary card, present on every turn
+
 
 
 # ---------------------------------------------------------------------------
@@ -88,7 +92,7 @@ class SessionStateResponse(BaseModel):
     image_processed: bool
     densenet_output: Optional[dict[str, Any]] = None
     diagnosis_done: bool
-    diagnosis_summary: Optional[str] = None
+    diagnosis_summary: Optional[dict] = None  # Summary: changed str → dict for progressive summary card
     rag_context: Optional[str] = None
     fallback_triggered: bool
     uncertainty_flag: bool

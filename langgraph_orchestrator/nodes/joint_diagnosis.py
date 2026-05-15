@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from langgraph_orchestrator.services.llm_service import generate_diagnosis_response
+from langgraph_orchestrator.services.llm_service import (
+    generate_diagnosis_response,
+    generate_summary_response,  # Summary: structured summary via base LLM after diagnosis
+)
 from langgraph_orchestrator.state import ChatState
 from langgraph_orchestrator.utils.response_parser import (
     extract_first_diagnosis_block,
@@ -79,31 +82,49 @@ def joint_diagnosis(state: ChatState) -> ChatState:
     confidence  = densenet.get("confidence", 0.0)
     is_cautious = bool(state.get("uncertainty_flag"))
 
-    # Build a summary that reflects whether the diagnosis was made confidently
-    # or with hedged language due to medium image confidence.
-    if is_cautious:
-        summary = (
-            f"Preliminary indication: {label} (confidence {confidence:.0%}, "
-            "low-confidence — treat as rough indication only)"
-        )
-    else:
-        summary = f"Preliminary diagnosis: {label} (confidence {confidence:.0%})"
+    # Summary: old string-based diagnosis_summary kept as comments for reference
+    # if is_cautious:
+    #     summary = (
+    #         f"Preliminary indication: {label} (confidence {confidence:.0%}, "
+    #         "low-confidence — treat as rough indication only)"
+    #     )
+    # else:
+    #     summary = f"Preliminary diagnosis: {label} (confidence {confidence:.0%})"
 
     print(
-        f"[joint_diagnosis] Milestone committed — {summary} "
+        f"[joint_diagnosis] Milestone committed — {label} (confidence {confidence:.0%}) "
         f"({'cautious' if is_cautious else 'confident'})"
     )
+
+    # Summary: call base LLM (no adapter) to generate structured summary from
+    # clean diagnosis text + symptom slots. Updates diagnosis_summary["image"]
+    # with visual observations and diagnosis_summary["diagnosis"] with findings.
+    _summary_data = generate_summary_response(state, parsed_content)
+    _existing_summary = state.get("diagnosis_summary") or {}
+    _updated_diagnosis_summary = {
+        **_existing_summary,
+        "image": {
+            **(_existing_summary.get("image") or {}),
+            "status":       "analyzed",
+            "observations": _summary_data.get("image_observations", []),
+        },
+        "diagnosis": {
+            "condition":    _summary_data.get("condition", ""),
+            "key_findings": _summary_data.get("key_findings", []),
+            "next_steps":   _summary_data.get("next_steps", ""),
+        },
+    }
 
     return {
         **state,
         "messages":           messages,
-        "diagnosis_done":     True,          # irreversible until session reset
-        "diagnosis_summary":  summary,
+        "diagnosis_done":     True,            # irreversible until session reset
+        "diagnosis_summary":  _updated_diagnosis_summary,  # Summary: full progressive summary
         "phase":              "follow_up",
         # Preserve uncertainty_flag for cautious diagnoses so downstream nodes
         # (e.g. llm_followup) can qualify their answers accordingly.
         # fallback_triggered is always cleared — we committed a diagnosis, so
         # there is nothing left to fall back from.
-        "uncertainty_flag":   is_cautious,   # True → cautious; False → confident
+        "uncertainty_flag":   is_cautious,     # True → cautious; False → confident
         "fallback_triggered": False,
     }

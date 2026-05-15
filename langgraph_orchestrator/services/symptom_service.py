@@ -24,6 +24,8 @@ Completion rules (in priority order)
 
 from __future__ import annotations
 
+import re
+
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
@@ -52,43 +54,55 @@ MIN_SYMPTOM_TURNS  = 3   # minimum assistant turns before allowing completion
 _SLOT_KEYWORDS: dict[str, list[str]] = {
     "location": [
         "face", "cheek", "forehead", "chin", "nose",
-        "neck", "scalp", "head", "ear",
-        "arm", "elbow", "wrist", "hand", "finger",
-        "leg", "knee", "shin", "ankle", "foot", "toe",
+        "neck", "scalp", "head", "ear", "behind the ear",
+        "arm", "forearm", "upper arm", "inner arm", "elbow", "wrist", "hand", "finger", "between fingers",
+        "leg", "lower leg", "knee", "shin", "ankle", "foot", "toe",
         "back", "chest", "stomach", "abdomen",
-        "shoulder", "groin", "thigh", "buttock",
-        "body", "skin",
+        "shoulder", "groin", "thigh", "inner thigh", "buttock",
+        "lip", "mouth", "eye", "around the eye",
+        # "body", "skin",  # Summary: removed — match in almost every message, too noisy
     ],
     "duration": [
+        "hour", "hours",
         "day", "days", "week", "weeks", "month", "months",
         "year", "years", "since", " ago", "started", "began",
-        "for about", "long", "yesterday", "recently",
+        "for about", "yesterday", "recently",
         "last night", "this morning", "a while",
+        "chronic", "on and off", "comes and goes", "flare",
+        # "long",  # Summary: removed — ambiguous ("long scratch" fills duration incorrectly)
     ],
     "appearance": [
-        "red", "pink", "brown", "dark", "pale", "white", "yellow",
+        "red", "pink", "brown", "dark", "pale", "white", "yellow", "purple", "silvery", "orange",
         "itchy", "itching", "itch",
-        "dry", "flaky", "scaly", "crusty", "rough",
+        "dry", "flaky", "scaly", "crusty", "rough", "thick", "smooth",
         "swollen", "raised", "flat", "bumpy",
         "blister", "rash", "patch", "spot", "mark", "lesion", "sore",
+        "pimple", "acne", "hive", "welt",
+        "ring", "circular", "ring-shaped", "coin-shaped",
+        "fluid-filled", "clear", "fluid",
         "oozing", "weeping", "bleeding", "cracking",
     ],
     "severity": [
         "mild", "slight", "minor", "not that bad",
-        "moderate", "medium", "manageable",
+        "moderate", "medium", "manageable", "tolerable",
         "severe", "bad", "very bad", "terrible",
-        "unbearable", "extreme", "awful",
+        "unbearable", "extreme", "awful", "intense",
         "worse", "worsening", "getting worse",
+        "painful", "pain", "hurts", "burning", "stinging", "tender", "uncomfortable",
         "/10", "out of 10",
-        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+        # "1"-"10" removed — Summary: standalone digits trigger on durations/dates
+        # e.g. "2 weeks" fills severity with "2", "3 days ago" fills with "3"
     ],
     "triggers": [
         "stress", "anxious", "anxiety", "nervous",
         "soap", "detergent", "washing",
         "food", "eating", "dairy", "gluten", "nut",
         "sweat", "sweating", "exercise", "heat",
-        "sun", "sunlight", "cold", "wind", "weather",
+        "sun", "sunlight", "cold", "wind", "weather", "seasonal", "humidity", "dry air",
         "fabric", "wool", "synthetic", "clothes",
+        "alcohol", "perfume", "makeup", "cosmetics", "shampoo", "lotion",
+        "dust", "pollen", "allergy", "allergic",
+        "hormones", "period", "pregnancy",
         "when i", "after i", "after eating", "when stressed",
         "nothing", "don't know", "no idea", "not sure",
     ],
@@ -100,21 +114,50 @@ _SLOT_KEYWORDS: dict[str, list[str]] = {
 # ---------------------------------------------------------------------------
 
 def _find_slot_evidence(message_lower: str, keywords: list[str]) -> str | None:
-    """Return a short text snippet from message_lower if any keyword matches.
+    """Return a phrase from message_lower that contains a keyword match.
+
+    Summary: rewritten to fix three issues with the original 6+20 char window:
+      1. Words cut mid-phrase — now snaps to word boundaries on both sides.
+      2. Wrong slot — longer keywords tried first (unchanged), but now the
+         returned phrase is wide enough to show real context.
+      3. Duplicate-looking values — phrase ends at the nearest clause separator
+         (, . ! ? newline) so each slot captures its own clause.
 
     Tries longer keywords first to prefer more specific matches.
-    Returns a window of up to ~35 characters around the matched term,
-    which gives enough context for the debug panel without storing the
-    whole message.
-
     Returns None when no keyword is found.
     """
     for kw in sorted(keywords, key=len, reverse=True):
-        idx = message_lower.find(kw)
-        if idx != -1:
-            start   = max(0, idx - 6)
-            end     = min(len(message_lower), idx + len(kw) + 20)
-            snippet = message_lower[start:end].strip(" .,;!?")
+        kw_stripped = kw.strip()
+
+        # Summary: use \b word-boundary matching when keyword starts and ends with
+        # a word character — prevents "arm" matching "warm/farm", "ear" matching
+        # "early/hear". Keywords like "/10" or " ago" skip boundaries (non-word edges).
+        if re.match(r"\w", kw_stripped) and re.search(r"\w$", kw_stripped):
+            pattern = r"\b" + re.escape(kw_stripped) + r"\b"
+        else:
+            pattern = re.escape(kw_stripped)
+
+        m = re.search(pattern, message_lower)
+        if m is None:
+            continue
+
+        idx = m.start()
+
+        # Summary: snap left to the nearest word boundary (don't cut mid-word)
+        start = idx
+        while start > 0 and message_lower[start - 1] not in " .,;!?\n\t":
+            start -= 1
+
+        # Summary: extend right to the next clause boundary or 60 chars max
+        tail = message_lower[start:]
+        clause_end = len(tail)
+        for sep_char in (",", ".", "!", "?", "\n"):
+            pos = tail.find(sep_char)
+            if 0 < pos < clause_end:
+                clause_end = pos
+
+        snippet = tail[:min(clause_end, 60)].strip(" .,;!?")
+        if snippet:
             return snippet
     return None
 
@@ -154,6 +197,19 @@ def extract_slots_from_message(
         evidence = _find_slot_evidence(msg_lower, keywords)
         if evidence:
             updated[slot] = evidence
+
+    # Special case for severity: capture plain number answers to the "1-10" question.
+    # Can't keep "1"-"10" in _SLOT_KEYWORDS because they false-trigger on durations
+    # ("2 weeks" → severity "2"). Negative lookahead excludes numbers followed by
+    # time words so "7" matches but "2 weeks" and "3 days ago" do not.
+    if updated.get("severity") is None:
+        _sev_m = re.search(
+            r"\b(10|[1-9])\b(?!\s*(?:days?|weeks?|months?|years?|hours?))",
+            msg_lower,
+        )
+        if _sev_m:
+            _start = _sev_m.start()
+            updated["severity"] = msg_lower[_start : _start + 12].strip(" .,;!?")
 
     return updated
 

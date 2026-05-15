@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from langgraph_orchestrator.services.llm_service import generate_symptom_response
+from langgraph_orchestrator.services.llm_service import (
+    generate_symptom_response,
+    refine_symptom_slots,  # corrects slots via base LLM at end of symptom collection
+)
 from langgraph_orchestrator.services.symptom_service import (
     MIN_SYMPTOM_TURNS,
     REQUIRED_SLOTS,
@@ -79,11 +82,25 @@ def collect_symptoms(state: ChatState) -> ChatState:
             else "max turns"
         )
         print(f"[collect_symptoms] Complete after {turns} turns ({reason})")
+        # Refine slots with base LLM: reads the full conversation once to correct
+        # keyword extraction errors (wrong slot, cut text, missed context).
+        # LLM values take priority; keyword values kept as fallback for nulls.
+        _state_for_refine = {**state_with_slots, "messages": state["messages"]}
+        _refined = refine_symptom_slots(_state_for_refine)
+        updated_slots = {
+            k: _refined.get(k) or updated_slots.get(k)
+            for k in updated_slots
+        }
+        print(f"[collect_symptoms] Slots after LLM refinement: {updated_slots}")
     else:
         print(f"[collect_symptoms] Turn {turns} — filled {filled}/{len(REQUIRED_SLOTS)}, "
               f"missing: {missing}")
 
     messages = state["messages"] + [{"role": "assistant", "content": reply}]
+
+    # Summary: update diagnosis_summary symptoms on every turn as slots fill in progressively
+    _existing_summary = state.get("diagnosis_summary") or {}
+    _updated_summary = {**_existing_summary, "symptoms": dict(updated_slots)}
 
     return {
         **state,
@@ -92,4 +109,5 @@ def collect_symptoms(state: ChatState) -> ChatState:
         "symptom_turns":     turns,
         "symptoms_complete": complete,
         "phase":             "await_image" if complete else "symptom_collection",
+        "diagnosis_summary": _updated_summary,  # Summary: progressive symptom tracking
     }
