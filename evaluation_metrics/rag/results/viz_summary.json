@@ -1,0 +1,139 @@
+{
+  "generated": "2026-05-08",
+  "n_ragas_samples": 45,
+  "n_hitrate_samples": 45,
+  "judge_model": "gpt-4o-mini",
+  "metrics": [
+    "faithfulness",
+    "answer_relevancy",
+    "context_precision",
+    "context_recall"
+  ],
+  "configs": {
+    "finetuned_rag": {
+      "label": "FT + RAG (ours)",
+      "faithfulness": {
+        "mean": 0.585,
+        "std": 0.383
+      },
+      "answer_relevancy": {
+        "mean": 0.6975,
+        "std": 0.3218
+      },
+      "context_precision": {
+        "mean": 0.6778,
+        "std": 0.4666
+      },
+      "context_recall": {
+        "mean": 0.4648,
+        "std": 0.4214
+      }
+    },
+    "base_rag": {
+      "label": "Base + RAG",
+      "faithfulness": {
+        "mean": 0.3887,
+        "std": 0.4455
+      },
+      "answer_relevancy": {
+        "mean": 0.5099,
+        "std": 0.4317
+      },
+      "context_precision": {
+        "mean": 0.6667,
+        "std": 0.4767
+      },
+      "context_recall": {
+        "mean": 0.4389,
+        "std": 0.4176
+      }
+    },
+    "finetuned_no_rag": {
+      "label": "FT, no RAG",
+      "faithfulness": {
+        "mean": 0.1586,
+        "std": 0.3254
+      },
+      "answer_relevancy": {
+        "mean": 0.2899,
+        "std": 0.387
+      },
+      "context_precision": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "context_recall": {
+        "mean": 0.0111,
+        "std": 0.0745
+      }
+    },
+    "base_no_rag": {
+      "label": "Base, no RAG",
+      "faithfulness": {
+        "mean": 0.0222,
+        "std": 0.1491
+      },
+      "answer_relevancy": {
+        "mean": 0.4189,
+        "std": 0.439
+      },
+      "context_precision": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "context_recall": {
+        "mean": 0.0,
+        "std": 0.0
+      }
+    }
+  },
+  "deltas": {
+    "adapter": {
+      "faithfulness": 0.1963,
+      "answer_relevancy": 0.1876,
+      "context_precision": 0.0111,
+      "context_recall": 0.0259
+    },
+    "rag": {
+      "faithfulness": 0.4264,
+      "answer_relevancy": 0.4076,
+      "context_precision": 0.6778,
+      "context_recall": 0.4537
+    },
+    "total": {
+      "faithfulness": 0.5628,
+      "answer_relevancy": 0.2786,
+      "context_precision": 0.6778,
+      "context_recall": 0.4648
+    }
+  },
+  "per_condition": {
+    "acne": {
+      "faithfulness": 0.4772,
+      "answer_relevancy": 0.6018,
+      "context_precision": 0.6667,
+      "context_recall": 0.5333,
+      "hr_at_2": 0.6667
+    },
+    "eczema": {
+      "faithfulness": 0.6222,
+      "answer_relevancy": 0.7269,
+      "context_precision": 0.7333,
+      "context_recall": 0.5833,
+      "hr_at_2": 0.6667
+    },
+    "psoriasis": {
+      "faithfulness": 0.6556,
+      "answer_relevancy": 0.7639,
+      "context_precision": 0.6333,
+      "context_recall": 0.2778,
+      "hr_at_2": 0.4
+    }
+  },
+  "hr_overall": {
+    "hr_at_2": 0.5778,
+    "fp_rate": 0.0,
+    "n_in_index": 45,
+    "n_negatives": 15
+  }
+}

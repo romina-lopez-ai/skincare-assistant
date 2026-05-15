@@ -181,6 +181,7 @@ def generate_base_no_rag_answer(query: str) -> str:
 # ---------------------------------------------------------------------------
 
 def build_ragas_llm():
+    '''
     if JUDGE_PROVIDER == "groq":
         if not GROQ_API_KEY:
             raise ValueError("GROQ_API_KEY is not set. Export it or set JUDGE_PROVIDER=openai.")
@@ -192,6 +193,7 @@ def build_ragas_llm():
             groq_api_key=GROQ_API_KEY,
             temperature=0,
         ))
+    '''
     if not OPENAI_API_KEY:
         raise ValueError("OPENAI_API_KEY is not set.")
     from langchain_openai import ChatOpenAI

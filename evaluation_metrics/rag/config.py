@@ -17,7 +17,7 @@ COLLECTION_NAME  = os.getenv("RAG_COLLECTION_NAME", "skin_health")
 # ── Output paths ──────────────────────────────────────────────────────────────
 DATA_DIR    = Path(__file__).parent / "data"
 RESULTS_DIR = Path(__file__).parent / "results"
-EVAL_DATASET_PATH = DATA_DIR    / "eval_dataset.json"
+EVAL_DATASET_PATH = DATA_DIR    / "all_eval_dataset.json"
 RESULTS_PATH      = RESULTS_DIR / "rag_eval_results.json"
 
 # ── Eval dataset composition ──────────────────────────────────────────────────
@@ -41,7 +41,7 @@ NEGATIVE_QUERIES = [
 
 # ── LLM judge (question generation + RAGAS) ───────────────────────────────────
 # Options: "groq" (free, open source) or "openai" (paid fallback)
-JUDGE_PROVIDER      = os.getenv("JUDGE_PROVIDER", "groq")
+JUDGE_PROVIDER      = os.getenv("JUDGE_PROVIDER", "openai")
 JUDGE_MODEL_GROQ    = os.getenv("JUDGE_MODEL_GROQ",   "llama-3.3-70b-versatile")
 JUDGE_MODEL_OPENAI  = os.getenv("JUDGE_MODEL_OPENAI", "gpt-4o-mini")
 

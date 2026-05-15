@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "id": "acne_001",
     "condition": "acne",
@@ -108,6 +108,33 @@
     "chunk_preview": "Stress doesn't cause acne, but stress can make it worse. If you have acne: Clean your skin gently. Try not to touch your skin."
   },
   {
+    "id": "acne_013",
+    "condition": "acne",
+    "type": "in_index",
+    "query": "Does acne only affect teenagers or can adults get it too?",
+    "ground_truth_answer": "Anyone can get acne, but it is most common in teenagers and young adults due to hormonal changes during puberty, which cause the skin to produce more oil. Hormonal changes during pregnancy can also trigger acne. It is not a serious medical condition but it can cause scars if left untreated.",
+    "expected_source": "MedlinePlus – Acne",
+    "chunk_preview": "it is common in teenagers and young adults. It is not serious, but it can cause scars. No one knows exactly what causes acne. Hormone changes, such as those during the teenage years and pregnancy, play a role."
+  },
+  {
+    "id": "acne_014",
+    "condition": "acne",
+    "type": "in_index",
+    "query": "What forms does benzoyl peroxide come in and which one should I use for acne?",
+    "ground_truth_answer": "Benzoyl peroxide comes in many different preparations ranging from 2.5% to 10%, including gels, creams, and body washes. The best preparation depends on your skin type and history. Lower concentrations such as 2.5% are generally as effective as higher ones with less irritation.",
+    "expected_source": "Fiona Stanley Hospital Dermatology pre-referral guidelines – acne",
+    "chunk_preview": "Benzoyl peroxide comes in many different preparations ranging from 2.5-10%. Preparations include gel, cream and body wash. Choose a preparation that suits the patient depending on their history."
+  },
+  {
+    "id": "acne_015",
+    "condition": "acne",
+    "type": "in_index",
+    "query": "When is isotretinoin used for acne and is it safe?",
+    "ground_truth_answer": "Isotretinoin is used for moderate to severe acne that has not responded to other treatments. It is a powerful prescription medication that must be carefully monitored by a dermatologist. Women of childbearing age are required to use strict contraception while taking it because of the risk of birth defects.",
+    "expected_source": "QA-Kaggle-dataset-2024_utf8.csv",
+    "chunk_preview": "For moderate to severe acne, oral medications may be necessary. These can include antibiotics, combined oral contraceptives (for women), or a powerful medication called isotretinoin for severe cases."
+  },
+  {
     "id": "eczema_001",
     "condition": "eczema",
     "type": "in_index",
@@ -198,6 +225,51 @@
     "chunk_preview": "It is most common in babies and children, but adults can have it too. As children who have atopic dermatitis grow older, this problem may get better or go away."
   },
   {
+    "id": "eczema_011",
+    "condition": "eczema",
+    "type": "in_index",
+    "query": "What exactly is eczema and how does it affect the skin?",
+    "ground_truth_answer": "Eczema is a term for several different types of skin swelling, also called dermatitis. Most types cause dry, itchy skin and rashes on the face, inside the elbows and behind the knees, and on the hands and feet. It is a long-lasting condition that may get better or worse over time.",
+    "expected_source": "MedlinePlus – Eczema",
+    "chunk_preview": "Eczema is a term for several different types of skin swelling. Eczema is also called dermatitis. Most types cause dry, itchy skin and rashes on the face, inside the elbows and behind the knees, and on the hands and feet."
+  },
+  {
+    "id": "eczema_012",
+    "condition": "eczema",
+    "type": "in_index",
+    "query": "Can food allergies make eczema worse in children?",
+    "ground_truth_answer": "Food allergy is more common in children with eczema who also have a family history of allergic disease. If a child consistently develops a skin rash after eating a particular food, a food allergy may be involved and should be investigated by a doctor. However, allergy testing is not routinely recommended for all children with eczema. Interestingly, managing eczema well in infants may reduce the chance of developing food allergy.",
+    "expected_source": "FSH Dermatology Eczema guidelines",
+    "chunk_preview": "Food allergy is more common in children with eczema who also have a family history of allergic disease. Managing eczema well in infants may reduce their chance of developing food allergy. Allergy testing is not routinely recommended for children with eczema."
+  },
+  {
+    "id": "eczema_013",
+    "condition": "eczema",
+    "type": "in_index",
+    "query": "What is atopic dermatitis and is it the same as eczema?",
+    "ground_truth_answer": "Atopic dermatitis is the most common type of eczema. It is a very common skin condition that often begins in infancy or early childhood — most affected children develop it before age two and it usually improves by age eight. People with atopic dermatitis are also more likely to develop hay fever and asthma.",
+    "expected_source": "FSH Dermatology Eczema guidelines",
+    "chunk_preview": "Eczema (atopic dermatitis) is a very common skin condition that often begins in infancy or early childhood. Most affected children develop eczema before the age of two years, and it usually improves by the age of eight."
+  },
+  {
+    "id": "eczema_014",
+    "condition": "eczema",
+    "type": "in_index",
+    "query": "Does the strength of the steroid cream matter when treating eczema?",
+    "ground_truth_answer": "Yes, the strength of the topical steroid is important and must be matched to the child's age, the severity of the eczema, and the area of skin being treated. Using an inadequate strength is a common reason why eczema remains poorly controlled. The formulation also matters: creams and ointments behave differently on the skin.",
+    "expected_source": "FSH Dermatology Eczema guidelines",
+    "chunk_preview": "Inadequate strength, amount and formulation of topical corticosteroid prescribed. Determined by child's age, eczema severity and affected site(s). Wrong base of topical steroid — creams will deliver a different effect to ointments."
+  },
+  {
+    "id": "eczema_015",
+    "condition": "eczema",
+    "type": "in_index",
+    "query": "When should my child's eczema be referred to a skin specialist?",
+    "ground_truth_answer": "A specialist referral should be considered if the eczema keeps getting infected repeatedly, if it covers a very large area of the body (more than 80% of skin surface, called erythroderma), or if it requires frequent courses of oral steroids to stay under control. These are signs that the condition is severe and needs specialist management.",
+    "expected_source": "FSH Dermatology Eczema guidelines",
+    "chunk_preview": "Recurrent episodes of infected eczema. Patients with erythroderma (>80% skin involvement). Patients with eczema requiring frequent courses of oral steroids for control."
+  },
+  {
     "id": "psoriasis_001",
     "condition": "psoriasis",
     "type": "in_index",
@@ -246,7 +318,7 @@
     "id": "psoriasis_006",
     "condition": "psoriasis",
     "type": "in_index",
-    "query": "are there different types of psoriasis â€” what are the main ones?",
+    "query": "are there different types of psoriasis — what are the main ones?",
     "ground_truth_answer": "There are different types of psoriasis. The most common is plaque psoriasis, which causes thick raised patches usually on the elbows, knees, and lower back. Another type called guttate psoriasis comes on suddenly and appears as many small patches spread across the body.",
     "expected_source": "FSH Dermatology Psoriasis Guidelines",
     "chunk_preview": "Clinical variants of psoriasis include: Chronic plaque psoriasis: the most common variant. Typically affects elbows, knees and lower back. Guttate psoriasis: sudden onset of widespread small psoriasis papules and plaques."
@@ -304,6 +376,33 @@
     "ground_truth_answer": "Gentle sun exposure can sometimes help with psoriasis, including on the scalp. Short sessions of around 20 minutes during low UV periods, up to three times a week, may be beneficial, but care should be taken not to burn.",
     "expected_source": "FSH Dermatology Psoriasis Guidelines",
     "chunk_preview": "Gentle sun exposure can be helpful up to 20 minutes in non-peak UVR times, up to three times per week."
+  },
+  {
+    "id": "psoriasis_013",
+    "condition": "psoriasis",
+    "type": "in_index",
+    "query": "Can psoriasis also cause joint pain and swelling?",
+    "ground_truth_answer": "Yes. Patients with psoriasis who develop symptoms of joint pain, swelling, or stiffness may have psoriatic arthritis, which is an inflammatory condition affecting the joints. Anyone with psoriasis who notices joint symptoms should be assessed by a rheumatologist.",
+    "expected_source": "FSH Dermatology Psoriasis Guidelines",
+    "chunk_preview": "Patients with psoriasis who also display symptoms and signs of inflammatory arthritis should be referred to Rheumatology to assess for psoriatic arthritis."
+  },
+  {
+    "id": "psoriasis_014",
+    "condition": "psoriasis",
+    "type": "in_index",
+    "query": "What are biologic therapies for psoriasis and when are they used?",
+    "ground_truth_answer": "Biologic therapies are advanced prescription treatments reserved for severe psoriasis or psoriatic arthritis that has not responded to conventional systemic treatments. They target specific parts of the immune system. There are several biologic agents available, and they are prescribed and monitored by a specialist.",
+    "expected_source": "FSH Dermatology Psoriasis Guidelines",
+    "chunk_preview": "Biologic therapy is reserved for severe psoriasis and/or psoriatic psoriasis that has failed to respond to conventional systemic therapy. There are many biologic agents currently available on the PBS."
+  },
+  {
+    "id": "psoriasis_015",
+    "condition": "psoriasis",
+    "type": "in_index",
+    "query": "Can stress make psoriasis worse, and does psoriasis affect mental health?",
+    "ground_truth_answer": "Yes, emotional stress can make psoriasis worse by triggering an immune response that leads to flare-ups. Up to 50% of patients with psoriasis report that stress worsens their symptoms. Chronic stress may also contribute to the persistence of symptoms, so managing stress is an important part of living well with psoriasis.",
+    "expected_source": "psoriasisaustralia.org.au_2026.docx",
+    "chunk_preview": "Stress: Emotional stress can exacerbate psoriasis by triggering an immune response that leads to flare-ups. Chronic stress may also contribute to the persistence of symptoms."
   },
   {
     "id": "neg_001",
@@ -394,6 +493,50 @@
     "ground_truth_answer": null,
     "expected_source": null,
     "chunk_preview": null
+  },
+  {
+    "id": "neg_011",
+    "condition": null,
+    "type": "out_of_index",
+    "query": "What is the standard treatment for Alzheimer's disease?",
+    "ground_truth_answer": null,
+    "expected_source": null,
+    "chunk_preview": null
+  },
+  {
+    "id": "neg_012",
+    "condition": null,
+    "type": "out_of_index",
+    "query": "How are kidney stones treated when they are too large to pass naturally?",
+    "ground_truth_answer": null,
+    "expected_source": null,
+    "chunk_preview": null
+  },
+  {
+    "id": "neg_013",
+    "condition": null,
+    "type": "out_of_index",
+    "query": "What are the main classes of medication used to treat clinical depression?",
+    "ground_truth_answer": null,
+    "expected_source": null,
+    "chunk_preview": null
+  },
+  {
+    "id": "neg_014",
+    "condition": null,
+    "type": "out_of_index",
+    "query": "How is obstructive sleep apnea diagnosed and managed?",
+    "ground_truth_answer": null,
+    "expected_source": null,
+    "chunk_preview": null
+  },
+  {
+    "id": "neg_015",
+    "condition": null,
+    "type": "out_of_index",
+    "query": "What are the recommended screening tests for prostate cancer?",
+    "ground_truth_answer": null,
+    "expected_source": null,
+    "chunk_preview": null
   }
 ]
-
