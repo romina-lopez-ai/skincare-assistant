@@ -1,0 +1,880 @@
+{
+  "hit_rate": {
+    "overall": {
+      "hr_at_1": 0.4444,
+      "hr_at_2": 0.5778
+    },
+    "per_condition": {
+      "acne": {
+        "hr_at_1": 0.4,
+        "hr_at_2": 0.6667,
+        "n_samples": 15
+      },
+      "eczema": {
+        "hr_at_1": 0.6667,
+        "hr_at_2": 0.6667,
+        "n_samples": 15
+      },
+      "psoriasis": {
+        "hr_at_1": 0.2667,
+        "hr_at_2": 0.4,
+        "n_samples": 15
+      }
+    },
+    "fp_rate": 0.0,
+    "n_in_index": 45,
+    "n_negatives": 15
+  },
+  "samples": [
+    {
+      "id": "acne_001",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "What are the main causes of acne?",
+      "ground_truth_answer": "Acne is primarily caused by the overproduction of oil, blocked hair follicles that prevent oil from leaving the pore, and bacteria called Propionibacterium acnes that can grow inside the hair follicles.",
+      "expected_source": "QA-Kaggle-dataset-2024_utf8.csv",
+      "chunk_preview": "Acne is primarily caused by the overproduction of oil; blocked hair follicles that don't allow oil to leave the pore, which may cause a clogged pore; bacteria called Propionibacterium acnes",
+      "retrieved_sources": [
+        "MedlinePlus – Acne",
+        "QA-Kaggle-dataset-2024_utf8.csv"
+      ],
+      "latency_s": 22.291,
+      "hit_at_1": false,
+      "hit_at_2": true
+    },
+    {
+      "id": "acne_002",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "How long before I see any improvement with acne treatment?",
+      "ground_truth_answer": "Acne treatments often take at least 6 to 12 weeks before improvement is noticed. It is important to give a treatment at least 3 months before deciding if it is working, as long as it is tolerated.",
+      "expected_source": "Fiona Stanley Hospital Dermatology pre-referral guidelines – acne",
+      "chunk_preview": "Acne treatments often take at least 6-12 weeks before improvement is noted regardless of the treatment method. Therefore, as long as therapies are tolerated, it is important to trial these for at least 3-months.",
+      "retrieved_sources": [
+        "Fiona Stanley Hospital Dermatology pre-referral guidelines – acne",
+        "Fiona Stanley Hospital Dermatology pre-referral guidelines – acne"
+      ],
+      "latency_s": 0.076,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "acne_003",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "Will my acne leave permanent marks if I don't treat it?",
+      "ground_truth_answer": "Yes, untreated acne increases the risk of permanent scarring and dark marks on the skin. Treating acne helps reduce these long-term changes as well as the impact on your confidence and daily life.",
+      "expected_source": "Fiona Stanley Hospital Dermatology pre-referral guidelines – acne",
+      "chunk_preview": "The aim of treatment is to reduce the number of comedones, inflammatory lesions, and likelihood of permanent scarring and pigmentary changes.",
+      "retrieved_sources": [],
+      "latency_s": 0.075,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "acne_004",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "Should I protect my skin from the sun if I have acne?",
+      "ground_truth_answer": "Yes, sun protection is recommended for acne patients to help minimise dark marks that can appear after a pimple heals. This is especially important if you have darker skin.",
+      "expected_source": "Fiona Stanley Hospital Dermatology pre-referral guidelines – acne",
+      "chunk_preview": "Advise patients to protect their skin from the skin, in order to minimize post-inflammatory hyperpigmentation. This is especially important for patients with skin of colour.",
+      "retrieved_sources": [
+        "MedlinePlus – Acne",
+        "Fiona Stanley Hospital Dermatology pre-referral guidelines – acne"
+      ],
+      "latency_s": 0.079,
+      "hit_at_1": false,
+      "hit_at_2": true
+    },
+    {
+      "id": "acne_005",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "Where on the body does acne most commonly appear?",
+      "ground_truth_answer": "Most acne pimples form on the face, neck, back, chest, and shoulders. Pimples form when hair follicles under the skin clog up, and anyone can get acne.",
+      "expected_source": "MedlinePlus – Acne",
+      "chunk_preview": "Acne is a common skin disease that causes pimples. Pimples form when hair follicles under your skin clog up. Most pimples form on the face, neck, back, chest, and shoulders.",
+      "retrieved_sources": [
+        "MedlinePlus – Acne",
+        "Fiona Stanley Hospital Dermatology pre-referral guidelines – acne"
+      ],
+      "latency_s": 0.078,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "acne_006",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "is the salicylic acid cream from the pharmacy actually good for acne?",
+      "ground_truth_answer": "Salicylic acid can help with acne, especially early blackheads and mild pimples. It is applied to the whole breakout-prone area once or twice a day and also has some ability to fade the dark marks acne leaves behind.",
+      "expected_source": "Fiona Stanley Hospital Dermatology pre-referral guidelines – acne",
+      "chunk_preview": "This should be used as a field therapy to the acne-prone areas once or twice daily. It can be helpful for early comedonal acne, as well as mild papulopustular acne. This treatment also has some fading qualities.",
+      "retrieved_sources": [
+        "QA-Kaggle-dataset-2024_utf8.csv",
+        "QA-Kaggle-dataset-2024_utf8.csv"
+      ],
+      "latency_s": 0.071,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "acne_007",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "Do chocolate and greasy foods cause acne?",
+      "ground_truth_answer": "Despite common beliefs, there is little evidence that chocolate or greasy foods have much effect on acne in most people. These are considered myths about the causes of acne, though other hormonal factors such as pregnancy may play a role.",
+      "expected_source": "MedlinePlus – Acne",
+      "chunk_preview": "There are many myths about what causes acne. Chocolate and greasy foods are often blamed, but there is little evidence that foods have much effect on acne in most people.",
+      "retrieved_sources": [
+        "MedlinePlus – Acne"
+      ],
+      "latency_s": 0.072,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "acne_008",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "What self-care steps are recommended for people with acne?",
+      "ground_truth_answer": "For acne, it is recommended to clean the skin gently, avoid touching the skin, and avoid the sun. Stress does not cause acne but can make it worse. Treatments include medicines and creams.",
+      "expected_source": "MedlinePlus – Acne",
+      "chunk_preview": "Stress doesn't cause acne, but stress can make it worse. If you have acne: Clean your skin gently. Try not to touch your skin. Avoid the sun. Treatments for acne include medicines and creams.",
+      "retrieved_sources": [],
+      "latency_s": 0.066,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "acne_009",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "What over-the-counter and prescription treatments are available for acne?",
+      "ground_truth_answer": "Over-the-counter treatments often contain salicylic acid or benzoyl peroxide. Prescription treatments include topical retinoids, topical antibiotics, combined topical products, oral antibiotics, oral contraceptives for females, anti-androgen agents for females, and isotretinoin for severe acne.",
+      "expected_source": "QA-Kaggle-dataset-2024_utf8.csv",
+      "chunk_preview": "Over-the-counter treatments often contain salicylic acid or benzoyl peroxide. Prescription treatments can include topical retinoids, topical antibiotics, combined topical products, oral antibiotics, oral contraceptives for females, anti-androgen agents for females, and isotretinoin for severe acne.",
+      "retrieved_sources": [
+        "QA-Kaggle-dataset-2024_utf8.csv",
+        "QA-Kaggle-dataset-2024_utf8.csv"
+      ],
+      "latency_s": 0.069,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "acne_010",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "What are common skin conditions that cause pimples or clogged pores?",
+      "ground_truth_answer": "Acne is a common skin condition that causes pimples when hair follicles under the skin get clogged up. It is one of several common skin conditions that affect the skin's appearance and health.",
+      "expected_source": "MedlinePlus – Skin Conditions",
+      "chunk_preview": "Some of the more common skin conditions include: Acne, which causes pimples when hair follicles under your skin get clogged up.",
+      "retrieved_sources": [
+        "MedlinePlus – Acne",
+        "MedlinePlus – Skin Conditions"
+      ],
+      "latency_s": 0.074,
+      "hit_at_1": false,
+      "hit_at_2": true
+    },
+    {
+      "id": "acne_011",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "can acne spread from one person to another?",
+      "ground_truth_answer": "No, acne is not contagious. You cannot catch it from or pass it to someone else. It develops because of changes inside your own skin such as clogged pores and bacteria that naturally live there.",
+      "expected_source": "MedlinePlus – Acne",
+      "chunk_preview": "Acne is a common skin disease that causes pimples. Pimples form when hair follicles under your skin clog up.",
+      "retrieved_sources": [],
+      "latency_s": 0.074,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "acne_012",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "my breakouts always get worse when I am stressed, is that normal?",
+      "ground_truth_answer": "Yes, that is normal. Stress does not directly cause acne but it can make it worse. Keeping up a gentle skincare routine and avoiding touching your face during stressful periods can help.",
+      "expected_source": "MedlinePlus – Acne",
+      "chunk_preview": "Stress doesn't cause acne, but stress can make it worse. If you have acne: Clean your skin gently. Try not to touch your skin.",
+      "retrieved_sources": [],
+      "latency_s": 0.075,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "acne_013",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "Does acne only affect teenagers or can adults get it too?",
+      "ground_truth_answer": "Anyone can get acne, but it is most common in teenagers and young adults due to hormonal changes during puberty, which cause the skin to produce more oil. Hormonal changes during pregnancy can also trigger acne. It is not a serious medical condition but it can cause scars if left untreated.",
+      "expected_source": "MedlinePlus – Acne",
+      "chunk_preview": "it is common in teenagers and young adults. It is not serious, but it can cause scars. No one knows exactly what causes acne. Hormone changes, such as those during the teenage years and pregnancy, play a role.",
+      "retrieved_sources": [
+        "Fiona Stanley Hospital Dermatology pre-referral guidelines – acne",
+        "MedlinePlus – Acne"
+      ],
+      "latency_s": 0.074,
+      "hit_at_1": false,
+      "hit_at_2": true
+    },
+    {
+      "id": "acne_014",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "What forms does benzoyl peroxide come in and which one should I use for acne?",
+      "ground_truth_answer": "Benzoyl peroxide comes in many different preparations ranging from 2.5% to 10%, including gels, creams, and body washes. The best preparation depends on your skin type and history. Lower concentrations such as 2.5% are generally as effective as higher ones with less irritation.",
+      "expected_source": "Fiona Stanley Hospital Dermatology pre-referral guidelines – acne",
+      "chunk_preview": "Benzoyl peroxide comes in many different preparations ranging from 2.5-10%. Preparations include gel, cream and body wash. Choose a preparation that suits the patient depending on their history.",
+      "retrieved_sources": [
+        "Fiona Stanley Hospital Dermatology pre-referral guidelines – acne",
+        "QA-Kaggle-dataset-2024_utf8.csv"
+      ],
+      "latency_s": 0.075,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "acne_015",
+      "condition": "acne",
+      "type": "in_index",
+      "query": "When is isotretinoin used for acne and is it safe?",
+      "ground_truth_answer": "Isotretinoin is used for moderate to severe acne that has not responded to other treatments. It is a powerful prescription medication that must be carefully monitored by a dermatologist. Women of childbearing age are required to use strict contraception while taking it because of the risk of birth defects.",
+      "expected_source": "QA-Kaggle-dataset-2024_utf8.csv",
+      "chunk_preview": "For moderate to severe acne, oral medications may be necessary. These can include antibiotics, combined oral contraceptives (for women), or a powerful medication called isotretinoin for severe cases.",
+      "retrieved_sources": [
+        "QA-Kaggle-dataset-2024_utf8.csv",
+        "QA-Kaggle-dataset-2024_utf8.csv"
+      ],
+      "latency_s": 0.077,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "eczema_001",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "why does eczema cause such bad itching?",
+      "ground_truth_answer": "Itching in eczema can be triggered by allergic reactions to food, pollen, or medicines, as well as irritating chemicals, cosmetics, and other substances. The skin inflammation itself also causes the itch.",
+      "expected_source": "MedlinePlus – Itching",
+      "chunk_preview": "Some common causes are: Allergic reactions to food, insect bites, pollen, and medicines. Skin conditions such as eczema, psoriasis, and dry skin. Irritating chemicals, cosmetics, and other substances.",
+      "retrieved_sources": [
+        "MedlinePlus – Eczema",
+        "MedlinePlus – Eczema"
+      ],
+      "latency_s": 0.077,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "eczema_002",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "Is eczema contagious and what is known about its causes?",
+      "ground_truth_answer": "Eczema is not contagious. Its exact cause is unknown, but it is likely caused by both genetic and environmental factors. It is often a long-lasting disease that may get better or worse over time.",
+      "expected_source": "MedlinePlus – Eczema",
+      "chunk_preview": "Eczema is not contagious. The cause of eczema is unknown. It is likely caused by both genetic and environmental factors. Eczema may get better or worse over time, but it is often a long-lasting disease.",
+      "retrieved_sources": [
+        "MedlinePlus – Eczema"
+      ],
+      "latency_s": 0.076,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "eczema_003",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "What other health conditions are associated with eczema?",
+      "ground_truth_answer": "People with eczema may also develop hay fever and asthma. The most common type is atopic dermatitis, which is most common in babies and children, though adults can have it too. Eczema is often a long-lasting disease.",
+      "expected_source": "MedlinePlus – Eczema",
+      "chunk_preview": "Eczema may get better or worse over time, but it is often a long-lasting disease. People who have it may also develop hay fever and asthma. The most common type of eczema is atopic dermatitis.",
+      "retrieved_sources": [
+        "MedlinePlus – Eczema"
+      ],
+      "latency_s": 0.101,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "eczema_004",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "what should I avoid to prevent my eczema from flaring up?",
+      "ground_truth_answer": "To help prevent eczema flare-ups, try to avoid things that irritate your skin like harsh soaps, rough fabrics, and strongly scented lotions. Stress and allergens such as pollen, certain foods, and animal fur can also trigger flares.",
+      "expected_source": "MedlinePlus – Eczema",
+      "chunk_preview": "You can prevent some types of eczema by avoiding: Things that irritate your skin, such as certain soaps, fabrics, and lotions. Stress. Things you are allergic to, such as food, pollen, and animals.",
+      "retrieved_sources": [
+        "MedlinePlus – Eczema",
+        "FSH Dermatology Psoriasis Guidelines"
+      ],
+      "latency_s": 0.076,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "eczema_005",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "my child has eczema, what kind of cream can the GP give them?",
+      "ground_truth_answer": "For a child with mild eczema, a GP may recommend a gentle steroid cream applied twice a day, usually on the face. The doctor will typically want to check how the child is responding after about two weeks.",
+      "expected_source": "FSH Dermatology Eczema guidelines",
+      "chunk_preview": "The following suggestions are not prescriptive but are a guide for short term use. GP review is advised after two weeks. Very mild: Hydrocortisone 1% cream twice daily for face.",
+      "retrieved_sources": [],
+      "latency_s": 0.075,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "eczema_006",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "What are the main symptoms of eczema?",
+      "ground_truth_answer": "Eczema (atopic dermatitis) causes inflammation, redness, and irritation of the skin. Scratching worsens the condition, causing the skin to turn red, swell, and itch even more.",
+      "expected_source": "MedlinePlus – Skin Conditions",
+      "chunk_preview": "Eczema (atopic dermatitis), which causes inflammation, redness, and irritation of the skin.",
+      "retrieved_sources": [
+        "MedlinePlus – Eczema"
+      ],
+      "latency_s": 0.07,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "eczema_007",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "my eczema keeps getting infected over and over, what should I tell the doctor?",
+      "ground_truth_answer": "If your eczema keeps getting infected repeatedly, it is worth telling your doctor. They may want to take swabs from areas like the nose, throat, or affected skin to check whether a bacteria called Staphylococcus aureus is living on your skin and causing the repeated infections.",
+      "expected_source": "FSH Dermatology Eczema guidelines",
+      "chunk_preview": "Swabs of potential staphylococcal aureus carriage sites should be considered in patients with recurrent episodes of infected eczema or skin infection. Suggested swab sites are nose, throat, axilla and wound.",
+      "retrieved_sources": [],
+      "latency_s": 0.075,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "eczema_008",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "Does eczema in children improve as they get older?",
+      "ground_truth_answer": "Atopic dermatitis is most common in babies and children. As children who have atopic dermatitis grow older, the condition may get better or go away entirely, though adults can also be affected.",
+      "expected_source": "MedlinePlus – Eczema",
+      "chunk_preview": "It is most common in babies and children, but adults can have it too. As children who have atopic dermatitis grow older, this problem may get better or go away.",
+      "retrieved_sources": [
+        "FSH Dermatology Eczema guidelines",
+        "FSH Dermatology Eczema guidelines"
+      ],
+      "latency_s": 0.074,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "eczema_009",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "does eczema spread from person to person?",
+      "ground_truth_answer": "No, you cannot catch eczema from another person. It is not contagious. Eczema is caused by a combination of your own genetic makeup and environmental factors, not by contact with someone else.",
+      "expected_source": "MedlinePlus – Eczema",
+      "chunk_preview": "Eczema is not contagious. The cause of eczema is unknown. It is likely caused by both genetic and environmental factors.",
+      "retrieved_sources": [
+        "MedlinePlus – Eczema"
+      ],
+      "latency_s": 0.074,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "eczema_010",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "will the eczema get better as my kid grows up?",
+      "ground_truth_answer": "Many children with eczema see it improve as they get older and some grow out of it entirely. However, it can persist into adulthood for some people, so it is worth keeping up with management even when it seems to be improving.",
+      "expected_source": "MedlinePlus – Eczema",
+      "chunk_preview": "It is most common in babies and children, but adults can have it too. As children who have atopic dermatitis grow older, this problem may get better or go away.",
+      "retrieved_sources": [
+        "MedlinePlus – Eczema",
+        "FSH Dermatology Eczema guidelines"
+      ],
+      "latency_s": 0.073,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "eczema_011",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "What exactly is eczema and how does it affect the skin?",
+      "ground_truth_answer": "Eczema is a term for several different types of skin swelling, also called dermatitis. Most types cause dry, itchy skin and rashes on the face, inside the elbows and behind the knees, and on the hands and feet. It is a long-lasting condition that may get better or worse over time.",
+      "expected_source": "MedlinePlus – Eczema",
+      "chunk_preview": "Eczema is a term for several different types of skin swelling. Eczema is also called dermatitis. Most types cause dry, itchy skin and rashes on the face, inside the elbows and behind the knees, and on the hands and feet.",
+      "retrieved_sources": [
+        "MedlinePlus – Eczema",
+        "FSH Dermatology Eczema guidelines"
+      ],
+      "latency_s": 0.073,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "eczema_012",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "Can food allergies make eczema worse in children?",
+      "ground_truth_answer": "Food allergy is more common in children with eczema who also have a family history of allergic disease. If a child consistently develops a skin rash after eating a particular food, a food allergy may be involved and should be investigated by a doctor. However, allergy testing is not routinely recommended for all children with eczema. Interestingly, managing eczema well in infants may reduce the chance of developing food allergy.",
+      "expected_source": "FSH Dermatology Eczema guidelines",
+      "chunk_preview": "Food allergy is more common in children with eczema who also have a family history of allergic disease. Managing eczema well in infants may reduce their chance of developing food allergy. Allergy testing is not routinely recommended for children with eczema.",
+      "retrieved_sources": [
+        "FSH Dermatology Eczema guidelines",
+        "FSH Dermatology Eczema guidelines"
+      ],
+      "latency_s": 0.075,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "eczema_013",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "What is atopic dermatitis and is it the same as eczema?",
+      "ground_truth_answer": "Atopic dermatitis is the most common type of eczema. It is a very common skin condition that often begins in infancy or early childhood — most affected children develop it before age two and it usually improves by age eight. People with atopic dermatitis are also more likely to develop hay fever and asthma.",
+      "expected_source": "FSH Dermatology Eczema guidelines",
+      "chunk_preview": "Eczema (atopic dermatitis) is a very common skin condition that often begins in infancy or early childhood. Most affected children develop eczema before the age of two years, and it usually improves by the age of eight.",
+      "retrieved_sources": [
+        "FSH Dermatology Eczema guidelines",
+        "MedlinePlus – Eczema"
+      ],
+      "latency_s": 0.072,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "eczema_014",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "Does the strength of the steroid cream matter when treating eczema?",
+      "ground_truth_answer": "Yes, the strength of the topical steroid is important and must be matched to the child's age, the severity of the eczema, and the area of skin being treated. Using an inadequate strength is a common reason why eczema remains poorly controlled. The formulation also matters: creams and ointments behave differently on the skin.",
+      "expected_source": "FSH Dermatology Eczema guidelines",
+      "chunk_preview": "Inadequate strength, amount and formulation of topical corticosteroid prescribed. Determined by child's age, eczema severity and affected site(s). Wrong base of topical steroid — creams will deliver a different effect to ointments.",
+      "retrieved_sources": [
+        "FSH Dermatology Eczema guidelines"
+      ],
+      "latency_s": 0.074,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "eczema_015",
+      "condition": "eczema",
+      "type": "in_index",
+      "query": "When should my child's eczema be referred to a skin specialist?",
+      "ground_truth_answer": "A specialist referral should be considered if the eczema keeps getting infected repeatedly, if it covers a very large area of the body (more than 80% of skin surface, called erythroderma), or if it requires frequent courses of oral steroids to stay under control. These are signs that the condition is severe and needs specialist management.",
+      "expected_source": "FSH Dermatology Eczema guidelines",
+      "chunk_preview": "Recurrent episodes of infected eczema. Patients with erythroderma (>80% skin involvement). Patients with eczema requiring frequent courses of oral steroids for control.",
+      "retrieved_sources": [
+        "FSH Dermatology Eczema guidelines"
+      ],
+      "latency_s": 0.071,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "psoriasis_001",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "How is psoriasis diagnosed?",
+      "ground_truth_answer": "Psoriasis can be hard to diagnose because it can look like other skin diseases. A doctor might need to look at a small skin sample under a microscope to confirm the diagnosis. Psoriasis can last a long time, even a lifetime.",
+      "expected_source": "MedlinePlus – Psoriasis",
+      "chunk_preview": "Psoriasis can be hard to diagnose because it can look like other skin diseases. Your doctor might need to look at a small skin sample under a microscope.",
+      "retrieved_sources": [
+        "psoriasisaustralia.org.au_2026.docx",
+        "psoriasisaustralia.org.au_2026.docx"
+      ],
+      "latency_s": 0.074,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "psoriasis_002",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "What shampoos are recommended for scalp psoriasis?",
+      "ground_truth_answer": "For scalp psoriasis, the following shampoos are recommended: Nizoral Shampoo, Dercos Shampoo, T-Gel Shampoo, and Sebitar Scalp Treatment. Gentle sun exposure of up to 20 minutes in non-peak UV times (UV index below 3), up to three times per week, can also be helpful.",
+      "expected_source": "FSH Dermatology Psoriasis Guidelines",
+      "chunk_preview": "These include: Nizoral Shampoo, Dercos Shampoo, T-Gel Shampoo, Sebitar Scalp Treatment. Gentle sun exposure can be helpful up to 20 minutes in non-peak UVR times, up to three times per week.",
+      "retrieved_sources": [
+        "FSH Dermatology Psoriasis Guidelines"
+      ],
+      "latency_s": 0.074,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "psoriasis_003",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "What causes the characteristic skin plaques of psoriasis?",
+      "ground_truth_answer": "In psoriasis, skin cells pile up on the surface, forming the characteristic plaques. This immune response is believed to be triggered by a combination of genetic and environmental factors.",
+      "expected_source": "psoriasisaustralia.org.au_2026.docx",
+      "chunk_preview": "The cells pile up on the skin's surface, forming the characteristic plaques of psoriasis. This immune response is believed to be triggered by a combination of genetic and environmental factors.",
+      "retrieved_sources": [
+        "psoriasisaustralia.org.au_2026.docx"
+      ],
+      "latency_s": 0.074,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "psoriasis_004",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "what medication or cream do dermatologists give when psoriasis is really bad?",
+      "ground_truth_answer": "When psoriasis is severe, dermatologists may prescribe stronger steroid-based ointments or lotions applied once or twice a day. The specific product depends on how severe the psoriasis is and where it appears on the body.",
+      "expected_source": "FSH Dermatology Psoriasis Guidelines",
+      "chunk_preview": "Severe: Methylprednisolone aceponate 0.1% fatty ointment 1-2 times daily. Mometasone furoate 0.1% lotion once daily. Betamethasone dipropionate 0.05% ointment 1-2 times daily.",
+      "retrieved_sources": [],
+      "latency_s": 0.071,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "psoriasis_005",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "What are the long-term risks of UV phototherapy for psoriasis?",
+      "ground_truth_answer": "Prolonged exposure to UV light increases the risk of skin aging and skin cancer. PUVA therapy carries a higher risk of these complications compared to UVB therapy. Therefore, long-term monitoring by a healthcare provider is essential.",
+      "expected_source": "psoriasisaustralia.org.au_2026.docx",
+      "chunk_preview": "Prolonged exposure to UV light increases the risk of skin aging and skin cancer. PUVA carries a higher risk of these complications compared to UVB therapy. Long-term monitoring by a healthcare provider is essential.",
+      "retrieved_sources": [
+        "psoriasisaustralia.org.au_2026.docx",
+        "psoriasisaustralia.org.au_2026.docx"
+      ],
+      "latency_s": 0.067,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "psoriasis_006",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "are there different types of psoriasis — what are the main ones?",
+      "ground_truth_answer": "There are different types of psoriasis. The most common is plaque psoriasis, which causes thick raised patches usually on the elbows, knees, and lower back. Another type called guttate psoriasis comes on suddenly and appears as many small patches spread across the body.",
+      "expected_source": "FSH Dermatology Psoriasis Guidelines",
+      "chunk_preview": "Clinical variants of psoriasis include: Chronic plaque psoriasis: the most common variant. Typically affects elbows, knees and lower back. Guttate psoriasis: sudden onset of widespread small psoriasis papules and plaques.",
+      "retrieved_sources": [
+        "psoriasisaustralia.org.au_2026.docx",
+        "psoriasisaustralia.org.au_2026.docx"
+      ],
+      "latency_s": 0.068,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "psoriasis_007",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "What does psoriasis look like and where does it appear on the body?",
+      "ground_truth_answer": "Psoriasis causes itchy or sore patches of thick, red skin with silvery scales. The patches usually appear on the elbows, knees, scalp, back, face, palms, and feet, but can show up on other parts of the body.",
+      "expected_source": "MedlinePlus – Psoriasis",
+      "chunk_preview": "Psoriasis is a skin disease that causes itchy or sore patches of thick, red skin with silvery scales. You usually get the patches on your elbows, knees, scalp, back, face, palms and feet.",
+      "retrieved_sources": [],
+      "latency_s": 0.069,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "psoriasis_008",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "why does psoriasis cause the skin to build up and get so thick?",
+      "ground_truth_answer": "Normally it takes about a month for skin cells to renew themselves. In psoriasis this happens in just a few days, so the cells pile up on the surface faster than they can shed, creating the thick scaly patches you see.",
+      "expected_source": "MedlinePlus – Psoriasis",
+      "chunk_preview": "Normally, this takes a month. In psoriasis, it happens in just days because your cells rise too fast.",
+      "retrieved_sources": [
+        "QA-Kaggle-dataset-2024_utf8.csv",
+        "MedlinePlus – Psoriasis"
+      ],
+      "latency_s": 0.067,
+      "hit_at_1": false,
+      "hit_at_2": true
+    },
+    {
+      "id": "psoriasis_009",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "What factors can trigger or worsen psoriasis symptoms?",
+      "ground_truth_answer": "Psoriasis symptoms can be worsened by infections, stress, dry skin, and certain medicines. Psoriasis usually occurs in adults and sometimes runs in families. Treatments include creams, medicines, and light therapy.",
+      "expected_source": "MedlinePlus – Psoriasis",
+      "chunk_preview": "Things that make them worse include: Infections. Stress. Dry skin. Certain medicines. Psoriasis usually occurs in adults. It sometimes runs in families. Treatments include creams, medicines, and light therapy.",
+      "retrieved_sources": [
+        "psoriasisaustralia.org.au_2026.docx",
+        "psoriasisaustralia.org.au_2026.docx"
+      ],
+      "latency_s": 0.067,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "psoriasis_010",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "is psoriasis dangerous?",
+      "ground_truth_answer": "Psoriasis itself is not life-threatening, but it is a long-lasting condition that can be uncomfortable and significantly affect your quality of life. It can sometimes be linked to other health conditions, so it is worth managing with a doctor.",
+      "expected_source": "MedlinePlus – Psoriasis",
+      "chunk_preview": "Things that make them worse include: Infections. Stress. Dry skin. Certain medicines. Psoriasis usually occurs in adults. It sometimes runs in families.",
+      "retrieved_sources": [
+        "psoriasisaustralia.org.au_2026.docx",
+        "FSH Dermatology Psoriasis Guidelines"
+      ],
+      "latency_s": 0.072,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "psoriasis_011",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "is there a risk my kids will get psoriasis too?",
+      "ground_truth_answer": "Yes, psoriasis sometimes runs in families. If a close family member has it, you may have a higher chance of developing it, although environmental triggers also play a role in when and whether it appears.",
+      "expected_source": "MedlinePlus – Psoriasis",
+      "chunk_preview": "Psoriasis usually occurs in adults. It sometimes runs in families. Treatments include creams, medicines, and light therapy.",
+      "retrieved_sources": [
+        "psoriasisaustralia.org.au_2026.docx"
+      ],
+      "latency_s": 0.071,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "psoriasis_012",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "can sunlight improve psoriasis symptoms?",
+      "ground_truth_answer": "Gentle sun exposure can sometimes help with psoriasis, including on the scalp. Short sessions of around 20 minutes during low UV periods, up to three times a week, may be beneficial, but care should be taken not to burn.",
+      "expected_source": "FSH Dermatology Psoriasis Guidelines",
+      "chunk_preview": "Gentle sun exposure can be helpful up to 20 minutes in non-peak UVR times, up to three times per week.",
+      "retrieved_sources": [
+        "psoriasisaustralia.org.au_2026.docx",
+        "psoriasisaustralia.org.au_2026.docx"
+      ],
+      "latency_s": 0.074,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "psoriasis_013",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "Can psoriasis also cause joint pain and swelling?",
+      "ground_truth_answer": "Yes. Patients with psoriasis who develop symptoms of joint pain, swelling, or stiffness may have psoriatic arthritis, which is an inflammatory condition affecting the joints. Anyone with psoriasis who notices joint symptoms should be assessed by a rheumatologist.",
+      "expected_source": "FSH Dermatology Psoriasis Guidelines",
+      "chunk_preview": "Patients with psoriasis who also display symptoms and signs of inflammatory arthritis should be referred to Rheumatology to assess for psoriatic arthritis.",
+      "retrieved_sources": [
+        "MedlinePlus – Psoriasis"
+      ],
+      "latency_s": 0.073,
+      "hit_at_1": false,
+      "hit_at_2": false
+    },
+    {
+      "id": "psoriasis_014",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "What are biologic therapies for psoriasis and when are they used?",
+      "ground_truth_answer": "Biologic therapies are advanced prescription treatments reserved for severe psoriasis or psoriatic arthritis that has not responded to conventional systemic treatments. They target specific parts of the immune system. There are several biologic agents available, and they are prescribed and monitored by a specialist.",
+      "expected_source": "FSH Dermatology Psoriasis Guidelines",
+      "chunk_preview": "Biologic therapy is reserved for severe psoriasis and/or psoriatic psoriasis that has failed to respond to conventional systemic therapy. There are many biologic agents currently available on the PBS.",
+      "retrieved_sources": [
+        "FSH Dermatology Psoriasis Guidelines",
+        "FSH Dermatology Psoriasis Guidelines"
+      ],
+      "latency_s": 0.072,
+      "hit_at_1": true,
+      "hit_at_2": true
+    },
+    {
+      "id": "psoriasis_015",
+      "condition": "psoriasis",
+      "type": "in_index",
+      "query": "Can stress make psoriasis worse, and does psoriasis affect mental health?",
+      "ground_truth_answer": "Yes, emotional stress can make psoriasis worse by triggering an immune response that leads to flare-ups. Up to 50% of patients with psoriasis report that stress worsens their symptoms. Chronic stress may also contribute to the persistence of symptoms, so managing stress is an important part of living well with psoriasis.",
+      "expected_source": "psoriasisaustralia.org.au_2026.docx",
+      "chunk_preview": "Stress: Emotional stress can exacerbate psoriasis by triggering an immune response that leads to flare-ups. Chronic stress may also contribute to the persistence of symptoms.",
+      "retrieved_sources": [
+        "FSH Dermatology Psoriasis Guidelines",
+        "psoriasisaustralia.org.au_2026.docx"
+      ],
+      "latency_s": 0.071,
+      "hit_at_1": false,
+      "hit_at_2": true
+    },
+    {
+      "id": "neg_001",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "What are the stages of colorectal cancer?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    },
+    {
+      "id": "neg_002",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "How is type 2 diabetes managed with insulin?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    },
+    {
+      "id": "neg_003",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "What is the standard treatment for hypertension?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    },
+    {
+      "id": "neg_004",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "How do ACE inhibitors work for heart failure?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    },
+    {
+      "id": "neg_005",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "What are the symptoms of appendicitis?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    },
+    {
+      "id": "neg_006",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "How is hypothyroidism diagnosed with blood tests?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    },
+    {
+      "id": "neg_007",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "What are the dietary recommendations for chronic kidney disease?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    },
+    {
+      "id": "neg_008",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "How is rheumatoid arthritis different from osteoarthritis?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    },
+    {
+      "id": "neg_009",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "What vaccines are recommended for pneumonia prevention?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    },
+    {
+      "id": "neg_010",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "How is COPD managed in elderly patients?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    },
+    {
+      "id": "neg_011",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "What is the standard treatment for Alzheimer's disease?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    },
+    {
+      "id": "neg_012",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "How are kidney stones treated when they are too large to pass naturally?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    },
+    {
+      "id": "neg_013",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "What are the main classes of medication used to treat clinical depression?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    },
+    {
+      "id": "neg_014",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "How is obstructive sleep apnea diagnosed and managed?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    },
+    {
+      "id": "neg_015",
+      "condition": null,
+      "type": "out_of_index",
+      "query": "What are the recommended screening tests for prostate cancer?",
+      "ground_truth_answer": null,
+      "expected_source": null,
+      "chunk_preview": null,
+      "retrieved_sources": [],
+      "false_positive": false
+    }
+  ]
+}

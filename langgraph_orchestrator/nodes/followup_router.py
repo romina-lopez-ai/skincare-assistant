@@ -7,12 +7,15 @@ ROUTE_RAG = "retrieve_context"
 ROUTE_LLM = "llm_followup"
 
 # Keywords that suggest the user wants grounded medical information.
+
 _RAG_KEYWORDS = (
     "treat", "treatment", "medication", "cream", "medicine",
     "caus", "trigger", "prevent", "prognos", "spread",
     "contagious", "diet", "allerg", "chronic", "cure",
+    "serious", "dangerous", "last", "long", "worse", "better",
+    "infect", "heal", "scarr", "main", "risk", "improve",
+    "protect", "appear", "recommend", "diagnos", "symptom", "condition",
 )
-
 
 def followup_router(state: ChatState) -> ChatState:
     """Decide how to handle a follow-up question after diagnosis.

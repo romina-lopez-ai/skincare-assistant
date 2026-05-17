@@ -52,12 +52,12 @@ LLM_BACKEND        = os.getenv("LLM_BACKEND", "ollama")  # "ollama" or "hf"
 # ─────────────────────────────────────────────────────────────────────────────
 # RAG HYPERPARAMETERS
 # ─────────────────────────────────────────────────────────────────────────────
-# RELEVANCE_THRESHOLD: minimum BM25-normalised score (0–1) to pass a chunk to the LLM.
-# 0.4 is deliberately conservative for medical context — prefer no answer over a wrong one.
+# RELEVANCE_THRESHOLD: minimum FlashRank score (0–1) to pass a chunk to the LLM.
+# 0.7 is deliberately conservative for medical context — prefer no answer over a wrong one.
 RELEVANCE_THRESHOLD = float(os.getenv("RAG_RELEVANCE_THRESHOLD", "0.7"))
 
 # Number of candidates retrieved from each retriever before score filtering.
-DEFAULT_TOP_K = int(os.getenv("RAG_DEFAULT_TOP_K", "20"))
+DEFAULT_TOP_K = int(os.getenv("RAG_DEFAULT_TOP_K", "10"))
 DEFAULT_TOP_K_R = int(os.getenv("RAG_DEFAULT_TOP_K_R", "10"))  # top-K passed to FlashRank for reranking
 # Maximum chunks passed to the LLM after filtering (matches Dataset C: 1 or 2 chunks).
 FINAL_TOP_K = int(os.getenv("RAG_FINAL_TOP_K", "2"))

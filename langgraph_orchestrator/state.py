@@ -39,7 +39,7 @@ class ChatState(TypedDict):
 
     # Diagnosis state
     diagnosis_done: bool
-    diagnosis_summary: str | None
+    diagnosis_summary: dict | None  # Summary: changed str → dict for progressive summary card
 
     # Follow-up / RAG state
     rag_context: str | None

@@ -2,9 +2,11 @@
 
 Public interface (called by node files)
 ----------------------------------------
-- generate_symptom_response(state)   → next symptom-collection question
-- generate_diagnosis_response(state) → raw multimodal diagnosis text
-- generate_followup_response(state)  → follow-up answer (plain or RAG-grounded)
+- generate_symptom_response(state)              → next symptom-collection question
+- generate_diagnosis_response(state)            → raw multimodal diagnosis text
+- generate_followup_response(state)             → follow-up answer (plain or RAG-grounded)
+- refine_symptom_slots(state)                   → corrects slots via base LLM at end of symptom collection
+- generate_summary_response(state, diag_text)   → structured summary dict after diagnosis
 
 Each public function reads config.USE_MOCK_LLM and delegates to either the
 mock implementation (_mock_*) or the real implementation (_real_*).
@@ -67,8 +69,8 @@ from langgraph_orchestrator.services.symptom_service import REQUIRED_SLOTS
 #       will still load but its performance may vary slightly.
 _LLM_MODEL_PATH: str = os.environ.get(
     "LLM_MODEL_PATH",
-    "meta-llama/Llama-3.2-3B-Instruct",  # base model for adapter loading
-    #"RominaLopez/llama-3.2-3b-4bit-quantized",  # base model for adapter loading
+    #"meta-llama/Llama-3.2-3B-Instruct",  # base model for adapter loading
+    "RominaLopez/llama-3.2-3b-4bit-quantized",  # base model for adapter loading
 )
 
 # Adapter paths — one folder per task, relative to repo root.
@@ -110,6 +112,92 @@ _SYSTEM_PROMPT_DIAGNOSIS = (
     "Never provide a definitive diagnosis. Always recommend consulting a dermatologist."
 )
 
+# Slot refinement prompt — called once at end of symptom collection.
+# Few-shot examples anchor the base model to the exact output format and prevent
+# it from inventing slots, adding commentary, or using markdown.
+# Variable names in _real_refine_symptom_slots use "llm_output" (not "raw")
+# to prevent linters auto-importing `raw` from curses.
+_SYSTEM_PROMPT_SLOT_REFINEMENT = (
+    "You are a medical assistant extracting structured symptom data from a conversation.\n"
+    "Read the conversation carefully and extract exactly 5 fields as JSON.\n"
+    "Use ONLY information explicitly stated by the patient. Do NOT infer or assume.\n"
+    "Use null for any field the patient did not mention.\n\n"
+    "Fields:\n"
+    "  location   — WHERE on the body (use patient's exact words)\n"
+    "  duration   — HOW LONG they have had it\n"
+    "  appearance — WHAT it looks or feels like (combine visual + tactile descriptions)\n"
+    "  severity   — HOW BAD: a number 1-10 if given, otherwise 'mild'/'moderate'/'severe'\n"
+    "  triggers   — WHAT causes or worsens it; use 'unknown' if patient is unsure\n\n"
+    "Return ONLY valid JSON. No markdown, no explanation, no extra fields.\n\n"
+    # Few-shot example 1 — number severity, clear triggers
+    "EXAMPLE 1:\n"
+    "[CONVERSATION]\n"
+    "Assistant: Where is the skin concern?\n"
+    "Patient: On my left forearm, mostly the inner part\n"
+    "Assistant: How long have you had it?\n"
+    "Patient: About 3 weeks, it started after I changed my soap\n"
+    "Assistant: What does it look like?\n"
+    "Patient: Red dry patches, very itchy\n"
+    "Assistant: On a scale of 1 to 10, how severe is the discomfort?\n"
+    "Patient: I'd say a 6\n"
+    "Assistant: Anything that makes it worse?\n"
+    "Patient: The new soap and stress at work\n"
+    "[/CONVERSATION]\n"
+    'Output: {"location": "left forearm, inner part", "duration": "about 3 weeks",'
+    ' "appearance": "red dry patches, very itchy", "severity": "6", "triggers": "new soap, work stress"}\n\n'
+    # Few-shot example 2 — uncertain triggers, word severity, on-and-off pattern
+    "EXAMPLE 2:\n"
+    "[CONVERSATION]\n"
+    "Assistant: Where is the skin concern?\n"
+    "Patient: On my back, between the shoulder blades\n"
+    "Assistant: How long have you had it?\n"
+    "Patient: Around 2 months, comes and goes\n"
+    "Assistant: What does it look like?\n"
+    "Patient: Small raised bumps, silvery and scaly\n"
+    "Assistant: How severe on a scale of 1 to 10?\n"
+    "Patient: Moderate, I'd say about a 4\n"
+    "Assistant: Any known triggers?\n"
+    "Patient: Not really sure, maybe cold weather\n"
+    "[/CONVERSATION]\n"
+    'Output: {"location": "back, between shoulder blades", "duration": "about 2 months, comes and goes",'
+    ' "appearance": "small raised bumps, silvery and scaly", "severity": "4, moderate", "triggers": "possibly cold weather"}\n\n'
+    "Now extract from the following conversation:"
+)
+
+# Summary prompt — called once after diagnosis, base model no adapter.
+# Few-shot example teaches the model to separate image findings from patient-reported
+# symptoms and to add only genuinely new clinical insight in key_findings.
+# Kept as JSON (not free text) because:
+#   1. The base model halluccinates less when constrained to a fixed schema.
+#   2. The frontend needs structured keys to render the summary card.
+#   3. The human-facing narrative already comes from the fine-tuned diagnosis response.
+_SYSTEM_PROMPT_SUMMARY = (
+    "You are a medical assistant extracting a structured summary from a dermatology diagnosis.\n"
+    "Read the diagnosis text and the patient's reported symptoms, then produce a JSON summary.\n\n"
+    "STRICT RULES:\n"
+    "  1. Extract ONLY information explicitly stated in the diagnosis text. Do NOT invent findings.\n"
+    "  2. image_observations: visual findings the doctor described from the IMAGE — not patient-reported symptoms.\n"
+    "  3. key_findings: clinical insights that ADD new information beyond what the patient already reported.\n"
+    "  4. If a list would be empty, use an empty array []. Do NOT make things up to fill it.\n"
+    "  5. Return ONLY valid JSON. No markdown, no code blocks, no explanation.\n\n"
+    # Few-shot example anchors format and prevents hallucination
+    "EXAMPLE:\n"
+    "[DIAGNOSIS_TEXT]\n"
+    "Based on your symptoms and the image, the affected area on your forearm shows erythematous "
+    "scaly plaques consistent with atopic dermatitis. The chronic distribution pattern and skin "
+    "thickening suggest long-standing inflammation. I recommend consulting a dermatologist.\n"
+    "[/DIAGNOSIS_TEXT]\n"
+    "[REPORTED_SYMPTOMS]\n"
+    "location: left forearm, duration: 3 weeks, appearance: red itchy patches, severity: 6, triggers: soap\n"
+    "[/REPORTED_SYMPTOMS]\n"
+    'Output: {"condition": "Atopic Dermatitis", '
+    '"image_observations": ["erythematous scaly plaques on forearm", "skin thickening visible"], '
+    '"key_findings": ["chronic distribution pattern suggests long-standing inflammation beyond 3 weeks"], '
+    '"next_steps": "Consult a dermatologist to confirm the diagnosis and discuss a treatment plan."}\n\n'
+    "Now extract from the following:"
+)
+
+
 # separate prompts — follow-up QA phase
 _SYSTEM_PROMPT_FOLLOWUP = """You are an empathetic dermatology assistant in the follow-up phase.
 
@@ -120,6 +208,19 @@ from your general dermatology knowledge.
 
 Always recommend consulting a dermatologist. Never provide a definitive diagnosis."""
 
+
+_SYSTEM_PROMPT_FOLLOWUP_RAG = """You are an empathetic dermatology assistant answering a follow-up question using retrieved medical context.
+
+A [CONTEXT] block with prioritized evidence is provided. Always use <think>...</think> to reason internally — your visible response starts after </think>.
+
+RULES:
+1. Answer ONLY from the [CONTEXT] block. Do not add external knowledge or speculate.
+2. Be direct. Do not say "The context says..." or "Based on both sources..." — just give the answer.
+3. Mention the source naturally when relevant (e.g. "According to AAD guidelines...").
+4. If the context is empty or unrelated, say you don't have enough information on that topic.
+5. Never prescribe medications or specific dosages.
+6. always use the tag </think> when finish your reason, because after that the answer will be shown to user, and you should make sure the answer is based on the context, and the user won't see your internal thought. 
+7. Always recommend consulting a dermatologist."""
 
 # ---------------------------------------------------------------------------
 # Lazy model loader — loads once per process and caches in module globals
@@ -306,7 +407,7 @@ def generate_text(model, tokenizer, history: list[dict[str, str]],
         eos_token_id=[tokenizer.eos_token_id, eot_id],
     )
     raw = tokenizer.decode(out[0, ids.shape[-1]:], skip_special_tokens=True).strip()
-    return _extract_first_turn(raw)
+    return _extract_first_turn(raw) if extract_first_turn else raw
 
 
 @torch.no_grad()
@@ -512,6 +613,44 @@ def generate_followup_response(state: dict[str, Any]) -> str:
         return _mock_generate_followup_response(state)
     return _real_generate_followup_response(state)
 
+# Summary: public function — corrects symptom slots using full conversation history.
+# Called once at the end of symptom collection, before diagnosis, so slots are
+# accurate when they are forwarded to the diagnosis LLM call.
+# Uses the base model (no LoRA adapter) because slot extraction is not a task the
+# fine-tuned adapters were trained on.
+def refine_symptom_slots(state: dict[str, Any]) -> dict[str, str | None]:
+    """Correct symptom slots by re-reading the full conversation with the base LLM.
+
+    Args:
+        state: Current ChatState dict (needs messages and symptom_slots).
+
+    Returns:
+        Updated slots dict — LLM values take priority; None for any field the
+        patient never mentioned.  Falls back to existing keyword slots on error.
+    """
+    if USE_MOCK_LLM:
+        return _mock_refine_symptom_slots(state)
+    return _real_refine_symptom_slots(state)
+
+
+# Summary: public function — generates structured summary dict after diagnosis.
+# Called by joint_diagnosis with the clean parsed_content (not raw LLM output).
+# Uses the base model without any LoRA adapter for reliable structured output.
+def generate_summary_response(state: dict[str, Any], diagnosis_text: str) -> dict:
+    """Generate a structured summary dict from the clean diagnosis text + symptom slots.
+
+    Args:
+        state:          Current ChatState dict (for symptom_slots).
+        diagnosis_text: Clean diagnosis text (parsed_content from joint_diagnosis).
+
+    Returns:
+        Dict with keys: condition, image_observations, key_findings, next_steps.
+    """
+    if USE_MOCK_LLM:
+        return _mock_generate_summary_response(state, diagnosis_text)
+    return _real_generate_summary_response(state, diagnosis_text)
+
+
 
 # ===========================================================================
 # Mock implementations — hardcoded responses used during development
@@ -578,6 +717,34 @@ def _mock_generate_followup_response(state: dict[str, Any]) -> str:
         "during flares, topical corticosteroids. Identifying and avoiding personal "
         "triggers (e.g. soaps, fabrics, allergens) is also recommended."
     )
+
+# Summary: mock implementation — returns hardcoded structured dict for development/testing.
+def _mock_generate_summary_response(state: dict[str, Any], diagnosis_text: str) -> dict:
+    """MOCK: returns a hardcoded structured summary dict."""
+    densenet = state.get("densenet_output") or {}
+    label    = densenet.get("label", "skin condition")
+    return {
+        "condition": label,
+        "image_observations": [
+            "Erythematous, scaly patches on the affected area",
+            "No signs of secondary infection observed",
+            "Distribution pattern consistent with chronic inflammation",
+        ],
+        "key_findings": [
+            "Chronic inflammatory pattern not typical of simple irritant contact",
+            "Presentation suggests possible systemic predisposition",
+        ],
+        "next_steps": (
+            "We recommend consulting a dermatologist to confirm this diagnosis "
+            "and discuss a personalised treatment plan."
+        ),
+    }
+
+
+# Summary: mock implementation — returns existing slots unchanged (no LLM call in mock mode).
+def _mock_refine_symptom_slots(state: dict[str, Any]) -> dict[str, str | None]:
+    """MOCK: returns existing keyword-extracted slots unchanged — no refinement."""
+    return dict(state.get("symptom_slots") or {})
 
 
 # ===========================================================================
@@ -783,11 +950,15 @@ def _real_generate_followup_response(state: dict[str, Any]) -> str:
     """
     tokenizer, model, device = _load_llm()
     history     = list(state.get("messages", []))
+    adapter_name = "base"
+    system_prompt = _SYSTEM_PROMPT_FOLLOWUP
     rag_context = state.get("rag_context")
 
     if rag_context and history:
         last_msg = history[-1]
         if last_msg["role"] == "user":
+            adapter_name = "rag"
+            system_prompt = _SYSTEM_PROMPT_FOLLOWUP_RAG 
             # Inject context directly into the last user message so the model
             # sees [CONTEXT]...[/CONTEXT] immediately before the question.
             # This matches the SYSTEM_PROMPT instruction about [CONTEXT] blocks.
@@ -795,18 +966,180 @@ def _real_generate_followup_response(state: dict[str, Any]) -> str:
                 {
                     "role":    "user",
                     "content": (
-                        f"[CONTEXT]\n{rag_context}\n[/CONTEXT]\n\n"
-                        f"{last_msg['content']}"
+                        #f"[CONTEXT]\n{rag_context}\n[/CONTEXT]\n\n"
+                        #f"{last_msg['content']}"
+                        f"{rag_context}\n\n"
+                        f"[QUESTION]\n{last_msg['content']}"
                     ),
                 }
             ]
         # If the last message is not from the user (unusual state), fall
         # through without injection — safer than crashing.
 
-    return _generate_with_adapter(  # separate prompts — MultiLoRA dispatch
-        adapter_name="rag", fn=generate_text,
+    #Test RAG injection:
+    _sep = "=" * 60
+    print(f"\n{_sep}")
+    print("[llm_service] FOLLOWUP PROMPT DEBUG")
+    print(f"  adapter      : {adapter_name}")
+    print(f"  system_prompt: {system_prompt.splitlines()[0]!r}")
+    print(f"\n── SYSTEM PROMPT ──\n{system_prompt}")
+    print(f"\n── USER MESSAGE (last) ──")
+    print(history[-1]["content"] if history else "(empty)")
+    print(f"{_sep}\n")
+
+    raw = _generate_with_adapter(  # separate prompts — MultiLoRA dispatch
+        adapter_name= adapter_name, fn=generate_text,
         model=model, tokenizer=tokenizer, history=history,
         max_new_tokens=_MAX_NEW_TOKENS, device=device,
-        system_prompt=_SYSTEM_PROMPT_FOLLOWUP,
+        system_prompt= system_prompt,
         extract_first_turn=False,  # follow-up answers may be longer and less prone to token loops, so keep the full response instead of truncating to the first turn.
     )
+
+    _sep = "=" * 60
+    print(f"\n{_sep}")
+    print("[llm_service] RAW MODEL OUTPUT (followup):")
+    print(raw)
+    print(f"{_sep}\n")
+
+    think_end = raw.find("</think>")
+    return raw[think_end + len("</think>"):].strip() if think_end != -1 else raw
+
+
+# Summary: real implementation — calls base LLM without any LoRA adapter for
+# structured JSON output. Adapter deactivation uses the PEFT disable_adapter()
+# context manager; falls back to direct call if model is not PEFT-wrapped.
+def _real_generate_summary_response(state: dict[str, Any], diagnosis_text: str) -> dict:
+    """REAL: generate structured summary using base model (no LoRA adapter).
+
+    Builds a compact user message with the diagnosis text and reported symptoms,
+    then calls generate_text() under disable_adapter() so the instruction-tuned
+    base model handles the JSON formatting task without task-specific adapter noise.
+    """
+    import json  # noqa: PLC0415
+
+    tokenizer, model, device = _load_llm()
+
+    slots    = state.get("symptom_slots") or {}
+    reported = ", ".join(f"{k}: {v}" for k, v in slots.items() if v)
+
+    user_content = (
+        f"[DIAGNOSIS_TEXT]\n{diagnosis_text}\n[/DIAGNOSIS_TEXT]\n\n"
+        f"[REPORTED_SYMPTOMS]\n{reported or 'none'}\n[/REPORTED_SYMPTOMS]"
+    )
+    history = [{"role": "user", "content": user_content}]
+
+    try:
+        # Summary: disable all LoRA adapters so base Llama-3.2-Instruct handles
+        # structured output — task adapters are optimised for diagnosis/symptoms,
+        # not for JSON generation.
+        with model.disable_adapter():
+            raw = generate_text(
+                model, tokenizer, history,
+                max_new_tokens=300,
+                device=device,
+                system_prompt=_SYSTEM_PROMPT_SUMMARY,
+                extract_first_turn=False,
+            )
+    except AttributeError:
+        # Summary: model is plain AutoModelForCausalLM (no PEFT wrapper) — call directly
+        raw = generate_text(
+            model, tokenizer, history,
+            max_new_tokens=300,
+            device=device,
+            system_prompt=_SYSTEM_PROMPT_SUMMARY,
+            extract_first_turn=False,
+        )
+
+    # Summary: parse JSON from model output — find first { ... } block
+    try:
+        start = raw.find("{")
+        end   = raw.rfind("}") + 1
+        if start != -1 and end > start:
+            return json.loads(raw[start:end])
+    except (json.JSONDecodeError, ValueError):
+        pass
+
+    # Summary: fallback if JSON parsing fails — return minimal safe dict
+    densenet = state.get("densenet_output") or {}
+    print(f"[llm_service] generate_summary_response: JSON parse failed, using fallback. raw={raw[:120]!r}")
+    return {
+        "condition":          densenet.get("label", ""),
+        "image_observations": [],
+        "key_findings":       [],
+        "next_steps":         "Please consult a dermatologist for a confirmed diagnosis.",
+    }
+
+
+# Summary: real implementation — calls base LLM once with the full conversation to
+# extract accurate slot values. Uses "llm_output" as the local variable (not "raw")
+# to prevent linters from auto-importing `raw` from curses.
+def _real_refine_symptom_slots(state: dict[str, Any]) -> dict[str, str | None]:
+    """REAL: call base LLM to extract accurate slots from the full conversation.
+
+    Reads all user/assistant turns, sends them to the base model (no LoRA adapter)
+    with _SYSTEM_PROMPT_SLOT_REFINEMENT, and parses the returned JSON.
+
+    Falls back to the existing keyword-extracted slots on any error so that
+    the diagnosis always has some slot data even if the LLM call fails.
+    """
+    import json  # noqa: PLC0415
+
+    tokenizer, model, device = _load_llm()
+
+    # Summary: format the full conversation as a [CONVERSATION]...[/CONVERSATION] block
+    # so the base model can read every user reply in one pass.
+    messages = state.get("messages") or []
+    conv_lines = []
+    for msg in messages:
+        role    = msg.get("role", "")
+        content = msg.get("content", "").strip()
+        if not content:
+            continue
+        label = "Assistant" if role == "assistant" else "Patient"
+        conv_lines.append(f"{label}: {content}")
+    conversation_block = "[CONVERSATION]\n" + "\n".join(conv_lines) + "\n[/CONVERSATION]"
+
+    history = [{"role": "user", "content": conversation_block}]
+
+    try:
+        # Summary: disable all LoRA adapters — slot extraction is a structured JSON
+        # task that the task-specific adapters were not trained for.
+        with model.disable_adapter():
+            llm_output = generate_text(
+                model, tokenizer, history,
+                max_new_tokens=200,
+                device=device,
+                system_prompt=_SYSTEM_PROMPT_SLOT_REFINEMENT,
+                extract_first_turn=False,
+            )
+    except AttributeError:
+        # Summary: model is plain AutoModelForCausalLM (no PEFT wrapper) — call directly
+        llm_output = generate_text(
+            model, tokenizer, history,
+            max_new_tokens=200,
+            device=device,
+            system_prompt=_SYSTEM_PROMPT_SLOT_REFINEMENT,
+            extract_first_turn=False,
+        )
+
+    print(f"[llm_service] refine_symptom_slots raw output: {llm_output[:200]!r}")
+
+    # Summary: parse JSON — find first { ... } block in the output
+    try:
+        start = llm_output.find("{")
+        end   = llm_output.rfind("}") + 1
+        if start != -1 and end > start:
+            parsed = json.loads(llm_output[start:end])
+            # Summary: normalise — keep only the 5 expected slots, map JSON null → None
+            result: dict[str, str | None] = {}
+            for slot in ("location", "duration", "appearance", "severity", "triggers"):
+                val = parsed.get(slot)
+                result[slot] = str(val).strip() if val else None
+            print(f"[llm_service] refine_symptom_slots parsed: {result}")
+            return result
+    except (json.JSONDecodeError, ValueError, TypeError) as exc:
+        print(f"[llm_service] refine_symptom_slots JSON parse failed ({exc}), keeping keyword slots")
+
+    # Summary: fallback — return existing keyword-extracted slots unchanged
+    return dict(state.get("symptom_slots") or {})
+
