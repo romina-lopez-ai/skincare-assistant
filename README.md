@@ -2,6 +2,28 @@
 
 This repository contains the codebase for a **Lightweight Multimodal Dermatology Chatbot**. The system performs symptom collection (anamnesis), interprets visual information from skin images via a DenseNet-121 vision encoder, provides grounded clinical observations, and answers follow-up questions using a RAG pipeline backed by PubMed and local medical documents. A LangGraph orchestrator ties all components together behind a web UI.
 
+## Demo
+
+- ▶️ **[Demo video — full walkthrough](https://echo360.net.au/media/3cfa225d-fc8e-449c-9089-fdde13b4e1e3/public)**
+- 🔗 **[Live app](https://terrst.fun/)** — *temporary deployment, may be offline*
+
+## Team & My Contribution
+
+This was a **Master's capstone built by a 6-person team**, published here with my teammates' permission. This repository is the **backend**; the front-end and full system integration live in a separate teammate's repository.
+
+**My contribution** — [@romina-lopez-ai](https://github.com/romina-lopez-ai):
+
+- Designed and built the **RAG pipeline** end-to-end — document store, retrieval, and grounded medical QA over **PubMed and MedlinePlus**.
+- Implemented **multi-LoRA adapter switching** across the core services.
+- **Integrated my components into the LangGraph workflow** — the symptom-collection and RAG retrieval nodes — and produced the consultation summary sent to the front-end.
+- Generated the **symptom-collection and RAG-QA datasets** (datasets B & C) and the LLM fine-tuning data for symptoms + RAG.
+- Wrote **tests** for these components.
+- Contributed to **system-level design decisions**: LoRA adapters vs. full fine-tuning, and using a LangGraph workflow instead of relying on the model alone.
+
+Architecture and project decisions were made collaboratively; individual contributions are visible in the commit history (`git log`).
+
+> *Original shared team repository: [santiagoboxiga/skincare_model](https://github.com/santiagoboxiga/skincare_model)*
+
 ## Project Structure
 
 ### Training Pipeline
